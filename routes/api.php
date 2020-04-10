@@ -8,6 +8,7 @@ Route::group(
 	[
 		'prefix' => 'auth',
 		'as' => 'auth.',
+		'middleware' => 'localization',
 	],
 	function () {
 		Route::post('login', 'AuthController@login')->name('login');
@@ -41,7 +42,7 @@ Route::group(
 				'middleware' => 'auth:api',
 			],
 			function () {
-				Route::post('me', 'UserController@me')->name('me');
+				Route::get('me', 'UserController@me')->name('me');
 			}
 		);
 	}

@@ -41,6 +41,6 @@ class HasDifferentChars implements Rule
      */
     public function message()
     {
-        return "Your password must contains $this->chars_count different characters or more.";
+        return __('validation.diff_chars', ['count' => $this->chars_count]);
     }
 }

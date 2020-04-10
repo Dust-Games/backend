@@ -18,6 +18,7 @@ use App\Models\User;
 class AuthController extends Controller
 {
 
+
     public function register(RegisterRequest $req)
     {
         $data = $req->validated();
@@ -81,7 +82,7 @@ class AuthController extends Controller
         $resp = $this->makePostRequest($params);
 
         
-        if ($this->responseHasErrors($resp)) {
+        if ($resp->ok()) {
             
             return response($resp->json(), $resp->status());
 
@@ -137,17 +138,12 @@ class AuthController extends Controller
             config('app.url') . '/oauth/token',
             $all_params,
         );
-        
+    
         return $response;
     }
 
     protected function checkPassword(string $password, string $hash)
     {
         return Hash::check($password, $hash);
-    }
-
-    protected function responseHasErrors($response)
-    {
-        return $response->status() !== 200;   
     }
 }
