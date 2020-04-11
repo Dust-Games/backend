@@ -31,14 +31,14 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-        $response = $this->requestAccessToken(
+        $resp = $this->requestAccessToken(
             $data[$this->username()],
             $data['password'],
         );
 
         return response([
-            'access_token' => $response['access_token'],
-            'refresh_token' => $response['refresh_token'],
+            'access_token' => $resp['access_token'],
+            'refresh_token' => $resp['refresh_token'],
             'user' => new UserResource($user),
         ], 201);
     }
@@ -55,19 +55,24 @@ class AuthController extends Controller
                 RemoveOldTokens::dispatch($user->getKey(), (string) now());
             }
 
-            $response = $this->requestAccessToken(
+            $resp = $this->requestAccessToken(
                 $data[$this->username()],
                 $data['password']
             );
 
             return response([
-                'access_token' => $response['access_token'],
-                'refresh_token' => $response['refresh_token'],
+                'access_token' => $resp['access_token'],
+                'refresh_token' => $resp['refresh_token'],
                 'user' => new UserResource($user),
             ], 200);
         }
 
-        return response(['error' => 'Wrong password. Please, try again.'], 422);
+        return response([
+            'message' => 'The given data was invalid.',
+            'errors' => [
+                'password' => [__('validation.password')],
+            ],
+        ], 422);
     }
 
     public function refreshToken(RefreshTokenRequest $req)
@@ -84,13 +89,21 @@ class AuthController extends Controller
         
         if ($resp->ok()) {
             
-            return response($resp->json(), $resp->status());
+            $fields = $resp->json();
+
+            return response(
+                [
+                    'access_token' => $fields['access_token'],
+                    'refresh_token' => $fields['refresh_token'],
+                ], 
+                $resp->status()
+            );
 
         } else {
             
             return response([
                 $resp->json()
-            ], 200);
+            ], $resp->status());
         }
     }
 
