@@ -113,7 +113,7 @@ class AuthController extends Controller
             $revoked = $req->user()->token()->revoke();
 
             return response([
-                'message' => 'Successful logout',
+                'message' => __('auth.logout'),
             ], 200);
         }
 
