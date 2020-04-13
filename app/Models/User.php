@@ -11,7 +11,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    public const MAX_TOKENS_COUNT = 4;
+    public const MAX_SESSIONS_COUNT = 4;
+
+    protected $table = 'user';
 
     /**
      * The attributes that are mass assignable.
@@ -34,5 +36,12 @@ class User extends Authenticatable
     public function getPassword()
     {
         return $this->getAttributeFromArray('password');
+    }
+
+    /*|==========| Relationships |==========|*/
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class, 'user_id');
     }
 }
