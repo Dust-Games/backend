@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 use App\Models\Session;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable;
 
     public const MAX_TOKENS_COUNT = 4;
 
@@ -35,10 +34,5 @@ class User extends Authenticatable
     public function getPassword()
     {
         return $this->getAttributeFromArray('password');
-    }
-
-    public function hasTooManyTokens()
-    {
-        return $this->tokens()->count() >= static::MAX_TOKENS_COUNT;
     }
 }
