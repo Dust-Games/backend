@@ -71,7 +71,7 @@ class JWT implements JwtInterface
 
 	protected function generateUuid()
 	{
-		return Uuid::uuid4()->toString();
+		return (string) Uuid::uuid4();
 	}
 	
 	public static function __callStatic($name, $arguments)

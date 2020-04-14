@@ -7,13 +7,16 @@ use App\Models\User;
 
 class Session extends Model
 {
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $table = 'session';
 
     protected $fillable = [
+    	'id',
     	'user_id',
     	'refresh_token_id',
     	'fingerprint',
-    	'expires_in',
+    	'expires_at',
     ];
 
     /*|==========| Relationships |==========|*/

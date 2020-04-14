@@ -13,6 +13,8 @@ class User extends Authenticatable
 
     public const MAX_SESSIONS_COUNT = 4;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $table = 'user';
 
     /**
@@ -21,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'id', 'username', 'email', 'password',
     ];
 
     /**

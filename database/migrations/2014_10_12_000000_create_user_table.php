@@ -24,6 +24,8 @@ class CreateUserTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 

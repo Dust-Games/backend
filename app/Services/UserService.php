@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Session;
 use App\Services\JWT;
+use Ramsey\Uuid\Uuid;
 
 class UserService
 {
@@ -18,7 +19,12 @@ class UserService
 		$access_token = $this->createAccessToken($user_id);
 		$refresh_token = $this->createRefreshToken($user_id);
 
-		$this->createSession($user_id, $refresh_token->getHeader('jti'), $session_fields);
+		$this->createSession(
+			$user_id,
+			$refresh_token->getHeader('jti'),
+			$refresh_token->getClaim('exp'),
+			$session_fields
+		);
 
 		return [
 			'access_token' => (string) $access_token,
@@ -41,15 +47,17 @@ class UserService
 		return $refresh_token;
 	}
 
-	public function createSession($user_id, $refresh_token_id, array $session_fields = [])
+	public function createSession($user_id, $refresh_token_id, $expires_at, array $session_fields = [])
 	{
 		$fields = array_merge([
+			'id' => (string) Uuid::uuid4(),
 			'user_id' => $user_id,
 			'refresh_token_id' => $refresh_token_id,
+			'expires_at' => $expires_at,
 		], $session_fields);
 
 		$session = Session::create($fields);
-
+		info([$session]);
 		return $session;
 	}
 

@@ -14,12 +14,12 @@ class CreateSessionTable extends Migration
     public function up()
     {
         Schema::create('session', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
 
             $table->uuid('user_id');
             $table->uuid('refresh_token_id');
             $table->string('fingerprint', 32)->nullable();
-            $table->bigInteger('expires_in');
+            $table->bigInteger('expires_at');
 
             $table->timestamps();
 
@@ -27,6 +27,8 @@ class CreateSessionTable extends Migration
                 ->references('id')
                 ->on('user')
                 ->onDelete('cascade');
+
+            $table->primary('id');
         });
     }
 
