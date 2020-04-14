@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Session;
 use App\Services\JWT;
 use Ramsey\Uuid\Uuid;
+use App\Exceptions\Api\InvalidRefreshTokenException;
 
 class UserService
 {
@@ -56,6 +57,25 @@ class UserService
 		], $session_fields);
 
 		$session = Session::create($fields);
+
+		return $session;
+	}
+
+	public function getSessionByToken($refresh_token)
+	{
+		try {
+			$refresh_token_id = $this->jwt()->parse($refresh_token)->getHeader('jti');
+
+		} catch (\InvalidArgumentException $e) {
+			
+			throw new InvalidRefreshTokenException;
+		}
+
+		$session = Session::where('refresh_token_id', $refresh_token_id)->first();
+        
+        if (is_null($session)) {
+            throw new InvalidRefreshTokenException;
+        }
 
 		return $session;
 	}

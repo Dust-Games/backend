@@ -16,6 +16,7 @@ use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use App\Services\UserService;
 use App\Jobs\RemoveOldSessions;
+use App\Exceptions\Api\InvalidRefreshTokenException;
 
 class AuthController extends Controller
 {
@@ -65,6 +66,28 @@ class AuthController extends Controller
             'message' => 'The given data was invalid.',
             'error' => __('auth.failed'),
         ], 422);
+    }
+
+    public function refreshToken(RefreshTokenRequest $req, UserService $service)
+    {
+        $refresh_token = $req->validated()['refresh_token'];
+
+        $session = $service->getSessionByToken($refresh_token);
+
+        $session->delete();
+
+        if ($session->tokenExpired()) {
+            return response([
+                'message' => 'Refresh token is expired.'
+            ], 401);
+        }
+
+        $tokens = $service->createTokens($session->user_id);
+
+        return response([
+            'access_token' => $tokens['access_token'],
+            'refresh_token' => $tokens['refresh_token'],
+        ], 200);
     }
 
     protected function checkPassword(string $password, string  $hash_password)

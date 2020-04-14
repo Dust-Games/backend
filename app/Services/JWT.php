@@ -17,6 +17,7 @@ class JWT implements JwtInterface
 	protected $signer_alg = Sha256::class;
 
 
+
 	public function create($user_id, int $expires_in, array $claims = null)
 	{
 		$signer = new $this->signer_alg;
@@ -53,6 +54,7 @@ class JWT implements JwtInterface
 	{
 		return $this->verify($this->parse($token));
 	}
+
 
 
 	protected function configureBuilder($expires_in)

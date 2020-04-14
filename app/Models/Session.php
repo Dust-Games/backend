@@ -19,6 +19,11 @@ class Session extends Model
     	'expires_at',
     ];
 
+    public function tokenExpired()
+    {
+        return time() >= $this->getAttributeFromArray('expires_at');
+    }
+
     /*|==========| Relationships |==========|*/
 
     public function user()
