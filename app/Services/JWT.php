@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\JwtInterface;
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\ValidationData;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Parser;
@@ -12,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 class JWT implements JwtInterface
 {	
-	protected const USER_ID = 'uid';
+	public const USER_ID = 'sub';
 
 	protected $signer_alg = Sha256::class;
 
@@ -55,7 +56,12 @@ class JWT implements JwtInterface
 		return $this->verify($this->parse($token));
 	}
 
+	public function validate(Token $token)
+	{
+		$data = $this->configureValidationData();
 
+		return $token->validate($data);
+	}
 
 	protected function configureBuilder($expires_in)
 	{
@@ -69,6 +75,16 @@ class JWT implements JwtInterface
 			->canOnlyBeUsedAfter($time)
 			->expiresAt($time + $expires_in);
 
+	}
+
+	protected function configureValidationData()
+	{
+		$data = new ValidationData;
+
+		$data->setIssuer(config('app.url'));
+		$data->setAudience(config('app.url'));
+
+		return $data;
 	}
 
 	protected function generateUuid()

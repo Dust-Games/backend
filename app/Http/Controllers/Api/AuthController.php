@@ -90,6 +90,20 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function logout(RefreshTokenRequest $req, UserService $service)
+    {
+        $refresh_token = $req->validated()['refresh_token'];
+
+        $session = $service->getSessionByToken($refresh_token);
+
+        $session->delete();
+
+        return response([
+            'message' => __('auth.logout'),
+        ], 200);
+
+    }
+
     protected function checkPassword(string $password, string  $hash_password)
     {
         return Hash::check($password, $hash_password);
