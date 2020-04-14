@@ -14,7 +14,7 @@ class CreateUserTable extends Migration
     public function up()
     {
         Schema::create('user', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             
             $table->string('username')->unique();
             $table->string('avatar')->nullable();
@@ -24,8 +24,6 @@ class CreateUserTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-
-            $table->primary('id');
         });
     }
 

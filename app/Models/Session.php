@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Concerns\HasUuidPrimaryKey;
 
 class Session extends Model
 {
-    protected $keyType = 'string';
-    public $incrementing = false;
+    use HasUuidPrimaryKey;
+
     protected $table = 'session';
 
     protected $fillable = [
-    	'id',
     	'user_id',
     	'refresh_token_id',
     	'fingerprint',

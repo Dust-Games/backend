@@ -6,15 +6,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Session;
+use App\Concerns\HasUuidPrimaryKey;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasUuidPrimaryKey;
 
     public const MAX_SESSIONS_COUNT = 4;
 
-    protected $keyType = 'string';
-    public $incrementing = false;
     protected $table = 'user';
 
     /**
@@ -23,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id', 'username', 'email', 'password',
+        'username', 'email', 'password',
     ];
 
     /**

@@ -50,14 +50,13 @@ class UserService
 	public function createSession($user_id, $refresh_token_id, $expires_at, array $session_fields = [])
 	{
 		$fields = array_merge([
-			'id' => (string) Uuid::uuid4(),
 			'user_id' => $user_id,
 			'refresh_token_id' => $refresh_token_id,
 			'expires_at' => $expires_at,
 		], $session_fields);
 
 		$session = Session::create($fields);
-		info([$session]);
+
 		return $session;
 	}
 

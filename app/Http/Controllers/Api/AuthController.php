@@ -23,7 +23,6 @@ class AuthController extends Controller
     	$data = $req->validated();
 
     	$user = User::create([
-    		'id' =>  (string) Uuid::uuid4(),
     		'username' => $data['username'],
     		'email' => $data['email'],
     		'password' => Hash::make($data['password']),
