@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 
-class RemoveOldTokens implements ShouldQueue
+class RemoveOldSessions implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -35,7 +35,7 @@ class RemoveOldTokens implements ShouldQueue
     public function handle()
     {
         $deleted = User::find($this->user_key)
-            ->tokens()
+            ->sessions()
             ->where('created_at', '<', $this->date)
             ->delete();
 

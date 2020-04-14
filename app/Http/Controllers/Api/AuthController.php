@@ -15,10 +15,11 @@ use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use App\Services\UserService;
+use App\Jobs\RemoveOldSessions;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $req)
+    public function register(RegisterRequest $req, UserService $service)
     {
     	$data = $req->validated();
 
@@ -30,11 +31,49 @@ class AuthController extends Controller
 
     	event(new Registered($user));
 
-    	$tokens = (new UserService)->createTokens($user->getKey());
+    	$tokens = $service->createTokens($user->getKey());
 
     	return response([
     		'access_token' => $tokens['access_token'],
     		'refresh_token' => $tokens['refresh_token'],
+            'user' => new UserResource($user),
     	], 201);
+    }
+
+    public function login(LoginRequest $req, UserService $service)
+    {
+        $data = $req->validated();
+
+        $user = User::where($this->username(), $data[$this->username()])->first();
+
+        if ($this->checkPassword($data['password'], $user->getPassword())) {
+            
+            if ($user->hasTooManySessions()) {
+                RemoveOldSessions::dispatch($user->getKey(), (string) now());
+            }
+
+            $tokens = $service->createTokens($user->getKey());
+
+            return response([
+                'access_token' => $tokens['access_token'],
+                'refresh_token' => $tokens['refresh_token'],
+                'user' => new UserResource($user),
+            ], 200);
+        }
+
+        return response([
+            'message' => 'The given data was invalid.',
+            'error' => __('auth.failed'),
+        ], 422);
+    }
+
+    protected function checkPassword(string $password, string  $hash_password)
+    {
+        return Hash::check($password, $hash_password);
+    }
+
+    protected function username()
+    {
+        return 'email';
     }
 }

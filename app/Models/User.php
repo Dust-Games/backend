@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->getAttributeFromArray('password');
     }
 
+    public function hasTooManySessions()
+    {
+        return $this->sessions()->count() >= static::MAX_SESSIONS_COUNT;
+    }
+
     /*|==========| Relationships |==========|*/
 
     public function sessions()
