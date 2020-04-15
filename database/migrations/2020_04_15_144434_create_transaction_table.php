@@ -19,7 +19,7 @@ class CreateTransactionTable extends Migration
             $table->uuid('user_id');
             $table->boolean('is_registered');
             $table->tinyInteger('type');
-            $table->tinyInteger('type');
+            $table->tinyInteger('status');
             $table->decimal('currency_num')->default(0);    
             
             $table->timestamps();

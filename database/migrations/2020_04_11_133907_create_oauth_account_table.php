@@ -16,7 +16,8 @@ class CreateOauthAccountTable extends Migration
         Schema::create('oauth_account', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->uuid('user_id');
+            $table->uuid('user_id')->nullable();
+            $table->tinyInteger('oauth_service_id');
             $table->string('account_id', 32);
             $table->string('username', 32)->nullable();
             $table->string('avatar')->nullable();
