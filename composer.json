@@ -7,18 +7,29 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kaizzzoku/Steam"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/kaizzzoku/LightOpenID"
+        }
+    ],
     "require": {
         "php": "^7.4.4",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.5",
+        "iignatov/lightopenid": "dev-remove-deprecated-func",
         "laravel/framework": "^7.0",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "lcobucci/jwt": "^3.3",
         "phpseclib/phpseclib": "~2.0",
         "socialiteproviders/manager": "^3.5",
-        "socialiteproviders/steam": "^1.1",
+        "socialiteproviders/steam": "dev-change-lightopenid-to-fork",
         "socialiteproviders/twitch": "^5.1"
     },
     "require-dev": {
