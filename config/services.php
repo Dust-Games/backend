@@ -30,8 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'passport' => [
-        'frontend_client_id' => env('FRONTEND_CLIENT_ID'),
-        'frontend_client_secret' => env('FRONTEND_CLIENT_SECRET'),
+    'steam' => [
+        'client_id' => env('STEAM_KEY'),
+        'client_secret' => env('STEAM_SECRET'),
+        'redirect' => env('STEAM_REDIRECT_URI')
     ],
 ];

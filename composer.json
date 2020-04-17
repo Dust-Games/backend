@@ -13,9 +13,13 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^7.0",
+        "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "lcobucci/jwt": "^3.3",
-        "phpseclib/phpseclib": "~2.0"
+        "phpseclib/phpseclib": "~2.0",
+        "socialiteproviders/manager": "^3.5",
+        "socialiteproviders/steam": "^1.1",
+        "socialiteproviders/twitch": "^5.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

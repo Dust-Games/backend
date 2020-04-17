@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf748ccb2eca249a6618280937447083",
+    "content-hash": "1ab60db709c6b64f6e45979ab6ee8dc4",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,25 +60,26 @@
         },
         {
             "name": "brick/math",
-            "version": "0.8.14",
+            "version": "0.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "6f7a46b5c3d487b277f38fbd17df57d348cace8a"
+                "reference": "9b08d412b9da9455b210459ff71414de7e6241cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/6f7a46b5c3d487b277f38fbd17df57d348cace8a",
-                "reference": "6f7a46b5c3d487b277f38fbd17df57d348cace8a",
+                "url": "https://api.github.com/repos/brick/math/zipball/9b08d412b9da9455b210459ff71414de7e6241cd",
+                "reference": "9b08d412b9da9455b210459ff71414de7e6241cd",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "ext-json": "*",
+                "php": "^7.1|^8.0"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "2.*",
-                "phpunit/phpunit": "7.*",
-                "vimeo/psalm": "3.*"
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^7.5.15|^8.5",
+                "vimeo/psalm": "^3.5"
             },
             "type": "library",
             "autoload": {
@@ -101,7 +102,7 @@
                 "brick",
                 "math"
             ],
-            "time": "2020-02-17T13:57:43+00:00"
+            "time": "2020-04-15T15:59:35+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -689,17 +690,64 @@
             "time": "2019-07-01T23:21:34+00:00"
         },
         {
-            "name": "laravel/framework",
-            "version": "v7.5.2",
+            "name": "iignatov/lightopenid",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "3a3b3f7fea69813f5a03449c6314bfb42c3ccf78"
+                "url": "https://github.com/WillSkates/LightOpenID.git",
+                "reference": "15264c31aef8bbe7ea18f12b6da4ccdb9927f9fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3a3b3f7fea69813f5a03449c6314bfb42c3ccf78",
-                "reference": "3a3b3f7fea69813f5a03449c6314bfb42c3ccf78",
+                "url": "https://api.github.com/repos/WillSkates/LightOpenID/zipball/15264c31aef8bbe7ea18f12b6da4ccdb9927f9fa",
+                "reference": "15264c31aef8bbe7ea18f12b6da4ccdb9927f9fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "openid.php",
+                    "provider/provider.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignat Ignatov",
+                    "homepage": "https://github.com/iignatov/LightOpenID"
+                },
+                {
+                    "name": "Mewp",
+                    "homepage": "https://code.google.com/p/lightopenid/"
+                }
+            ],
+            "description": "Lightweight PHP5 library for easy OpenID authentication.",
+            "homepage": "https://github.com/iignatov/LightOpenID",
+            "keywords": [
+                "Authentication",
+                "OpenId",
+                "security"
+            ],
+            "time": "2014-01-27T06:01:05+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v7.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "695be25d84b5cedd0026c428d4e9697fe8cd06f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/695be25d84b5cedd0026c428d4e9697fe8cd06f9",
+                "reference": "695be25d84b5cedd0026c428d4e9697fe8cd06f9",
                 "shasum": ""
             },
             "require": {
@@ -837,7 +885,71 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-04-08T15:54:18+00:00"
+            "time": "2020-04-15T20:57:47+00:00"
+        },
+        {
+            "name": "laravel/socialite",
+            "version": "v4.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/socialite.git",
+                "reference": "4bd66ee416fea04398dee5b8c32d65719a075db4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/4bd66ee416fea04398dee5b8c32d65719a075db4",
+                "reference": "4bd66ee416fea04398dee5b8c32d65719a075db4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "illuminate/http": "~5.7.0|~5.8.0|^6.0|^7.0",
+                "illuminate/support": "~5.7.0|~5.8.0|^6.0|^7.0",
+                "league/oauth1-client": "~1.0",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "illuminate/contracts": "~5.7.0|~5.8.0|^6.0|^7.0",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Socialite\\SocialiteServiceProvider"
+                    ],
+                    "aliases": {
+                        "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Socialite\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
+            "homepage": "https://laravel.com",
+            "keywords": [
+                "laravel",
+                "oauth"
+            ],
+            "time": "2020-02-04T15:30:01+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -960,16 +1072,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.3.3",
+            "version": "1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "5a67afc2572ec6d430526cdc9c637ef124812389"
+                "reference": "dd3261eb9a322e009fa5d96d19b9ae19708ce04b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/5a67afc2572ec6d430526cdc9c637ef124812389",
-                "reference": "5a67afc2572ec6d430526cdc9c637ef124812389",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/dd3261eb9a322e009fa5d96d19b9ae19708ce04b",
+                "reference": "dd3261eb9a322e009fa5d96d19b9ae19708ce04b",
                 "shasum": ""
             },
             "require": {
@@ -1030,20 +1142,20 @@
                 "md",
                 "parser"
             ],
-            "time": "2020-04-05T16:01:48+00:00"
+            "time": "2020-04-13T20:52:18+00:00"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.66",
+            "version": "1.0.67",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21"
+                "reference": "5b1f36c75c4bdde981294c2a0ebdb437ee6f275e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/021569195e15f8209b1c4bebb78bd66aa4f08c21",
-                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5b1f36c75c4bdde981294c2a0ebdb437ee6f275e",
+                "reference": "5b1f36c75c4bdde981294c2a0ebdb437ee6f275e",
                 "shasum": ""
             },
             "require": {
@@ -1114,7 +1226,70 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2020-03-17T18:58:12+00:00"
+            "time": "2020-04-16T13:21:26+00:00"
+        },
+        {
+            "name": "league/oauth1-client",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/oauth1-client.git",
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/fca5f160650cb74d23fc11aa570dd61f86dcf647",
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.0",
+                "squizlabs/php_codesniffer": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\OAuth1\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Corlett",
+                    "email": "bencorlett@me.com",
+                    "homepage": "http://www.webcomm.com.au",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OAuth 1.0 Client Library",
+            "keywords": [
+                "Authentication",
+                "SSO",
+                "authorization",
+                "bitbucket",
+                "identity",
+                "idp",
+                "oauth",
+                "oauth1",
+                "single sign on",
+                "trello",
+                "tumblr",
+                "twitter"
+            ],
+            "time": "2016-08-17T00:36:58+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1270,16 +1445,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.3.0",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc"
+                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/9a9981c347c5c49d6dfe5cf826bb882b824080dc",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
+                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
                 "shasum": ""
             },
             "require": {
@@ -1318,7 +1493,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-11-08T13:50:10+00:00"
+            "time": "2020-04-10T16:34:50+00:00"
         },
         {
             "name": "opis/closure",
@@ -2021,6 +2196,138 @@
                 "uuid"
             ],
             "time": "2020-03-29T20:13:32+00:00"
+        },
+        {
+            "name": "socialiteproviders/manager",
+            "version": "v3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Manager.git",
+                "reference": "7a5872d9e4b22bb26ecd0c69ea9ddbaad8c0f570"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/7a5872d9e4b22bb26ecd0c69ea9ddbaad8c0f570",
+                "reference": "7a5872d9e4b22bb26ecd0c69ea9ddbaad8c0f570",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.4|~5.7.0|~5.8.0|^6.0|^7.0",
+                "laravel/socialite": "~3.0|~4.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SocialiteProviders\\Manager\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Manager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andy Wendt",
+                    "email": "andy@awendt.com"
+                },
+                {
+                    "name": "Anton Komarev",
+                    "email": "a.komarev@cybercog.su"
+                },
+                {
+                    "name": "Miguel Piedrafita",
+                    "email": "soy@miguelpiedrafita.com"
+                }
+            ],
+            "description": "Easily add new or override built-in providers in Laravel Socialite.",
+            "time": "2020-03-08T16:54:44+00:00"
+        },
+        {
+            "name": "socialiteproviders/steam",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Steam.git",
+                "reference": "c6f372646c01e96258ebf603644e95e0e82eeeb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Steam/zipball/c6f372646c01e96258ebf603644e95e0e82eeeb7",
+                "reference": "c6f372646c01e96258ebf603644e95e0e82eeeb7",
+                "shasum": ""
+            },
+            "require": {
+                "iignatov/lightopenid": "~1.0",
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~2.0 || ~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Steam\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christopher Eklund",
+                    "email": "eklundchristopher@gmail.com"
+                }
+            ],
+            "description": "Steam OpenID Provider for Laravel Socialite",
+            "time": "2019-01-11T19:48:14+00:00"
+        },
+        {
+            "name": "socialiteproviders/twitch",
+            "version": "v5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Twitch.git",
+                "reference": "f9b1f90a94f539e1b29e84ee0f731f42d59f3213"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Twitch/zipball/f9b1f90a94f539e1b29e84ee0f731f42d59f3213",
+                "reference": "f9b1f90a94f539e1b29e84ee0f731f42d59f3213",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~2.0 || ~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Twitch\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Faust",
+                    "email": "hello@brianfaust.de"
+                }
+            ],
+            "description": "Twitch OAuth2 Provider for Laravel Socialite",
+            "time": "2019-07-01T10:35:46+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3452,16 +3759,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v4.1.3",
+            "version": "v4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "88f7acc95150bca002a498899f8b52f318e444c2"
+                "reference": "feb6dad5ae24b1380827aee1629b730080fde500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/88f7acc95150bca002a498899f8b52f318e444c2",
-                "reference": "88f7acc95150bca002a498899f8b52f318e444c2",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/feb6dad5ae24b1380827aee1629b730080fde500",
+                "reference": "feb6dad5ae24b1380827aee1629b730080fde500",
                 "shasum": ""
             },
             "require": {
@@ -3512,7 +3819,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2020-03-27T23:37:15+00:00"
+            "time": "2020-04-12T15:20:09+00:00"
         },
         {
             "name": "voku/portable-ascii",

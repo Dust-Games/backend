@@ -18,6 +18,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            
+            # Steam #
+            'SocialiteProviders\\Steam\\SteamExtendSocialite@handle',
+        ],
     ];
 
     /**
