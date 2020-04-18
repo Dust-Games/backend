@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Session;
+use App\Models\OAuthAccount;
 use App\Concerns\HasUuidPrimaryKey;
 
 class User extends Authenticatable
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function sessions()
     {
         return $this->hasMany(Session::class, 'user_id');
+    }
+
+    public function accounts()
+    {
+        return $this->hasMany(OAuthAccount::class, 'user_id', 'id');
     }
 }

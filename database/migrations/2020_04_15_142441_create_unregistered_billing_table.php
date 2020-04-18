@@ -16,7 +16,7 @@ class CreateUnregisteredBillingTable extends Migration
         Schema::create('unregistered_billing', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->tinyInteger('oauth_service_id');
+            $table->tinyInteger('oauth_provider_id');
             $table->uuid('oauth_account_id');
             $table->decimal('dust_token_num', 15, 3)->default(0);
             $table->timestamps();

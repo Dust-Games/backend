@@ -2003,7 +2003,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     register: function register() {},
     oauthRegister: function oauthRegister(provider) {
-      axios.get("/oauth/".concat(provider, "/register")).then(function (resp) {
+      axios.get("/oauth/".concat(provider, "/login")).then(function (resp) {
         window.location = resp.data.redirect_url;
       });
     }

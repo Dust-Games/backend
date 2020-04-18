@@ -17,7 +17,7 @@ class CreateOauthAccountTable extends Migration
             $table->uuid('id')->primary();
 
             $table->uuid('user_id')->nullable();
-            $table->tinyInteger('oauth_service_id');
+            $table->tinyInteger('oauth_provider_id');
             $table->string('account_id', 32);
             $table->string('username', 32)->nullable();
             $table->string('avatar')->nullable();
