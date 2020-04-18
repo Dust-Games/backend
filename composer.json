@@ -29,6 +29,8 @@
         "laravel/ui": "^2.0",
         "lcobucci/jwt": "^3.3",
         "phpseclib/phpseclib": "~2.0",
+        "socialiteproviders/battlenet": "^2.1",
+        "socialiteproviders/discord": "^2.0",
         "socialiteproviders/manager": "^3.5",
         "socialiteproviders/steam": "dev-change-lightopenid-to-fork",
         "socialiteproviders/twitch": "^5.1"

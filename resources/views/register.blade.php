@@ -1,5 +1,5 @@
 @extends('layouts.basic')
 
 @section('content')
-	<example-component></example-component>
+	<register></register>
 @endsection

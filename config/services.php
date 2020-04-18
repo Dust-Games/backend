@@ -30,9 +30,37 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*|==========| OAuth providers |==========|*/
+
     'steam' => [
         'client_id' => null,
         'client_secret' => env('STEAM_KEY'),
-        'redirect' => env('STEAM_REDIRECT_URI')
+        'redirect' => null,
+        'register_redirect' => env('STEAM_REGISTER_REDIRECT_URI'),
+        'login_redirect' => env('STEAM_LOGIN_REDIRECT_URI'),
+    ],
+
+    'battlenet' => [
+        'client_id' => env('BATTLE.NET_KEY'),
+        'client_secret' => env('BATTLE.NET_SECRET'),
+        'redirect' => null,
+        'register_redirect' => env('BATTLE.NET_REGISTER_REDIRECT_URI'),
+        'login_redirect' => env('BATTLE.NET_LOGIN_REDIRECT_URI'),
+    ],
+
+    'discord' => [
+        'client_id' => env('DISCORD_KEY'),
+        'client_secret' => env('DISCORD_SECRET'),
+        'redirect' => null,
+        'register_redirect' => env('DISCORD_REGISTER_REDIRECT_URI'),
+        'login_redirect' => env('DISCORD_LOGIN_REDIRECT_URI'),
+    ],
+
+    'twitch' => [
+        'client_id' => env('TWITCH_KEY'),
+        'client_secret' => env('TWITCH_SECRET'),
+        'redirect' => null,
+        'register_redirect' => env('TWITCH_REGISTER_REDIRECT_URI'),
+        'login_redirect' => env('TWITCH_LOGIN_REDIRECT_URI'),
     ],
 ];

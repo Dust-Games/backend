@@ -6,9 +6,11 @@
 	<script src="{{ asset('js/app.js') }}" defer></script>
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
-<body>
+<body class="">
 	<div id="app">
-		@yield('content')
+		<div class="d-flex min-vw-100 min-vh-100 justify-content-center align-items-center">
+			@yield('content')
+		</div>
 	</div>
 </body>
 </html>

@@ -22,7 +22,16 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             
             # Steam #
-            'SocialiteProviders\\Steam\\SteamExtendSocialite@handle',
+            '\SocialiteProviders\\Steam\\SteamExtendSocialite@handle',
+
+            # Twitch #
+            '\SocialiteProviders\\Twitch\\TwitchExtendSocialite@handle',
+
+            # Discord #
+            '\SocialiteProviders\\Discord\\DiscordExtendSocialite@handle',
+
+            # Battle.net #
+            '\SocialiteProviders\\Battlenet\\BattlenetExtendSocialite@handle',
         ],
     ];
 
