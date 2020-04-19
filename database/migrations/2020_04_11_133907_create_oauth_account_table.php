@@ -21,6 +21,7 @@ class CreateOauthAccountTable extends Migration
             $table->string('account_id', 32);
             $table->string('username', 32)->nullable();
             $table->string('avatar')->nullable();
+            $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')

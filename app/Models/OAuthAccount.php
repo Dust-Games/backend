@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Concerns\HasUuidPrimaryKey;
 use App\Models\User;
 
 class OAuthAccount extends Model
 {
+	use HasUuidPrimaryKey;
+
 	protected $table = 'oauth_account';
 
     protected $fillable = [

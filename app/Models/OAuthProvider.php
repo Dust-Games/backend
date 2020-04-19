@@ -14,6 +14,8 @@ class OAuthProvider
     	'discord' => [
     		'id' => 3,
     	],
-
+        'battlenet' => [
+            'id' => 4,
+        ],
     ];
 }

@@ -15,10 +15,6 @@ class User extends Authenticatable
 
     public const MAX_SESSIONS_COUNT = 4;
 
-    protected $casts = [
-      'id' => 'string'
-    ];
-    public $keyType = 'string';
     protected $table = 'user';
 
     /**

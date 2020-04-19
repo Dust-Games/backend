@@ -11,7 +11,7 @@ trait HasUuidPrimaryKey
 		parent::boot();
 
 		static::creating(function ($model) {
-			$model->setAttribute($model->getKeyName(), Uuid::uuid4()->toString());
+			$model->setAttribute($model->getKeyName(), (string) Uuid::uuid4());
 		});
 	}
 

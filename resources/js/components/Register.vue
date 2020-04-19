@@ -65,7 +65,7 @@
 			},
 
 			oauthRegister(provider) {
-				axios.get(`/oauth/${provider}/login`)
+				axios.get(`/oauth/${provider}/register`)
 				.then(resp => {
 					window.location = resp.data.redirect_url;
 				});
