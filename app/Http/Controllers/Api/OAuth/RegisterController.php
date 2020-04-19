@@ -6,31 +6,31 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OAuthAccount;
 use App\Services\AccountConverter;
-use App\Services\UserService;
 use Socialite;
+use App\Services\UserService;
 
-class LoginController extends Controller
+class RegisterController extends Controller
 {
     public function redirectToProvider($provider)
     {
         return response()->json([
             'redirect_url' => Socialite::driver($provider)
                 ->stateless()
-                ->redirectUrl(config('services.'.$provider.'.login_redirect'))
+                ->redirectUrl(config('services.'.$provider.'.register_redirect'))
                 ->redirect()
                 ->getTargetUrl()
         ]);
     }
 
     public function handleProviderCallback(
-        $provider, 
+        $provider,
         AccountConverter $converter,
         UserService $service
     )
     {
     	$user = Socialite::driver($provider)
     		->stateless()
-    		->redirectUrl(config('services.'.$provider.'.login_redirect'))
+    		->redirectUrl(config('services.'.$provider.'.register_redirect'))
     		->user();
 
         if ($provider === 'battlenet') {
@@ -50,11 +50,18 @@ class LoginController extends Controller
                 'refresh_token' => $tokens['refresh_token'],
                 'user' => new UserResource($user),
             ], 200);
+        }
 
-        } else {            
-            return response()->response([
-                'message' => 'OAuth account does not exist.'
-            ], 422);
+        $saved = $acc->save();
+
+        if ($saved) {
+            return response()->json([
+                'message' => 'OAuth account successfully created.'
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Error >:('
+            ], 500);
         }
         
     }

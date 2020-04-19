@@ -11,6 +11,9 @@ class OAuthProvider
     	'twitch' => [
     		'id' => 2,
     	],
+    	'discord' => [
+    		'id' => 3,
+    	],
 
     ];
 }

@@ -20,7 +20,7 @@ class OldDbSeeder extends Seeder
                     $new[] = [
                         'id' => (string) Uuid::uuid4(),
                         'user_id' => null,
-                        'oauth_service_id' => $row->type,
+                        'oauth_provider_id' => $row->type,
                         'account_id' => $row->account_id,
                         'username' => $row->username,
                     ];
@@ -60,7 +60,7 @@ class OldDbSeeder extends Seeder
                 foreach ($old as $row) {
                     $new[] = [
                         'id' => $row->id,
-                        'oauth_service_id' => $row->type,
+                        'oauth_provider_id' => $row->type,
                         'oauth_account_id' => $oauth_account->where('account_id', $row->account_id)->first()->id,
                         'dust_token_num' => $row->dust_token_num,
                         'created_at' => $now,
