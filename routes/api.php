@@ -45,6 +45,7 @@ Route::group(
 				Route::get('me', 'UserController@me')->name('me');
 				Route::get('me/sessions', 'UserController@sessions')->name('sessions');
 				Route::get('me/billing', 'UserController@billing')->name('billing');
+				Route::get('me/accounts', 'UserController@accounts')->name('accounts');
 			}
 		);
 	}

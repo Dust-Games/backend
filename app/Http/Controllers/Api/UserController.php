@@ -23,4 +23,9 @@ class UserController extends Controller
     {
     	return Auth::user()->billing;
     }
+
+    public function accounts()
+    {
+        return Auth::user()->accounts;
+    }
 }
