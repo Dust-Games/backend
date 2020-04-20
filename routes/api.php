@@ -43,7 +43,8 @@ Route::group(
 			],
 			function () {
 				Route::get('me', 'UserController@me')->name('me');
-				Route::get('me/sessions', 'UserController@sessions')->name('name');
+				Route::get('me/sessions', 'UserController@sessions')->name('sessions');
+				Route::get('me/billing', 'UserController@billing')->name('billing');
 			}
 		);
 	}
