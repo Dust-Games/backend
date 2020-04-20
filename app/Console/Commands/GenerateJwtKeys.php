@@ -54,6 +54,8 @@ class GenerateJwtKeys extends Command
                 'private_key' => $data['privatekey'],
                 'public_key' => $data['publickey'],
             ], true));
+
+            return;
         }
 
         $this->putKeys($data['privatekey'], $data['publickey']);

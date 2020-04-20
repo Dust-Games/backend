@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 
 class JWT implements JwtInterface
 {	
-	public const USER_ID = 'sub';
+	public const OWNER_ID = 'sub';
 
 	protected $signer_alg = Sha256::class;
 
@@ -26,7 +26,7 @@ class JWT implements JwtInterface
 
 		$builder = $this->configureBuilder($expires_in);
 
-		$builder->withClaim(static::USER_ID, $user_id);
+		$builder->withClaim(static::OWNER_ID, $user_id);
 
 		foreach ($claims as $key => $value) {
 			$builder->withClaim($key, $value);
@@ -59,6 +59,16 @@ class JWT implements JwtInterface
 		$data = $this->configureValidationData();
 
 		return $token->validate($data);
+	}
+
+	public function getOwnerKey(Token $token)
+	{
+		return $token->getClaim(static::OWNER_ID);
+	}
+
+	public function getOwnerKeyFromRaw(string $token)
+	{
+		return $this->getOwnerKey($this->parse($token));
 	}
 
 	protected function configureBuilder($expires_in)

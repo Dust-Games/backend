@@ -33,7 +33,7 @@ class JwtGuard implements Guard
 			$token = $this->jwt->parse($this->getTokenFromRequest());
 
 			if ($this->jwt->verify($token) && $this->jwt->validate($token)) {
-				return $this->user = $this->provider->retrieveById($token->getClaim('sub'));
+				return $this->user = $this->provider->retrieveById($jwt->getOwnerKey($token));
 			}
 
 			return;
