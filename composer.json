@@ -24,7 +24,6 @@
         "guzzlehttp/guzzle": "^6.5",
         "iignatov/lightopenid": "dev-remove-deprecated-func",
         "laravel/framework": "^7.0",
-        "laravel/passport": "^8.4",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
