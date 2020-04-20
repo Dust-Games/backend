@@ -24,8 +24,7 @@ class RegisterController extends Controller
 
     public function handleProviderCallback(
         $provider,
-        AccountConverter $converter,
-        UserService $service
+        AccountConverter $converter
     )
     {
     	$user = Socialite::driver($provider)
@@ -41,29 +40,36 @@ class RegisterController extends Controller
 
         $db_ac = OAuthAccount::where('account_id', $acc->account_id)->first();
 
-        if (!is_null($db_ac) && !is_null($user = $db_ac->user)) {
+
+        if (is_null($db_ac)) {
             
-            $tokens = $service->createTokens($user->getKey());
+            $saved = $acc->save();
+
+            if ($saved) {
+                return response()->json([
+                    'message' => 'OAuth account successfully created.',
+                    'id' => $acc->getKey(),
+                ], 201);
+            } else {
+                return response()->json([
+                    'message' => 'Error >:('
+                ], 500);
+            }
+
+        } elseif (is_null($user = $db_ac->user)) {
 
             return response()->json([
-                'access_token' => $tokens['access_token'],
-                'refresh_token' => $tokens['refresh_token'],
-                'user' => new UserResource($user),
-            ], 200);
-        }
-
-        $saved = $acc->save();
-
-        if ($saved) {
-            return response()->json([
-                'message' => 'OAuth account successfully created.',
-                'id' => $acc->getKey(),
+                'message' => 'OAuth account already exists.',
+                'id' => $db_ac->getKey(),
             ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Error >:('
-            ], 500);
         }
-        
+            
+        $tokens = (new UserService)->createTokens($user->getKey());
+
+        return response()->json([
+            'access_token' => $tokens['access_token'],
+            'refresh_token' => $tokens['refresh_token'],
+            'user' => new UserResource($user),
+        ], 200);
     }
 }

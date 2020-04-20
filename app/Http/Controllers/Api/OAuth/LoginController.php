@@ -39,7 +39,7 @@ class LoginController extends Controller
 
         $acc = $converter->{$provider}($user);
 
-        $db_ac = Account::where('account_id', $acc->account_id)->first();
+        $db_ac = OAuthAccount::where('account_id', $acc->account_id)->first();
 
         if (!is_null($db_ac) && !is_null($user = $db_ac->user)) {
             

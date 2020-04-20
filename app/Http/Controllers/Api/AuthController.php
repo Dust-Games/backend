@@ -12,11 +12,11 @@ use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\Api\RegisterRequest;
 use App\Http\Requests\Api\RefreshTokenRequest;
 use Illuminate\Auth\Events\Registered;
-use App\Models\User;
-use Ramsey\Uuid\Uuid;
-use App\Services\UserService;
-use App\Jobs\RemoveOldSessions;
 use App\Exceptions\Api\InvalidRefreshTokenException;
+use App\Services\UserService;
+use App\Services\OAuthAccountService;
+use App\Jobs\RemoveOldSessions;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -29,6 +29,10 @@ class AuthController extends Controller
     		'email' => $data['email'],
     		'password' => Hash::make($data['password']),
     	]);
+
+        if ($oauth_id = $data['oauth_account']) {
+            (new OAuthAccountService)->SetUser($oauth_id, $user->getKey());
+        }
 
     	event(new Registered($user));
 

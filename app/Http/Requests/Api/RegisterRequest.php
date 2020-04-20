@@ -34,7 +34,8 @@ class RegisterRequest extends FormRequest
                 'different:username',
                 'different:email',
                 new HasDifferentChars(5)
-            ]
+            ],
+            'oauth_account' => ['string'],
         ];
     }
 }
