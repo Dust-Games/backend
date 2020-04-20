@@ -18,4 +18,9 @@ class UserController extends Controller
     {
     	return new SessionCollection(Auth::user()->sessions);
     }
+
+    public function billing()
+    {
+    	return Auth::user()->billing;
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Session;
 use App\Models\OAuthAccount;
+use App\Models\Billing;
 use App\Concerns\HasUuidPrimaryKey;
 
 class User extends Authenticatable
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function accounts()
     {
         return $this->hasMany(OAuthAccount::class, 'user_id', 'id');
+    }
+
+    public function billing()
+    {
+        return $this->hasOne(Billing::class, 'user_id', 'id');
     }
 }
