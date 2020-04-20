@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Services\JWT;
+use Illuminate\Auth\AuthenticationException;
 
 class BotAuthorization
 {
@@ -13,8 +15,17 @@ class BotAuthorization
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($req, Closure $next)
     {
-        return $next($request);
+        $jwt = new JWT;
+
+        $token = $jwt->parse($req->bearerToken());
+
+        if ($token && $jwt->verify($token) && $jwt->validate($token)) {
+            return $next($req);
+        }
+
+        throw new AuthenticationException;
+
     }
 }
