@@ -64,5 +64,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         'localization' => \App\Http\Middleware\Api\Localization::class,
+
+        'bot' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class
     ];
 }

@@ -50,3 +50,18 @@ Route::group(
 		);
 	}
 );
+
+
+/*|==========| Bots |==========|*/
+
+Route::group(
+	[
+		'prefix' => 'bot',
+		'as' => 'bot',
+		'middleware' => 'bot',
+	],
+	function () {
+
+	}
+);
+
