@@ -9,8 +9,9 @@ use App\Services\JWT;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\Api\InvalidRefreshTokenException;
+use App\Contracts\JwtServiceInterface;
 
-class UserService
+class UserService implements JwtServiceInterface
 {
 	protected const ACCESS_TOKEN_EXPIRATION = 3600; # 1 hour
 	protected const REFRESH_TOKEN_EXPIRATION = 2592000; # 1 month
@@ -49,16 +50,24 @@ class UserService
 		
 	}
 
-	public function createAccessToken($user_id)
+	public function createAccessToken($user_id, array $claims = [])
 	{
-		$access_token = $this->jwt()->create($user_id, static::ACCESS_TOKEN_EXPIRATION);
+		$access_token = $this->jwt()->create(
+			$user_id,
+			$this->getAccessTokenTtl(),
+			$claims
+		);
 
 		return $access_token;
 	}
 
-	public function createRefreshToken($user_id)
+	public function createRefreshToken($user_id, array $claims = [])
 	{
-		$refresh_token = $this->jwt()->create($user_id, static::REFRESH_TOKEN_EXPIRATION);
+		$refresh_token = $this->jwt()->create(
+			$user_id,
+			$this->getRefreshTokenTtl(),
+			$claims
+		);
 
 		return $refresh_token;
 	}
@@ -93,6 +102,16 @@ class UserService
         }
 
 		return $session;
+	}
+
+	public function getAccessTokenTtl()
+	{
+		return static::ACCESS_TOKEN_EXPIRATION;
+	}
+
+	public function getRefreshTokenTtl()
+	{
+		return static::REFRESH_TOKEN_EXPIRATION;
 	}
 
 	protected function jwt()

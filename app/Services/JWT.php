@@ -19,7 +19,7 @@ class JWT implements JwtInterface
 
 
 
-	public function create($user_id, int $expires_in, array $claims = null)
+	public function create($user_id, int $expires_in, array $claims = [])
 	{
 		$signer = new $this->signer_alg;
 		$private_key = new Key(config('jwt.private_key'));
@@ -28,10 +28,8 @@ class JWT implements JwtInterface
 
 		$builder->withClaim(static::USER_ID, $user_id);
 
-		if (!is_null($claims)) {
-			foreach ($claims as $key => $value) {
-				$builder->withClaim($key, $value);
-			}
+		foreach ($claims as $key => $value) {
+			$builder->withClaim($key, $value);
 		}
 		
 		$token = $builder->getToken($signer, $private_key);
