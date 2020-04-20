@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Services\JWT;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 
 class BotAuthorization
@@ -19,10 +20,18 @@ class BotAuthorization
     {
         $jwt = new JWT;
 
-        $token = $jwt->parse($req->bearerToken());
+        if ($bearer = $req->bearerToken()) {
 
-        if ($token && $jwt->verify($token) && $jwt->validate($token)) {
-            return $next($req);
+            try {
+                $token = $jwt->parse($bearer);
+                
+            } catch (Exception $e) {
+                throw new AuthenticationException;
+            }
+
+            if ($token && $jwt->verify($token) && $jwt->validate($token)) {
+                return $next($req);
+            }
         }
 
         throw new AuthenticationException;

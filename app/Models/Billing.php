@@ -14,6 +14,13 @@ class Billing extends Model
 
 	protected $guarded = [];
 
+	/*|==========| Scopes |==========|*/
+
+	public function scopeWhereUser($query, $user_key)
+	{
+		return $query->where('user_id', $user_key);
+	}
+
 	/*|==========| Relationships |==========|*/
 
 	public function user()

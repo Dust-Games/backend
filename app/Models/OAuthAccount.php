@@ -16,6 +16,21 @@ class OAuthAccount extends Model
     	'user_id', 'oauth_provider_id', 'account_id', 'username', 'avatar'
     ];
 
+    public function getUserKey()
+    {
+        return $this->getAttributeFromArray('user_id');
+    }
+
+    public function getAccountKey()
+    {
+        return $this->getAttributeFromArray('account_id');
+    }
+
+    public function hasUser()
+    {
+        return (bool) $this->getAttributeFromArray('user_id');
+    }
+
     /*|==========| Relationships |==========|*/
 
     public function user()

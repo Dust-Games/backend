@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
     	$data = $req->validated();
 
-    	if ($this->validate($data)) {
+    	if ($this->validateBot($data)) {
     		
     		$tokens = $service->createTokens($data['id']);
 
@@ -23,7 +23,11 @@ class AuthController extends Controller
     			'access_token' => $tokens['access_token'],
     			'refresh_token' => $tokens['refresh_token'],
     		];
-    	}
+    	} 
+
+        return response()->json([
+            'message' => 'Invalid bot credentials.'
+        ], 422);
     }
 
     public function refreshToken(RefreshTokenRequest $req, JWT $jwt)
@@ -49,7 +53,7 @@ class AuthController extends Controller
     	], 403);
     }
 
-    protected function validate(array $data)
+    protected function validateBot(array $data)
     {
     	$config = config('bots');
 

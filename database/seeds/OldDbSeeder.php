@@ -63,8 +63,8 @@ class OldDbSeeder extends Seeder
                         'oauth_provider_id' => $row->type,
                         'oauth_account_id' => $oauth_account->where('account_id', $row->account_id)->first()->id,
                         'dust_token_num' => $row->dust_token_num,
-                        'created_at' => $now,
-                        'updated_at' => $now,
+                        'created_at' => null,
+                        'updated_at' => null,
                     ];
                 }
 

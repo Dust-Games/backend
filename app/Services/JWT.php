@@ -66,7 +66,7 @@ class JWT implements JwtInterface
 		return $token->getClaim(static::OWNER_ID);
 	}
 
-	public function getOwnerKeyFromRaw(string $token)
+	public function getOwnerKeybyRaw(string $token)
 	{
 		return $this->getOwnerKey($this->parse($token));
 	}
