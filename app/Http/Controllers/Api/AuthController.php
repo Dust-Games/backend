@@ -24,14 +24,10 @@ class AuthController extends Controller
     {
     	$data = $req->validated();
 
-    	$user = User::create([
-    		'username' => $data['username'],
-    		'email' => $data['email'],
-    		'password' => Hash::make($data['password']),
-    	]);
+    	$user = $service->createUser($data);
 
-        if ($oauth_id = $data['oauth_account']) {
-            (new OAuthAccountService)->SetUser($oauth_id, $user->getKey());
+        if (array_key_exists('oauth_account', $data)) {
+            (new OAuthAccountService)->SetUser($data['oauth_account'], $user->getKey());
         }
 
     	event(new Registered($user));

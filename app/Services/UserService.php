@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\Session;
+use App\Models\Billing;
 use App\Services\JWT;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Hash;
 use App\Exceptions\Api\InvalidRefreshTokenException;
 
 class UserService
@@ -14,6 +16,19 @@ class UserService
 	protected const REFRESH_TOKEN_EXPIRATION = 2592000; # 1 month
 
 	protected $jwt;
+
+	public function createUser(array $data)
+	{
+    	$user = User::create([
+    		'username' => $data['username'],
+    		'email' => $data['email'],
+    		'password' => Hash::make($data['password']),
+    	]);
+
+		$user->billing()->create();
+
+		return $user;
+	}
 
 	public function createTokens($user_id, array $session_fields = [])
 	{

@@ -12,7 +12,7 @@ class Billing extends Model
 
 	protected $table = 'billing';
 
-	protected $guarded = ['id'];
+	protected $guarded = [];
 
 	/*|==========| Relationships |==========|*/
 
