@@ -38,7 +38,7 @@ class BillingController extends Controller
         if (is_null($acc)) {
             return response()->json([
                 'message' => 'Needed account does not exist.'
-            ], 422);
+            ], 404);
         }
 
     	$billing = $service->getByAccount($acc);
