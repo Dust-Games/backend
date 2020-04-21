@@ -12,6 +12,7 @@ use App\Rules\Uuid4;
 use App\Services\BillingService;
 use App\Services\TransactionService;
 use App\Http\Requests\Bot\UpdateBillingRequest;
+use Illuminate\Support\Facades\DB;
 
 class BillingController extends Controller
 {
@@ -50,21 +51,28 @@ class BillingController extends Controller
     {
     	$data = $req->validated();
 
-    	$acc = OAuthAccount::where([
-    		['account_id', $data['account_id']], 
-    		['oauth_provider_id', $data['platform']]
-    	])->first();
+        $action = static::ACTION_CODES['set'];
 
-		$billing = $service->getByAccount($acc);
+        $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
 
-    	$billing->setTokens($data['dust_tokens_num']);
+        	$acc = OAuthAccount::where([
+        		['account_id', $data['account_id']], 
+        		['oauth_provider_id', $data['platform']]
+        	])->first();
 
-        $t_service->createForDustTokens(
-            $data['dust_tokens_num'],
-            $acc->getKey(),
-            static::ACTION_CODES['set'],
-            false
-        );
+    		$billing = $service->getByAccount($acc);
+
+        	$billing->setTokens($data['dust_tokens_num']);
+
+            $t_service->createForDustTokens(
+                $data['dust_tokens_num'],
+                $acc->getKey(),
+                $action,
+                false
+            );
+
+            return $billing;
+        });
 
         return response()->json([
             "message" => 'User`s billing successfully updated.',
@@ -80,21 +88,28 @@ class BillingController extends Controller
     {
         $data = $req->validated();
 
-        $acc = OAuthAccount::where([
-            ['account_id', $data['account_id']], 
-            ['oauth_provider_id', $data['platform']]
-        ])->first();
+        $action = static::ACTION_CODES['add'];
 
-        $billing = $service->getByAccount($acc);
+        $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
 
-        $count = $billing->addTokens($data['dust_tokens_num']);
+            $acc = OAuthAccount::where([
+                ['account_id', $data['account_id']], 
+                ['oauth_provider_id', $data['platform']]
+            ])->first();
 
-        $t_service->createForDustTokens(
-            $data['dust_tokens_num'],
-            $acc->getKey(),
-            static::ACTION_CODES['add'],
-            false
-        );
+            $billing = $service->getByAccount($acc);
+
+            $billing->addTokens($data['dust_tokens_num']);
+
+            $t_service->createForDustTokens(
+                $data['dust_tokens_num'],
+                $acc->getKey(),
+                $action,
+                false
+            );
+
+            return $billing;
+        });
 
         return response()->json([
             "message" => 'User`s billing successfully updated.',
@@ -110,22 +125,28 @@ class BillingController extends Controller
     {
         $data = $req->validated();
 
-        $acc = OAuthAccount::where([
-            ['account_id', $data['account_id']], 
-            ['oauth_provider_id', $data['platform']]
-        ])->first();
+        $action = static::ACTION_CODES['reduce'];
 
-        $billing = $service->getByAccount($acc);
+        $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
 
-        $count = $billing->reduceTokens($data['dust_tokens_num']);
+            $acc = OAuthAccount::where([
+                ['account_id', $data['account_id']], 
+                ['oauth_provider_id', $data['platform']]
+            ])->first();
 
-        $t_service->createForDustTokens(
-            $data['dust_tokens_num'],
-            $acc->getKey(),
-            static::ACTION_CODES['reduce'],
-            false
-        );
+            $billing = $service->getByAccount($acc);
 
+            $billing->reduceTokens($data['dust_tokens_num']);
+
+            $t_service->createForDustTokens(
+                $data['dust_tokens_num'],
+                $acc->getKey(),
+                $action,
+                false
+            );
+
+            return $billing;
+        });
         return response()->json([
             "message" => 'User`s billing successfully updated.',
             'is_registered' => $billing instanceof Billing

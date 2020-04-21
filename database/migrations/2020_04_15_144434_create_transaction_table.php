@@ -20,7 +20,7 @@ class CreateTransactionTable extends Migration
             $table->boolean('is_registered');
             $table->tinyInteger('token_type');
             $table->tinyInteger('action');
-            $table->decimal('currency_num')->default(0);    
+            $table->decimal('tokens_num')->default(0);    
             
             $table->timestamps();
         });
