@@ -10,6 +10,7 @@ use App\Models\Billing;
 use App\Models\UnregisteredBilling;
 use App\Rules\Uuid4;
 use App\Services\BillingService;
+use App\Http\Requests\Bot\UpdateBillingRequest;
 
 class BillingController extends Controller
 {
@@ -34,13 +35,12 @@ class BillingController extends Controller
     	], 200);	
     }
 
-    public function setTokens(Request $req, BillingService $service)
+    public function setTokens(
+        UpdateBillingRequest $req,
+        BillingService $service
+    )
     {
-    	$data = $req->validate([
-    		'account_id' => ['required'],
-     		'platform' => ['required', 'numeric'],
-     		'dust_tokens_num' => ['required', 'numeric'],
-    	]);
+    	$data = $req->validated();
 
     	$acc = OAuthAccount::where([
     		['account_id', $data['account_id']], 
@@ -57,13 +57,12 @@ class BillingController extends Controller
         ]);   
     }
 
-    public function addTokens(Request $req, BillingService $service)
+    public function addTokens(
+        UpdateBillingRequest $req, 
+        BillingService $service
+    )
     {
-        $data = $req->validate([
-            'account_id' => ['required'],
-            'platform' => ['required', 'numeric'],
-            'dust_tokens_num' => ['required', 'numeric'],
-        ]);
+        $data = $req->validated();
 
         $acc = OAuthAccount::where([
             ['account_id', $data['account_id']], 
@@ -80,13 +79,12 @@ class BillingController extends Controller
         ]);    	
     }
 
-    public function reduceTokens(Request $req, BillingService $service)
+    public function reduceTokens(
+        UpdateBillingRequest $req, 
+        BillingService $service
+    )
     {
-        $data = $req->validate([
-            'account_id' => ['required'],
-            'platform' => ['required', 'numeric'],
-            'dust_tokens_num' => ['required', 'numeric'],
-        ]);
+        $data = $req->validated();
 
         $acc = OAuthAccount::where([
             ['account_id', $data['account_id']], 
