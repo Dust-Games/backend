@@ -17,8 +17,8 @@ class CreateBillingTable extends Migration
             $table->uuid('id')->primary();
 
             $table->uuid('user_id');
-            $table->decimal('usd_token_num', 15, 3)->default(0);
-            $table->decimal('dc_token_num', 15, 3)->default(0);
+            $table->decimal('usd_tokens_num', 15, 3)->default(0);
+            $table->decimal('dc_tokens_num', 15, 3)->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')

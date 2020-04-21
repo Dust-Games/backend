@@ -4,15 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Concerns\HasUuidPrimaryKey;
+use App\Concerns\HasDustTokens;
 use App\Models\User;
 
 class Billing extends Model
 {
-	use HasUuidPrimaryKey;
+	use HasUuidPrimaryKey, HasDustTokens;
 
 	protected $table = 'billing';
 
 	protected $guarded = [];
+
+
+
+	public function getDustTokensNumColumnName()
+	{
+		return 'dust_tokens_num';
+	}
 
 	/*|==========| Scopes |==========|*/
 

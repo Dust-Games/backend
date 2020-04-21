@@ -3,13 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Concerns\HasUuidPrimaryKey;
+use App\Concerns\HasDustTokens;
 use App\Models\OAuthAccount;
 
 class UnregisteredBilling extends Model
 {
+    use HasUuidPrimaryKey, HasDustTokens;    
+    
     protected $table = 'unregistered_billing';
 
     protected $guarded = [];
+
+
+
+    public function getDustTokensNumColumnName()
+    {
+        return 'dust_tokens_num';
+    }
 
     /*|==========| Scopes |==========|*/
 
