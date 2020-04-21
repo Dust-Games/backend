@@ -53,6 +53,7 @@ class BillingController extends Controller
 
         return response()->json([
             "message" => 'User`s billing successfully updated.',
+            'is_registered' => $billing instanceof Billing
         ]);   
     }
 
@@ -74,7 +75,8 @@ class BillingController extends Controller
         $count = $billing->addTokens($data['dust_tokens_num']);
 
         return response()->json([
-            "count" => $count,
+            "message" => 'User`s billing successfully updated.',
+            'is_registered' => $billing instanceof Billing
         ]);    	
     }
 
@@ -96,7 +98,8 @@ class BillingController extends Controller
         $count = $billing->reduceTokens($data['dust_tokens_num']);
 
         return response()->json([
-            "count" => $count,
+            "message" => 'User`s billing successfully updated.',
+            'is_registered' => $billing instanceof Billing
         ]);    	
     }
 }

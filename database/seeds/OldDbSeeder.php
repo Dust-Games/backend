@@ -39,8 +39,8 @@ class OldDbSeeder extends Seeder
                         'id' => $row->id,
                         'user_id' => $row->unregistered_user_id,
                         'is_registered' => false,
-                        'type' => $row->type,
-                        'status' => $row->status,
+                        'token_type' => $row->type,
+                        'action' => $row->status,
                         'currency_num' => $row->currency_num,
                         'created_at' => Carbon::createFromTimestamp($row->created_at)->toDateTimeString(),
                     ];
