@@ -18,9 +18,9 @@ class TransactionService
 		Transaction::create([
 			'currency_num' => $tokens_num,
 			'owner_id' => $owner_id,
+			'action' => $is_registered ? $action + 10 : $action,
 			'is_registered' => $is_registered,
 			'token_type' => static::DUST_TOKEN_TYPE,
-			'action' => $action,
 		]);
 	}
 }

@@ -10,10 +10,17 @@ use App\Models\Billing;
 use App\Models\UnregisteredBilling;
 use App\Rules\Uuid4;
 use App\Services\BillingService;
+use App\Services\TransactionService;
 use App\Http\Requests\Bot\UpdateBillingRequest;
 
 class BillingController extends Controller
 {
+    protected const ACTION_CODES = [
+        'set' => 0,
+        'add' => 1,
+        'reduce' => 2,
+    ];
+
     public function show(Request $req, BillingService $service)
     {
     	$data = $req->validate([
@@ -37,7 +44,8 @@ class BillingController extends Controller
 
     public function setTokens(
         UpdateBillingRequest $req,
-        BillingService $service
+        BillingService $service,
+        TransactionService $t_service
     )
     {
     	$data = $req->validated();
@@ -51,6 +59,13 @@ class BillingController extends Controller
 
     	$billing->setTokens($data['dust_tokens_num']);
 
+        $t_service->createForDustTokens(
+            $data['dust_tokens_num'],
+            $acc->getKey(),
+            static::ACTION_CODES['set'],
+            false
+        );
+
         return response()->json([
             "message" => 'User`s billing successfully updated.',
             'is_registered' => $billing instanceof Billing
@@ -59,7 +74,8 @@ class BillingController extends Controller
 
     public function addTokens(
         UpdateBillingRequest $req, 
-        BillingService $service
+        BillingService $service,
+        TransactionService $t_service
     )
     {
         $data = $req->validated();
@@ -73,6 +89,13 @@ class BillingController extends Controller
 
         $count = $billing->addTokens($data['dust_tokens_num']);
 
+        $t_service->createForDustTokens(
+            $data['dust_tokens_num'],
+            $acc->getKey(),
+            static::ACTION_CODES['add'],
+            false
+        );
+
         return response()->json([
             "message" => 'User`s billing successfully updated.',
             'is_registered' => $billing instanceof Billing
@@ -81,7 +104,8 @@ class BillingController extends Controller
 
     public function reduceTokens(
         UpdateBillingRequest $req, 
-        BillingService $service
+        BillingService $service,
+        TransactionService $t_service
     )
     {
         $data = $req->validated();
@@ -94,6 +118,13 @@ class BillingController extends Controller
         $billing = $service->getByAccount($acc);
 
         $count = $billing->reduceTokens($data['dust_tokens_num']);
+
+        $t_service->createForDustTokens(
+            $data['dust_tokens_num'],
+            $acc->getKey(),
+            static::ACTION_CODES['reduce'],
+            false
+        );
 
         return response()->json([
             "message" => 'User`s billing successfully updated.',
