@@ -84,7 +84,8 @@ Route::group(
 			function () {
 
 				Route::post('login', 'AuthController@login')->name('login');
-				Route::post('refresh-token', 'AuthController@refreshToken')->name('login');
+				Route::post('refresh-token', 'AuthController@refreshToken')
+					->name('login')->middleware('bot');
 			}
 		);
 
