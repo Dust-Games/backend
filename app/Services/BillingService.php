@@ -17,4 +17,13 @@ class BillingService
 
     	return $billing;		
 	}
+
+	public function createForAccount(OAuthAccount $acc)
+	{
+		$billing = UnregisteredBilling::create([
+			'oauth_account_id' => $acc->getKey(),
+		]);
+
+		return $billing;
+	}
 }

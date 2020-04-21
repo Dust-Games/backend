@@ -35,6 +35,12 @@ class BillingController extends Controller
     		['oauth_provider_id', $data['platform']]
     	])->first();
 
+        if (is_null($acc)) {
+            return response()->json([
+                'message' => 'Needed account does not exist.'
+            ], 422);
+        }
+
     	$billing = $service->getByAccount($acc);
 
     	return response()->json([
@@ -55,12 +61,15 @@ class BillingController extends Controller
 
         $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
 
-        	$acc = OAuthAccount::where([
-        		['account_id', $data['account_id']], 
-        		['oauth_provider_id', $data['platform']]
-        	])->first();
+            $acc = OAuthAccount::firstOrCreate([
+                'account_id' => $data['account_id'], 
+                'oauth_provider_id' => $data['platform']
+            ]);
 
-    		$billing = $service->getByAccount($acc);
+            $billing = $acc->wasRecentlyCreated ? 
+                $service->createForAccount($acc)
+                :
+                $service->getByAccount($acc);
 
         	$billing->setTokens($data['dust_tokens_num']);
 
@@ -92,12 +101,16 @@ class BillingController extends Controller
 
         $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
 
-            $acc = OAuthAccount::where([
-                ['account_id', $data['account_id']], 
-                ['oauth_provider_id', $data['platform']]
-            ])->first();
+            $acc = OAuthAccount::firstOrCreate([
+                'account_id' => $data['account_id'], 
+                'oauth_provider_id' => $data['platform']
+            ]);
 
-            $billing = $service->getByAccount($acc);
+            $billing = $acc->wasRecentlyCreated ? 
+                $service->createForAccount($acc)
+                :
+                $service->getByAccount($acc);
+
 
             $billing->addTokens($data['dust_tokens_num']);
 
@@ -129,12 +142,15 @@ class BillingController extends Controller
 
         $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
 
-            $acc = OAuthAccount::where([
-                ['account_id', $data['account_id']], 
-                ['oauth_provider_id', $data['platform']]
-            ])->first();
+            $acc = OAuthAccount::firstOrCreate([
+                'account_id' => $data['account_id'], 
+                'oauth_provider_id' => $data['platform']
+            ]);
 
-            $billing = $service->getByAccount($acc);
+            $billing = $acc->wasRecentlyCreated ? 
+                $service->createForAccount($acc)
+                :
+                $service->getByAccount($acc);
 
             $billing->reduceTokens($data['dust_tokens_num']);
 
