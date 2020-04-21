@@ -37,7 +37,7 @@ class OldDbSeeder extends Seeder
                 foreach ($old as $row) {
                     $new[] = [
                         'id' => $row->id,
-                        'user_id' => $row->unregistered_user_id,
+                        'owner_id' => $row->unregistered_user_id,
                         'is_registered' => false,
                         'token_type' => $row->type,
                         'action' => $row->status,

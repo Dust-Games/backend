@@ -16,7 +16,7 @@ class CreateTransactionTable extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->uuid('user_id');
+            $table->uuid('owner_id');
             $table->boolean('is_registered');
             $table->tinyInteger('token_type');
             $table->tinyInteger('action');
