@@ -54,7 +54,7 @@ Route::group(
 				function () {
 					Route::get('me', 'UserController@me')->name('me');
 					Route::get('me/sessions', 'UserController@sessions')->name('sessions');
-					Route::get('me/wallet', 'UserController@billing')->name('billing');
+					Route::get('me/billing', 'UserController@billing')->name('billing');
 					Route::get('me/accounts', 'UserController@accounts')->name('accounts');
 				}
 			);
@@ -69,7 +69,7 @@ Route::group(
 Route::group(
 	[
 		'domain' => 'bot.dust.games',
-		'as' => 'bot',
+		'as' => 'bot.',
 		'namespace' => 'Bot',
 	],
 	function () {
@@ -85,7 +85,7 @@ Route::group(
 
 				Route::post('login', 'AuthController@login')->name('login');
 				Route::post('refresh-token', 'AuthController@refreshToken')
-					->name('login')->middleware('bot');
+					->name('refresh-token')->middleware('bot');
 			}
 		);
 
