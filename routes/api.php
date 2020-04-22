@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
 	[
-		'prefix' => 'api',
+		'domain' => 'api.dust.games',
 		'as' => 'api.',
 		'namespace' => 'Api',
 	],
@@ -68,7 +68,7 @@ Route::group(
 
 Route::group(
 	[
-		'prefix' => 'bot',
+		'domain' => 'bot.dust.games',
 		'as' => 'bot',
 		'namespace' => 'Bot',
 	],

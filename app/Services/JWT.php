@@ -42,7 +42,7 @@ class JWT implements JwtInterface
 		try {
 			$token = (new Parser())->parse($token);
 			
-		} catch (\InvalidArgumentException $e) {
+		} catch (\Exception $e) {
 
 			throw new \App\Exceptions\Api\InvalidJwtException;
 		}
