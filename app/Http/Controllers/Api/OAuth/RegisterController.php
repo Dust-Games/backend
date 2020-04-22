@@ -27,13 +27,17 @@ class RegisterController extends Controller
         AccountConverter $converter
     )
     {
-    	$user = Socialite::driver($provider)
-    		->stateless()
-    		->redirectUrl(config('services.'.$provider.'.register_redirect'))
-    		->user();
-
-        if ($provider === 'battlenet') {
-            dd($user);
+        try {
+        	$user = Socialite::driver($provider)
+        		->stateless()
+        		->redirectUrl(config('services.'.$provider.'.register_redirect'))
+        		->user();
+            
+        } catch (\Exception $e) {
+            
+            return response()->json([
+                'error' => 'Error while fetching user.'
+            ], 409);   
         }
 
         $acc = $converter->{$provider}($user);

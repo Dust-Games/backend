@@ -56,6 +56,21 @@ class AccountConverter
 		return $account;		
 	}
 
+	public function battlenet(AbstractUser $user)
+	{
+		$oauth_data = $user->getRaw();
+
+		$data = [
+			'oauth_provider_id' => OAuthProvider::PROVIDERS[__FUNCTION__]['id'],
+			'account_id' => $oauth_data['id'],
+			'username' => $oauth_data['battletag'],
+		];		
+		
+		$account = (new OAuthAccount)->fill($data);
+
+		return $account;		
+	}
+
 	protected function setAccountFields($account_id, $username)
 	{
 		

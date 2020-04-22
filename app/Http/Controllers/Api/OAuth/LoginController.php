@@ -28,13 +28,17 @@ class LoginController extends Controller
         UserService $service
     )
     {
-    	$user = Socialite::driver($provider)
-    		->stateless()
-    		->redirectUrl(config('services.'.$provider.'.login_redirect'))
-    		->user();
-
-        if ($provider === 'battlenet') {
-            dd($user);
+        try {
+        	$user = Socialite::driver($provider)
+        		->stateless()
+        		->redirectUrl(config('services.'.$provider.'.login_redirect'))
+        		->user();
+            
+        } catch (\Exception $e) {
+            
+            return response()->json([
+                'error' => 'Error while fetching user.'
+            ], 409);   
         }
 
         $acc = $converter->{$provider}($user);
