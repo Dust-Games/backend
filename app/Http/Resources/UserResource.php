@@ -16,10 +16,10 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->resource->getKey(),
-            'username' => $this->resource->getAttributeFromArray('username'),
-            'avatar' => $this->resource->getAttributeFromArray('avatar'),
-            'email' => $this->resource->getAttributeFromArray('email'),
-            'created_at' => $this->resource->getAttributeFromArray('created_at'),
+            'username' => $this->resource->getUsername(),
+            'avatar' => $this->resource->getAvatar(),
+            'email' => $this->resource->getEmail(),
+            'created_at' => $this->resource->getCreatedAt(),
         ];
     }
 }

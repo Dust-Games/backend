@@ -46,6 +46,28 @@ class User extends Authenticatable
         return $this->sessions()->count() >= static::MAX_SESSIONS_COUNT;
     }
 
+    /*|==========| Getters |==========|*/
+
+    public function getUsername()
+    {
+        return $this->getAttributeFromArray('username');
+    }
+
+    public function getEmail()
+    {
+        return $this->getAttributeFromArray('email');
+    }
+
+    public function getAvatar()
+    {
+        return $this->getAttributeFromArray('avatar');
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->getAttributeFromArray('created_at');
+    }
+
     /*|==========| Relationships |==========|*/
 
     public function sessions()
