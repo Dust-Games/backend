@@ -11,7 +11,10 @@ class UserController extends Controller
 {
     public function me()
     {
-        return new UserResource(Auth::user());
+        return response()->json([
+            'user' => new UserResource(Auth::user()),
+            'billing' => Auth::user()->billing,
+        ]);
     }
 
     public function sessions()
