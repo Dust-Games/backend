@@ -33,6 +33,7 @@ Route::group(
 				function () {
 				    Route::post('logout', 'AuthController@logout')->name('logout');
 				    Route::get('email/verify', 'VerifyEmailController@verify')->name('email.verify');
+				    Route::get('email/verify/resend', 'VerifyEmailController@resend')->name('email.verify.resend');
 				}
 			);		
 		}
