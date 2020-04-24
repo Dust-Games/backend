@@ -9,8 +9,9 @@ use App\Models\Session;
 use App\Models\OAuthAccount;
 use App\Models\Billing;
 use App\Concerns\HasUuidPrimaryKey;
+use App\Notifications\VerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, HasUuidPrimaryKey;
 
@@ -83,5 +84,12 @@ class User extends Authenticatable
     public function billing()
     {
         return $this->hasOne(Billing::class, 'user_id', 'id');
+    }
+
+    /*|====================|*/
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify((new VerifyEmail)->locale(\App::getLocale()));
     }
 }

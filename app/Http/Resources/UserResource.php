@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'avatar' => $this->resource->getAvatar(),
             'email' => $this->resource->getEmail(),
             'created_at' => $this->resource->getCreatedAt(),
+            'email_verified' => $this->resource->hasVerifiedEmail(),
         ];
     }
 }

@@ -32,7 +32,7 @@ Route::group(
 				],
 				function () {
 				    Route::post('logout', 'AuthController@logout')->name('logout');
-				    
+				    Route::get('email/verify', 'VerifyEmailController@verify')->name('email.verify');
 				}
 			);		
 		}
