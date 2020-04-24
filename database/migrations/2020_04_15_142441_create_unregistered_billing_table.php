@@ -17,7 +17,7 @@ class CreateUnregisteredBillingTable extends Migration
             $table->uuid('id')->primary();
 
             $table->uuid('oauth_account_id');
-            $table->decimal('dust_tokens_num', 15, 3)->default(0);
+            $table->decimal('dust_coins_num', 15, 3)->default(0);
             $table->timestamps();
 
             $table->foreign('oauth_account_id')

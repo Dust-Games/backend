@@ -111,9 +111,9 @@ Route::group(
 
 						Route::post('', 'BillingController@show')->name('billing');
 
-						Route::put('set-tokens', 'BillingController@setTokens')->name('set-tokens');
-						Route::put('add-tokens', 'BillingController@addTokens')->name('add-tokens');
-						Route::put('reduce-tokens', 'BillingController@reduceTokens')->name('reduce-tokens');
+						Route::put('set-coins', 'BillingController@setCoins')->name('set-coins');
+						Route::put('add-coins', 'BillingController@addCoins')->name('add-coins');
+						Route::put('reduce-coins', 'BillingController@reduceCoins')->name('reduce-coins');
 					}
 				);
 			}

@@ -4,22 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Concerns\HasUuidPrimaryKey;
-use App\Concerns\HasDustTokens;
+use App\Concerns\HasDustCoins;
 use App\Models\User;
 
 class Billing extends Model
 {
-	use HasUuidPrimaryKey, HasDustTokens;
+	use HasUuidPrimaryKey, HasDustCoins;
 
 	protected $table = 'billing';
 
 	protected $guarded = [];
 
+	protected $casts = [
+		'dust_coins_num' => 'decimal:3',
+	];
 
-
-	public function getDustTokensNumColumnName()
+	public function getDustCoinsNumColumn()
 	{
-		return 'dust_tokens_num';
+		return 'dust_coins_num';
 	}
 
 	/*|==========| Scopes |==========|*/

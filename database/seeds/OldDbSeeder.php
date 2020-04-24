@@ -39,9 +39,9 @@ class OldDbSeeder extends Seeder
                         'id' => $row->id,
                         'owner_id' => $row->unregistered_user_id,
                         'is_registered' => false,
-                        'token_type' => $row->type,
+                        'currency_type' => $row->type,
                         'action' => $row->status,
-                        'tokens_num' => $row->currency_num,
+                        'currency_num' => $row->currency_num,
                         'created_at' => Carbon::createFromTimestamp($row->created_at)->toDateTimeString(),
                     ];
                 }
@@ -61,7 +61,7 @@ class OldDbSeeder extends Seeder
                     $new[] = [
                         'id' => $row->id,
                         'oauth_account_id' => $oauth_account->where('account_id', $row->account_id)->first()->id,
-                        'dust_tokens_num' => $row->dust_token_num,
+                        'dust_coins_num' => $row->dust_token_num,
                         'created_at' => null,
                         'updated_at' => null,
                     ];

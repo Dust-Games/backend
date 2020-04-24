@@ -12,6 +12,7 @@ use App\Rules\Uuid4;
 use App\Services\BillingService;
 use App\Services\TransactionService;
 use App\Http\Requests\Bot\UpdateBillingRequest;
+use App\Http\Requests\Bot\SetBillingRequest;
 use Illuminate\Support\Facades\DB;
 
 class BillingController extends Controller
@@ -49,8 +50,8 @@ class BillingController extends Controller
     	], 200);	
     }
 
-    public function setTokens(
-        UpdateBillingRequest $req,
+    public function setCoins(
+        SetBillingRequest $req,
         BillingService $service,
         TransactionService $t_service
     )
@@ -71,10 +72,10 @@ class BillingController extends Controller
                 :
                 $service->getByAccount($acc);
 
-        	$billing->setTokens($data['dust_tokens_num']);
+        	$billing->setDustCoins($data['dust_coins_num']);
 
-            $t_service->createForDustTokens(
-                $data['dust_tokens_num'],
+            $t_service->createForDustCoins(
+                $data['dust_coins_num'],
                 $acc->getKey(),
                 $action,
                 false
@@ -85,11 +86,12 @@ class BillingController extends Controller
 
         return response()->json([
             "message" => 'User`s billing successfully updated.',
+            'dust_coins_num' => $billing->getDustCoins(),
             'is_registered' => $billing instanceof Billing
         ]);   
     }
 
-    public function addTokens(
+    public function addCoins(
         UpdateBillingRequest $req, 
         BillingService $service,
         TransactionService $t_service
@@ -111,11 +113,10 @@ class BillingController extends Controller
                 :
                 $service->getByAccount($acc);
 
+            $billing->addDustCoins($data['dust_coins_num']);
 
-            $billing->addTokens($data['dust_tokens_num']);
-
-            $t_service->createForDustTokens(
-                $data['dust_tokens_num'],
+            $t_service->createForDustCoins(
+                $data['dust_coins_num'],
                 $acc->getKey(),
                 $action,
                 false
@@ -126,11 +127,12 @@ class BillingController extends Controller
 
         return response()->json([
             "message" => 'User`s billing successfully updated.',
-            'is_registered' => $billing instanceof Billing
+            'dust_coins_num' => $billing->getDustCoins(),
+            'is_registered' => $billing instanceof Billing,
         ]);    	
     }
 
-    public function reduceTokens(
+    public function reduceCoins(
         UpdateBillingRequest $req, 
         BillingService $service,
         TransactionService $t_service
@@ -152,10 +154,15 @@ class BillingController extends Controller
                 :
                 $service->getByAccount($acc);
 
-            $billing->reduceTokens($data['dust_tokens_num']);
+            if ($billing->getDustCoins() < $data['dust_coins_num']) {
+                throw new \App\Exceptions\Bot\TooFewDustCoinsException;
+                
+            }
 
-            $t_service->createForDustTokens(
-                $data['dust_tokens_num'],
+            $billing->reduceDustCoins($data['dust_coins_num']);
+
+            $t_service->createForDustCoins(
+                $data['dust_coins_num'],
                 $acc->getKey(),
                 $action,
                 false
@@ -163,8 +170,10 @@ class BillingController extends Controller
 
             return $billing;
         });
+
         return response()->json([
             "message" => 'User`s billing successfully updated.',
+            'dust_coins_num' => $billing->getDustCoins(),
             'is_registered' => $billing instanceof Billing
         ]);    	
     }

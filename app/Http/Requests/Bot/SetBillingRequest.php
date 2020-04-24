@@ -4,7 +4,7 @@ namespace App\Http\Requests\Bot;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBillingRequest extends FormRequest
+class SetBillingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class UpdateBillingRequest extends FormRequest
         return [
             'account_id' => ['required'],
             'platform' => ['required', 'numeric'],
-            'dust_coins_num' => ['required', 'numeric', 'min:0'],
+            'dust_coins_num' => ['required', 'numeric', 'max:1000000000'],
         ];
     }
 }

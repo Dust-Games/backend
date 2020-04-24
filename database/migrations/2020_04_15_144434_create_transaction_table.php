@@ -18,9 +18,9 @@ class CreateTransactionTable extends Migration
 
             $table->uuid('owner_id');
             $table->boolean('is_registered');
-            $table->tinyInteger('token_type');
+            $table->tinyInteger('currency_type');
             $table->tinyInteger('action');
-            $table->decimal('tokens_num')->default(0);    
+            $table->decimal('currency_num', 15, 3)->default(0);    
             
             $table->timestamps();
         });
