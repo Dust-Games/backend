@@ -26,7 +26,7 @@ class UpdateBillingRequest extends FormRequest
         return [
             'account_id' => ['required'],
             'platform' => ['required', 'numeric'],
-            'dust_coins_num' => ['required', 'numeric', 'min:0'],
+            'dust_coins_num' => ['required', 'numeric', 'min:0', 'max:1000000000'],
         ];
     }
 }

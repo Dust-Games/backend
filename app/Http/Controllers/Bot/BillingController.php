@@ -155,7 +155,8 @@ class BillingController extends Controller
                 $service->getByAccount($acc);
 
             if ($billing->getDustCoins() < $data['dust_coins_num']) {
-                throw new \App\Exceptions\Bot\TooFewDustCoinsException;
+
+                throw new \App\Exceptions\Bot\TooFewDustCoinsException($billing->getDustCoins());
                 
             }
 
