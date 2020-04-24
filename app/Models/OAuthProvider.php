@@ -18,4 +18,18 @@ class OAuthProvider
             'id' => 4,
         ],
     ];
+
+    public static function __callStatic($method, $args)
+    {
+        if (empty($args)) {
+            return static::PROVIDERS[$method];
+        }
+
+        return static::PROVIDERS[$method][$args[0]];
+    }
+
+    private function __construct()
+    {
+        # (o_o) #
+    }
 }

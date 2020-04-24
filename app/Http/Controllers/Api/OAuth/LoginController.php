@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\OAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OAuthAccount;
-use App\Services\AccountConverter;
 use App\Services\UserService;
+use App\Http\Resources\UserResource;
 use Socialite;
 
 class LoginController extends Controller
@@ -22,28 +22,22 @@ class LoginController extends Controller
         ]);
     }
 
-    public function handleProviderCallback(
-        $provider, 
-        AccountConverter $converter,
-        UserService $service
-    )
+    public function handleProviderCallback($provider, UserService $service)
     {
-        try {
-        	$user = Socialite::driver($provider)
+        #try {
+        	$soc_user = Socialite::driver($provider)
         		->stateless()
         		->redirectUrl(config('services.'.$provider.'.login_redirect'))
         		->user();
             
-        } catch (\Exception $e) {
-            
-            return response()->json([
-                'error' => 'Error while fetching user.'
-            ], 409);   
-        }
+        #} catch (\Exception $e) {
+        #    
+        #    return response()->json([
+        #        'error' => 'Error while fetching user.'
+        #    ], 409);   
+        #}
 
-        $acc = $converter->{$provider}($user);
-
-        $db_ac = OAuthAccount::where('account_id', $acc->account_id)->first();
+        $db_ac = OAuthAccount::where('account_id', $soc_user->getId())->first();
 
         if (!is_null($db_ac) && !is_null($user = $db_ac->user)) {
             
@@ -56,7 +50,7 @@ class LoginController extends Controller
             ], 200);
 
         } else {            
-            return response()->response([
+            return response()->json([
                 'message' => 'OAuth account does not exist.'
             ], 422);
         }
