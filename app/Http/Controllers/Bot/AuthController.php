@@ -17,40 +17,16 @@ class AuthController extends Controller
 
     	if ($this->validateBot($data)) {
     		
-    		$tokens = $service->createTokens($data['id']);
+    		$token = $service->createAccessToken($data['id']);
 
     		return [
-    			'access_token' => $tokens['access_token'],
-    			'refresh_token' => $tokens['refresh_token'],
+    			'access_token' => (string) $token,
     		];
     	} 
 
         return response()->json([
             'message' => 'Invalid bot credentials.'
         ], 422);
-    }
-
-    public function refreshToken(RefreshTokenRequest $req, JWT $jwt)
-    {
-    	$refresh_token = $req->validated()['refresh_token'];
-
-    	$obj_token = $jwt->parse($refresh_token);
-
-    	if ($jwt->verify($obj_token) && $jwt->validate($obj_token)) {
-    		
-    		$service = new BotService;
-
-    		$tokens = $service->createTokens($jwt->getOwnerKey($obj_token));
-
-	    	return response()->json([
-	    		'access_token' => $tokens['access_token'],
-	    		'refresh_token' => $tokens['refresh_token'],
-	    	]);
-    	}
-
-    	return response()->json([
-    		'message' => 'Invalid refresh token.',
-    	], 403);
     }
 
     protected function validateBot(array $data)
