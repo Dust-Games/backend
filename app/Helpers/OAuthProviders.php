@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Helpers;
 
-class OAuthProvider
+class OAuthProviders
 {
     public const PROVIDERS = [
     	'steam' => [

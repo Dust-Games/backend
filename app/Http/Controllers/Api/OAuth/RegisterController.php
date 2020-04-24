@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\OAuthAccount;
 use Socialite;
 use App\Services\UserService;
-use App\Models\OAuthProvider;
+use App\Helpers\OAuthProviders;
 
 class RegisterController extends Controller
 {
@@ -45,7 +45,7 @@ class RegisterController extends Controller
             $new_ac = OAuthAccount::create([
                 'account_id' => $soc_user->getId(),
                 'username' => $soc_user->getNickname(),
-                'oauth_provider_id' => OAuthProvider::{$provider}('id'),
+                'oauth_provider_id' => OAuthProviders::{$provider}('id'),
             ]);
 
             if ($new_ac) {
