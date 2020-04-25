@@ -39,6 +39,24 @@ Route::group(
 		}
 	);
 
+	/*|=====| OAuth |=====|*/
+
+	Route::group(
+		[
+			'prefix' => 'oauth',
+			'as' => 'oauth.',
+			'namespace' => 'OAuth',
+		],
+		function () {
+
+			Route::get('{provider}/login', 'LoginController@redirectToProvider');
+			Route::get('{provider}/login/callback', 'LoginController@handleProviderCallback');
+
+			Route::get('{provider}/register', 'RegisterController@redirectToProvider');
+			Route::get('{provider}/register/callback', 'RegisterController@handleProviderCallback');
+		}
+	);
+
 	/*|=====| Users |=====|*/
 
 	Route::group(
