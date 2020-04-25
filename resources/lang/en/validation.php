@@ -121,6 +121,7 @@ return [
     /*|==========| Custom |==========|*/
 
     'diff_chars' => ':Attribute must contains :count different characters or more.',
+    'refresh_token' => 'Invalid refresh token.',
     
     /*
     |--------------------------------------------------------------------------

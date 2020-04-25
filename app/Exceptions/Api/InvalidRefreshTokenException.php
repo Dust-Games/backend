@@ -10,6 +10,9 @@ class InvalidRefreshTokenException extends Exception
 	{
 		return response([
 			'message' => 'Invalid refresh token.',
+			'errors' => [
+				'refresh_token' => trans('validation.refresh_token')
+			]
 		], 422);
 	}
 }

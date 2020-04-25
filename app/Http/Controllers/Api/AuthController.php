@@ -38,6 +38,7 @@ class AuthController extends Controller
     		'access_token' => $tokens['access_token'],
     		'refresh_token' => $tokens['refresh_token'],
             'user' => new UserResource($user),
+            'billing' => $user->billing,
     	], 201);
     }
 
@@ -59,6 +60,7 @@ class AuthController extends Controller
                 'access_token' => $tokens['access_token'],
                 'refresh_token' => $tokens['refresh_token'],
                 'user' => new UserResource($user),
+                'billing' => $user->billing,
             ], 200);
         }
 
