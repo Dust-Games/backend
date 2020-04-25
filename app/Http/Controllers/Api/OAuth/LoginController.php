@@ -16,7 +16,7 @@ class LoginController extends Controller
         return response()->json([
             'redirect_url' => Socialite::driver($provider)
                 ->stateless()
-                ->redirectUrl(config('services.'.$provider.'.login_redirect'))
+                ->redirectUrl(config("services.$provider.login_redirect"))
                 ->redirect()
                 ->getTargetUrl()
         ]);
@@ -31,6 +31,8 @@ class LoginController extends Controller
         		->user();
             
         #} catch (\Exception $e) {
+        #
+        #    report($e);
         #    
         #    return response()->json([
         #        'error' => 'Error while fetching user.'

@@ -54,6 +54,10 @@ Route::group(
 
 			Route::get('{provider}/register', 'RegisterController@redirectToProvider');
 			Route::get('{provider}/register/callback', 'RegisterController@handleProviderCallback');
+
+			Route::get('{provider}/bind', 'BindController@redirectToProvider');
+			Route::get('{provider}/bind/callback', 'BindController@handleProviderCallback');
+
 		}
 	);
 

@@ -31,6 +31,8 @@ class RegisterController extends Controller
         		->user();
             
         #} catch (\Exception $e) {
+        #
+        #    report($e);
         #    
         #    return response()->json([
         #        'error' => 'Error while fetching user.'

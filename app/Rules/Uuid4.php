@@ -27,7 +27,7 @@ class Uuid4 implements Rule
     {
         return preg_match(
             "/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i",
-            $attribute
+            $value
         );
     }
 
@@ -38,6 +38,6 @@ class Uuid4 implements Rule
      */
     public function message()
     {
-        return 'Invalid UUID.';
+        return trans('validation.uuid');
     }
 }

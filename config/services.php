@@ -38,6 +38,7 @@ return [
         'redirect' => null,
         'register_redirect' => env('STEAM_REGISTER_REDIRECT_URI'),
         'login_redirect' => env('STEAM_LOGIN_REDIRECT_URI'),
+        'bind_redirect' => env('STEAM_BIND_REDIRECT_URI'),
     ],
 
     'battlenet' => [
@@ -46,6 +47,7 @@ return [
         'redirect' => null,
         'register_redirect' => env('BATTLE.NET_REGISTER_REDIRECT_URI'),
         'login_redirect' => env('BATTLE.NET_LOGIN_REDIRECT_URI'),
+        'bind_redirect' => env('BATTLE.NET_BIND_REDIRECT_URI'),
     ],
 
     'discord' => [
@@ -54,6 +56,7 @@ return [
         'redirect' => null,
         'register_redirect' => env('DISCORD_REGISTER_REDIRECT_URI'),
         'login_redirect' => env('DISCORD_LOGIN_REDIRECT_URI'),
+        'bind_redirect' => env('DISCORD_BIND_REDIRECT_URI'),
     ],
 
     'twitch' => [
@@ -62,5 +65,6 @@ return [
         'redirect' => null,
         'register_redirect' => env('TWITCH_REGISTER_REDIRECT_URI'),
         'login_redirect' => env('TWITCH_LOGIN_REDIRECT_URI'),
+        'bind_redirect' => env('TWITCH_BIND_REDIRECT_URI'),
     ],
 ];
