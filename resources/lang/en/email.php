@@ -3,6 +3,10 @@
 return [
 	'greeting' => 'Hello, :name!',
 
+	'verify' => [
+		'already' => 'Current user already has verified email.',
+	],
+
 	'verification' => [
 		'start' => 'Registration is almost complete. Click on the button to confirm your mail.',
 		'end' => 'If you did not create an account, no further action is required.',

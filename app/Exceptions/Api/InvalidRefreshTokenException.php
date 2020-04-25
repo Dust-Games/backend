@@ -4,15 +4,12 @@ namespace App\Exceptions\Api;
 
 use Exception;
 
-class InvalidRefreshTokenException extends Exception
+class InvalidRefreshTokenException extends ValidationException
 {
-	public function render()
+	public function getDefaultErrors($errors)
 	{
-		return response([
-			'message' => 'Invalid refresh token.',
-			'errors' => [
-				'refresh_token' => trans('validation.refresh_token')
-			]
-		], 422);
+		return [
+			'refresh_token' => trans('validation.refresh_token'),
+		];
 	}
 }

@@ -4,12 +4,12 @@ namespace App\Exceptions\Api;
 
 use Exception;
 
-class InvalidJwtException extends Exception
+class InvalidJwtException extends ValidationException
 {
-	public function render()
+	public function getDefaultErrors($errors)
 	{
-		return response([
-			'message' => 'Invalid JWT token.',
-		], 422);
+		return [
+			'token' => trans('validation.jwt'),
+		];
 	}
 }

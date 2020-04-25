@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Exceptions\Api\AuthenticationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,17 +27,16 @@ class VerifyEmailController extends Controller
     public function verify(Request $request)
     {	
         if (! hash_equals((string) $request->query('id'), (string) $request->user()->getKey())) {
-            throw new AuthorizationException;
+            throw new AuthenticationException;
         }
 
         if (! hash_equals((string) $request->query('hash'), sha1($request->user()->getEmailForVerification()))) {
-            throw new AuthorizationException;
+            throw new AuthenticationException;
         }
 
         if ($request->user()->hasVerifiedEmail()) {
-            return response()->json([
-            	'message' => 'Current user already has verified email.'
-            ], 403);
+
+            throw new \App\Exceptions\Api\ForbiddenException(trans('email.verify.already'));
         }
 
         if ($request->user()->markEmailAsVerified()) {

@@ -14,6 +14,7 @@ use App\Services\TransactionService;
 use App\Http\Requests\Bot\UpdateBillingRequest;
 use App\Http\Requests\Bot\SetBillingRequest;
 use Illuminate\Support\Facades\DB;
+use App\Exceptions\Api\NotFoundException;
 
 class BillingController extends Controller
 {
@@ -37,15 +38,13 @@ class BillingController extends Controller
     	])->first();
 
         if (is_null($acc)) {
-            return response()->json([
-                'message' => 'Needed account does not exist.'
-            ], 404);
+            throw new NotFoundException('Needed account does not exist.');
         }
 
     	$billing = $service->getByAccount($acc);
 
     	return response()->json([
-    		'billing' => $billing,		
+    		'billing' => $billing,
     		'is_registered' => $billing instanceof Billing
     	], 200);	
     }

@@ -7,6 +7,7 @@ use Illuminate\Auth\GuardHelpers;
 use Illuminate\Contracts\Auth\UserProvider;
 use App\Services\JWT;
 use Illuminate\Http\Request;
+use App\Exceptions\Api\AuthenticationException;
 
 class JwtGuard implements Guard
 {
@@ -30,10 +31,12 @@ class JwtGuard implements Guard
 		}
 
 		try {
-			$token = $this->jwt->parse($this->getTokenFromRequest());
+			if ($token = $this->getTokenFromRequest()) {
+				$token = $this->jwt->parse($token);
 
-			if ($this->jwt->verify($token) && $this->jwt->validate($token)) {
-				return $this->user = $this->provider->retrieveById($this->jwt->getOwnerKey($token));
+				if ($this->jwt->verify($token) && $this->jwt->validate($token)) {
+					return $this->user = $this->provider->retrieveById($this->jwt->getOwnerKey($token));
+				}
 			}
 
 			return;
@@ -43,9 +46,25 @@ class JwtGuard implements Guard
 		}
 	}	
 
+    /**
+     * Determine if current user is authenticated. If not, throw an exception.
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable
+     *
+     * @throws \App\Exceptions\Api\AuthenticationException
+     */
+    public function authenticate()
+    {
+        if (! is_null($user = $this->user())) {
+            return $user;
+        }
+
+        throw new AuthenticationException('This action is unathorized.');
+    }
+
 	public function getTokenFromRequest()
 	{
-		return $this->request->bearerToken() ?? '';
+		return $this->request->bearerToken() ?? false;
 	}
 
     public function validate(array $credentials = [])

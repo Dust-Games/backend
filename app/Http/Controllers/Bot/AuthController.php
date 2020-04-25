@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Bot\LoginRequest;
 use App\Services\BotService;
 use App\Http\Requests\Api\RefreshTokenRequest;
+use App\Exceptions\Api\ValidationException;
 use App\Services\JWT;
 
 class AuthController extends Controller
@@ -24,9 +25,7 @@ class AuthController extends Controller
     		];
     	} 
 
-        return response()->json([
-            'message' => 'Invalid bot credentials.'
-        ], 422);
+        throw new ValidationException('Invalid bot credentials.');
     }
 
     protected function validateBot(array $data)

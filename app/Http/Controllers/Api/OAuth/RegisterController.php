@@ -50,19 +50,12 @@ class RegisterController extends Controller
                 'oauth_provider_id' => OAuthProviders::{$provider}('id'),
             ]);
 
-            if ($new_ac) {
-                return response()->json([
-                    'message' => 'OAuth account successfully created.',
-                    'id' => $soc_user->getId(),
-                    'username' => $soc_user->getNickname(),
-                    'email' => $soc_user->getEmail(),
-                ], 201);
-
-            } else {
-                return response()->json([
-                    'message' => 'Error >:('
-                ], 500);
-            }
+            return response()->json([
+                'message' => 'OAuth account successfully created.',
+                'id' => $soc_user->getId(),
+                'username' => $soc_user->getNickname(),
+                'email' => $soc_user->getEmail(),
+            ], 201);
 
         # If account exists but user not binded, just send account data for bind it to user in registration
         } elseif (is_null($user = $db_ac->user)) {

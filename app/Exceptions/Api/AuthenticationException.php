@@ -4,15 +4,15 @@ namespace App\Exceptions\Api;
 
 use Exception;
 
-class ValidationException extends ApiException
+class AuthenticationException extends ApiException
 {
 	public function getDefaultCode()
 	{
-		return 422;
+		return 401;
 	}
 
 	public function getDefaultMessage()
 	{
-		return 'The given data is invalid.';
+		return 'This action is unathorized.';
 	}
 }

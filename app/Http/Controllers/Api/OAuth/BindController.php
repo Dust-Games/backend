@@ -11,6 +11,7 @@ use App\Services\UserService;
 use App\Http\Resources\UserResource;
 use Socialite;
 use App\Http\Requests\Api\OAuth\BindRequest;
+use App\Exceptions\Api\ApiException;
 
 class BindController extends Controller
 {
@@ -62,9 +63,7 @@ class BindController extends Controller
     		if ($acc->exists) {
 	    		
 	    		if ($acc->hasUser()) {
-	   				return response()->json([
-	   					'message' => 'OAuth account already binded to another user.',
-	   				], 409);
+                    throw new ApiException('This OAuth account already binded.');
 	    		}
 
 	    		$acc->setAttribute('user_id', $user_id);
@@ -82,8 +81,6 @@ class BindController extends Controller
 	    	], 201);
     	}
 
-	   	return response()->json([
-	   		'message' => 'This user does not exists.',
-	   	], 404);
+        throw new \App\Exceptions\Api\NotFoundException('This user does not exists.');
     }
 }

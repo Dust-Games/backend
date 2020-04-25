@@ -17,6 +17,8 @@ use App\Services\UserService;
 use App\Services\OAuthAccountService;
 use App\Jobs\RemoveOldSessions;
 use App\Models\User;
+use App\Exceptions\Api\ValidationException;
+use App\Exceptions\Api\AuthenticationException;
 
 class AuthController extends Controller
 {
@@ -64,10 +66,7 @@ class AuthController extends Controller
             ], 200);
         }
 
-        return response([
-            'message' => 'The given data was invalid.',
-            'error' => __('auth.failed'),
-        ], 422);
+        throw new ValidationException(trans('auth.failed'));
     }
 
     public function refreshToken(RefreshTokenRequest $req, UserService $service)
@@ -79,9 +78,10 @@ class AuthController extends Controller
         $session->delete();
 
         if ($session->tokenExpired()) {
-            return response([
-                'message' => 'Refresh token is expired.'
-            ], 401);
+
+            throw new AuthenticationException(
+                trans('auth.refresh_token.expired')
+            );           
         }
 
         $tokens = $service->createTokens($session->user_id);
@@ -101,7 +101,7 @@ class AuthController extends Controller
         $session->delete();
 
         return response([
-            'message' => __('auth.logout'),
+            'message' => trans('auth.logout'),
         ], 200);
 
     }

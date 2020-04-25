@@ -8,6 +8,7 @@ use App\Models\OAuthAccount;
 use App\Services\UserService;
 use App\Http\Resources\UserResource;
 use Socialite;
+use App\Exceptions\Api\ValidationException;
 
 class LoginController extends Controller
 {
@@ -51,11 +52,8 @@ class LoginController extends Controller
                 'user' => new UserResource($user),
             ], 200);
 
-        } else {            
-            return response()->json([
-                'message' => 'OAuth account does not exist.'
-            ], 422);
         }
-        
+
+        throw new ValidationException(trans('oauth.account.not_found'));
     }
 }

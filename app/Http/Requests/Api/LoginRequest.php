@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Exceptions\Api\ValidationException;
 
 class LoginRequest extends FormRequest
 {
@@ -33,9 +33,6 @@ class LoginRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'error' => 'The given data was invalid.',
-	    'message' => __('auth.failed'),
-        ], 422));
+        throw new ValidationException(trans('auth.failed'));
     }
 }

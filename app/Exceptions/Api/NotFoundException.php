@@ -4,15 +4,15 @@ namespace App\Exceptions\Api;
 
 use Exception;
 
-class ValidationException extends ApiException
+class NotFoundException extends ApiException
 {
 	public function getDefaultCode()
 	{
-		return 422;
+		return 404;
 	}
 
 	public function getDefaultMessage()
 	{
-		return 'The given data is invalid.';
+		return 'Not found.';
 	}
 }

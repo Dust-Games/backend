@@ -4,15 +4,15 @@ namespace App\Exceptions\Api;
 
 use Exception;
 
-class ValidationException extends ApiException
+class ForbiddenException extends ApiException
 {
 	public function getDefaultCode()
 	{
-		return 422;
+		return 403;
 	}
 
 	public function getDefaultMessage()
 	{
-		return 'The given data is invalid.';
+		return 'Доступ запрещен.';
 	}
 }
