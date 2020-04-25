@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'platform' => 'required|string',
+            'platform' => ['required', 'integer', 'in:1,2,3,4'],
             'id' => 'required|string',
             'secret' => 'required|string',
         ];

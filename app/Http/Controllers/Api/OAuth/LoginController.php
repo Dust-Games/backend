@@ -40,9 +40,18 @@ class LoginController extends Controller
         #    ], 409);   
         #}
 
-        $db_ac = OAuthAccount::where('account_id', $soc_user->getId())->first();
+        $acc = OAuthAccount::firstOrNew(
+            [
+                'account_id' => $soc_user->getId(),
+                'oauth_provider_id' => OAuthProviders::{$provider}('id'),
+            ],
+            [
+                'account_id' => $soc_user->getId(),
+                'username' => $soc_user->getNickname(),
+            ]
+        );
 
-        if (!is_null($db_ac) && !is_null($user = $db_ac->user)) {
+        if (!is_null($acc) && !is_null($user = $acc->user)) {
             
             $tokens = $service->createTokens($user->getKey());
 
@@ -50,10 +59,27 @@ class LoginController extends Controller
                 'access_token' => $tokens['access_token'],
                 'refresh_token' => $tokens['refresh_token'],
                 'user' => new UserResource($user),
+                'billing' => $user->billing
             ], 200);
 
         }
 
         throw new ValidationException(trans('oauth.account.not_found'));
+
+
+        if ($acc->exists) {
+            
+            if (is_null($user = $acc->user)) {
+                
+                $tokens = $service->createTokens($user->getKey());
+
+                return repsonse()->json([
+                    'message' => 'OAuth account does not binded to any user.',
+                    'id' => $soc->getId(),
+                    'username' => $soc_user->getNickname(),
+                    'email' => $soc_user->getEmail(),
+                ], 203);
+            }
+        }
     }
 }

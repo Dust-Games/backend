@@ -36,7 +36,7 @@ class AuthController extends Controller
     		
     		$bot = $config[$data['platform']];
 
-    		if ($bot['id'] === $data['id'] && $bot['secret'] === $bot['secret']) {
+    		if ($bot['id'] === $data['id'] && $bot['secret'] === $data['secret']) {
     			
     			return true;
     		}

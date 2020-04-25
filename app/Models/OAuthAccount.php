@@ -26,6 +26,11 @@ class OAuthAccount extends Model
         return $this->getAttributeFromArray('account_id');
     }
 
+    public function getUsername()
+    {
+        return $this->getAttributeFromArray('username');
+    }
+
     public function hasUser()
     {
         return (bool) $this->getAttributeFromArray('user_id');

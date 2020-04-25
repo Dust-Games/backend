@@ -1,12 +1,12 @@
 <?php
 
 return [
-	'twitch' => [
+	2 => [
 		'id' => env('TWITCH_BOT_ID'),
 		'secret' => env('TWITCH_BOT_SECRET'),
 	],
 
-	'discord' => [
+	3 => [
 		'id' => env('DISCORD_BOT_ID'),
 		'secret' => env('DISCORD_BOT_SECRET'),
 	],
