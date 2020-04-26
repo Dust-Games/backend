@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\HasDifferentChars;
+use App\Ruels\Uuid4;
 
 class RegisterRequest extends FormRequest
 {
@@ -46,7 +47,8 @@ class RegisterRequest extends FormRequest
                 new HasDifferentChars(5)
             ],
             'oauth_account' => [
-                'nullable'
+                'nullable',
+                new Uuid4,
             ],
         ];
     }

@@ -9,6 +9,7 @@ use App\Services\UserService;
 use App\Http\Resources\UserResource;
 use Socialite;
 use App\Exceptions\Api\ValidationException;
+use App\Helpers\OAuthProviders;
 
 class LoginController extends Controller
 {
@@ -40,7 +41,7 @@ class LoginController extends Controller
         #    ], 409);   
         #}
 
-        $acc = OAuthAccount::firstOrNew(
+        $acc = OAuthAccount::firstOrCreate(
             [
                 'account_id' => $soc_user->getId(),
                 'oauth_provider_id' => OAuthProviders::{$provider}('id'),
@@ -51,35 +52,34 @@ class LoginController extends Controller
             ]
         );
 
-        if (!is_null($acc) && !is_null($user = $acc->user)) {
-            
-            $tokens = $service->createTokens($user->getKey());
+        if ($acc->wasRecentlyCreated) {
 
-            return response()->json([
-                'access_token' => $tokens['access_token'],
-                'refresh_token' => $tokens['refresh_token'],
-                'user' => new UserResource($user),
-                'billing' => $user->billing
-            ], 200);
-
+            return repsonse()->json([
+                'message' => 'OAuth account successfully created.',
+                'id' => $soc_user->getId(),
+                'username' => $soc_user->getNickname(),
+                'email' => $soc_user->getEmail(),
+            ], 203);       
         }
 
-        throw new ValidationException(trans('oauth.account.not_found'));
-
-
-        if ($acc->exists) {
+        if (is_null($user = $acc->user)) {
             
-            if (is_null($user = $acc->user)) {
-                
-                $tokens = $service->createTokens($user->getKey());
-
-                return repsonse()->json([
-                    'message' => 'OAuth account does not binded to any user.',
-                    'id' => $soc->getId(),
-                    'username' => $soc_user->getNickname(),
-                    'email' => $soc_user->getEmail(),
-                ], 203);
-            }
+            return repsonse()->json([
+                'message' => 'OAuth account does not binded to any user.',
+                'id' => $soc_user->getId(),
+                'username' => $soc_user->getNickname(),
+                'email' => $soc_user->getEmail(),
+            ], 201);
         }
+
+        $tokens = $service->createTokens($user->getKey());
+
+        return repsonse()->json([
+            'access_token' => $tokens['access_token'],
+            'refresh_token' => $tokens['refresh_token'],
+            'user' => $user,
+            'billing' => $user->billing,
+        ], 200);
     }
+
 }
