@@ -9,7 +9,7 @@ class TransactionService
 	public const DUST_COIN_TYPE = 0;
 
 	public function createForDustCoins(
-		int $coins_num,
+		float $coins_num,
 		string $owner_id, 
 		int $action,
 		bool $is_registered = true
