@@ -25,7 +25,7 @@ class TooFewDustCoinsException extends Exception
     {
     	return response()->json([
     		'message' => 'The given data was invalid',
-    		'error' => 'Too few dust coins on account wallet.',
+    		'errors' => ['_other' => 'Too few dust coins on account wallet.'],
     		'dust_coins_num' => $this->getDustCoins(),
     	], 422);
     }
