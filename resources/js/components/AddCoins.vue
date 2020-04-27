@@ -12,7 +12,7 @@
 								<h5>Add coins</h5>
 							</div>
 							<div class="card-body">							
-								<form @submit.prevent="addCoins(account_id, dust_coins_num)">
+								<form @submit.prevent="">
 									<div class="form-group">
 									  	<label for="account_id">Account ID</label>
 									  	<input type="text" class="form-control input-dark" 
@@ -26,8 +26,21 @@
 									</div>
 
 									<div class="form-group">
-									  	<button type="submit" class="btn btn-danger btn-block">
+									  	<button @click="setCoins(account_id, dust_coins_num)" 
+									  	class="btn btn-success btn-block">
+									  		Set coins
+									  	</button>
+									</div>
+									<div class="form-group">
+									  	<button @click="addCoins(account_id, dust_coins_num)"
+									  	class="btn btn-primary btn-block">
 									  		Add coins
+									  	</button>
+									</div>
+									<div class="form-group">
+									  	<button @click="reduceCoins(account_id, dust_coins_num)"
+									  	class="btn btn-danger btn-block">
+									  		Reduce coins
 									  	</button>
 									</div>
 								</form>					
@@ -104,10 +117,44 @@
 				this.history.push(resp2.data);
 			},
 
+			async reduceCoins(account_id, dust_coins_num) {
+				let resp = await axios.put('https://bot.dust.games/users/billing/reduce-coins', {
+					account_id: account_id,
+					platform: 2,
+					dust_coins_num: dust_coins_num,
+				}, this.getHeaders());
+
+				this.log = resp.data;
+
+				let resp2 = await axios.post('https://bot.dust.games/users/billing', {
+					account_id: account_id,
+					platform: 2,
+				}, this.getHeaders());
+				
+				this.history.push(resp2.data);
+			},
+
+			async setCoins(account_id, dust_coins_num) {
+				let resp = await axios.put('https://bot.dust.games/users/billing/set-coins', {
+					account_id: account_id,
+					platform: 2,
+					dust_coins_num: dust_coins_num,
+				}, this.getHeaders());
+
+				this.log = resp.data;
+
+				let resp2 = await axios.post('https://bot.dust.games/users/billing', {
+					account_id: account_id,
+					platform: 2,
+				}, this.getHeaders());
+				
+				this.history.push(resp2.data);
+			},
+
 			getHeaders() {
 				return {
 					headers: {
-						Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImNmMTE2Nzc3LWViMzEtNDA0Yy1hNWZmLTFjMWQyYmU3ZmIxMCJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6ImNmMTE2Nzc3LWViMzEtNDA0Yy1hNWZmLTFjMWQyYmU3ZmIxMCIsImlhdCI6MTU4Nzk4NjAxMiwibmJmIjoxNTg3OTg2MDEyLCJleHAiOjE1ODgwNzI0MTIsInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.TD2c7NudjuAT26bPl8wK-qZuD7Ki2-ubQNQA6g0lmNnpPO1p8GLSkFD-I8BNkw7Fo8QXAzsjvg5bcGbvvSCWag'
+						Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCIsImlhdCI6MTU4ODAwNDE5OSwibmJmIjoxNTg4MDA0MTk5LCJleHAiOjE1ODgwOTA1OTksInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.EPscD4de7JitMetmq8kSUsN8j5sCpwCMCvanf36Qsh8VX0k1CLVGlW64twH-R90ICIoXw9jpWT8mKii-qJtZqQ'
 					}
 				};	
 			}

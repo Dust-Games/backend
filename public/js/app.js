@@ -2005,6 +2005,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2053,10 +2066,86 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    reduceCoins: function reduceCoins(account_id, dust_coins_num) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var resp, resp2;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put('https://bot.dust.games/users/billing/reduce-coins', {
+                  account_id: account_id,
+                  platform: 2,
+                  dust_coins_num: dust_coins_num
+                }, _this2.getHeaders());
+
+              case 2:
+                resp = _context2.sent;
+                _this2.log = resp.data;
+                _context2.next = 6;
+                return axios.post('https://bot.dust.games/users/billing', {
+                  account_id: account_id,
+                  platform: 2
+                }, _this2.getHeaders());
+
+              case 6:
+                resp2 = _context2.sent;
+
+                _this2.history.push(resp2.data);
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    setCoins: function setCoins(account_id, dust_coins_num) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var resp, resp2;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.put('https://bot.dust.games/users/billing/set-coins', {
+                  account_id: account_id,
+                  platform: 2,
+                  dust_coins_num: dust_coins_num
+                }, _this3.getHeaders());
+
+              case 2:
+                resp = _context3.sent;
+                _this3.log = resp.data;
+                _context3.next = 6;
+                return axios.post('https://bot.dust.games/users/billing', {
+                  account_id: account_id,
+                  platform: 2
+                }, _this3.getHeaders());
+
+              case 6:
+                resp2 = _context3.sent;
+
+                _this3.history.push(resp2.data);
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
     getHeaders: function getHeaders() {
       return {
         headers: {
-          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImNmMTE2Nzc3LWViMzEtNDA0Yy1hNWZmLTFjMWQyYmU3ZmIxMCJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6ImNmMTE2Nzc3LWViMzEtNDA0Yy1hNWZmLTFjMWQyYmU3ZmIxMCIsImlhdCI6MTU4Nzk4NjAxMiwibmJmIjoxNTg3OTg2MDEyLCJleHAiOjE1ODgwNzI0MTIsInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.TD2c7NudjuAT26bPl8wK-qZuD7Ki2-ubQNQA6g0lmNnpPO1p8GLSkFD-I8BNkw7Fo8QXAzsjvg5bcGbvvSCWag'
+          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCIsImlhdCI6MTU4ODAwNDE5OSwibmJmIjoxNTg4MDA0MTk5LCJleHAiOjE1ODgwOTA1OTksInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.EPscD4de7JitMetmq8kSUsN8j5sCpwCMCvanf36Qsh8VX0k1CLVGlW64twH-R90ICIoXw9jpWT8mKii-qJtZqQ'
         }
       };
     }
@@ -38575,10 +38664,6 @@ var render = function() {
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
-                          return _vm.addCoins(
-                            _vm.account_id,
-                            _vm.dust_coins_num
-                          )
                         }
                       }
                     },
@@ -38639,7 +38724,71 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _vm._m(2)
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-block",
+                            on: {
+                              click: function($event) {
+                                return _vm.setCoins(
+                                  _vm.account_id,
+                                  _vm.dust_coins_num
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t  \t\tSet coins\n\t\t\t\t\t\t\t\t  \t"
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-block",
+                            on: {
+                              click: function($event) {
+                                return _vm.addCoins(
+                                  _vm.account_id,
+                                  _vm.dust_coins_num
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t  \t\tAdd coins\n\t\t\t\t\t\t\t\t  \t"
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-block",
+                            on: {
+                              click: function($event) {
+                                return _vm.reduceCoins(
+                                  _vm.account_id,
+                                  _vm.dust_coins_num
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t  \t\tReduce coins\n\t\t\t\t\t\t\t\t  \t"
+                            )
+                          ]
+                        )
+                      ])
                     ]
                   )
                 ])
@@ -38648,7 +38797,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-6" }, [
               _c("div", { staticClass: "card bg-dark text-light" }, [
-                _vm._m(3),
+                _vm._m(2),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
                   _vm.history.length !== 0
@@ -38656,7 +38805,7 @@ var render = function() {
                         "table",
                         { staticClass: "table table-dark table-sm" },
                         [
-                          _vm._m(4),
+                          _vm._m(3),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -38684,7 +38833,7 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-12" }, [
               _c("div", { staticClass: "card bg-dark text-light" }, [
-                _vm._m(5),
+                _vm._m(4),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
                   _vm._v(
@@ -38716,18 +38865,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header text-center" }, [
       _c("h5", [_vm._v("Add coins")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-danger btn-block", attrs: { type: "submit" } },
-        [_vm._v("\n\t\t\t\t\t\t\t\t  \t\tAdd coins\n\t\t\t\t\t\t\t\t  \t")]
-      )
     ])
   },
   function() {
@@ -51244,14 +51381,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!**********************************************!*\
   !*** ./resources/js/components/AddCoins.vue ***!
   \**********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddCoins_vue_vue_type_template_id_309f9668___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddCoins.vue?vue&type=template&id=309f9668& */ "./resources/js/components/AddCoins.vue?vue&type=template&id=309f9668&");
 /* harmony import */ var _AddCoins_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddCoins.vue?vue&type=script&lang=js& */ "./resources/js/components/AddCoins.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AddCoins_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AddCoins_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -51281,7 +51419,7 @@ component.options.__file = "resources/js/components/AddCoins.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/components/AddCoins.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
