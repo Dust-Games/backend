@@ -4,7 +4,7 @@ namespace App\Http\Requests\Bot;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SetBillingRequest extends FormRequest
+class MultipleAddCoinsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,20 +24,21 @@ class SetBillingRequest extends FormRequest
     public function rules()
     {
         return [
-            'account_id' => [
+            'accounts' => [
                 'required',
+                'array'
             ],
 
             'platform' => [
                 'required',
-                'integer',
+                'integer'
             ],
             
             'dust_coins_num' => [
                 'required',
                 'numeric',
                 'min:0',
-                'max:1000000000',
+                'max:1000000000'
             ],
         ];
     }

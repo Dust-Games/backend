@@ -13,6 +13,7 @@ use App\Services\BillingService;
 use App\Services\TransactionService;
 use App\Http\Requests\Bot\UpdateBillingRequest;
 use App\Http\Requests\Bot\SetBillingRequest;
+use App\Http\Requests\Bot\MultipleAddCoinsRequest;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\Api\NotFoundException;
 
@@ -44,6 +45,7 @@ class BillingController extends Controller
     	$billing = $service->getByAccount($acc);
 
     	return response()->json([
+            'account_id' => $data['account_id'],
     		'billing' => $billing,
     		'is_registered' => $billing instanceof Billing
     	], 200);	
@@ -129,6 +131,26 @@ class BillingController extends Controller
             'dust_coins_num' => $billing->getDustCoins(),
             'is_registered' => $billing instanceof Billing,
         ]);    	
+    }
+
+    public function multipleAddCoins(
+        MultipleAddCoinsRequest $req,
+        BillingService $service,
+        TransactionService $t_service
+    )
+    {
+        $data = $req->validated();
+
+        $action = static::ACTION_CODES['add'];
+
+        $db_accs = OAuthAccount::whereIn('account_id', $data['accounts'])->get();
+
+        $new_acc_ids = array_diff($data['accounts'], $db_accs->pluck('account_id')->toArray()); 
+
+        $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
+
+            
+        });
     }
 
     public function reduceCoins(

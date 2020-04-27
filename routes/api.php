@@ -14,6 +14,11 @@ Route::group(
 
 	/*|=====| Auth |=====|*/
 
+	Route::get('add-coins', function () {
+		
+		return view('add_coins');
+	});
+	
 	Route::group(
 		[
 			'prefix' => 'auth',

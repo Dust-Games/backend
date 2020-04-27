@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('callback', require('./components/Callback.vue').default);
 Vue.component('register', require('./components/Register.vue').default);
+Vue.component('add-coins', require('./components/AddCoins.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
