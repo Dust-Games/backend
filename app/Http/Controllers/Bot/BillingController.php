@@ -16,6 +16,7 @@ use App\Http\Requests\Bot\SetBillingRequest;
 use App\Http\Requests\Bot\MultipleAddCoinsRequest;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\Api\NotFoundException;
+use App\Helpers\OAuthProviders;
 
 class BillingController extends Controller
 {
@@ -33,16 +34,15 @@ class BillingController extends Controller
 
     	]);
     	
-    	$acc = OAuthAccount::where([
-    		['account_id', $data['account_id']], 
-    		['oauth_provider_id', $data['platform']]
-    	])->first();
+    	$acc = OAuthAccount::firstOrCreate([
+    		'account_id' => $data['account_id'], 
+    		'oauth_provider_id' => 2,
+    	]);
 
-        if (is_null($acc)) {
-            throw new NotFoundException('Needed account does not exist.');
-        }
-
-    	$billing = $service->getByAccount($acc);
+        $billing = $acc->wasRecentlyCreated ? 
+            $service->createForAccount($acc)
+            :
+            $service->getByAccount($acc);
 
     	return response()->json([
             'account_id' => $data['account_id'],
