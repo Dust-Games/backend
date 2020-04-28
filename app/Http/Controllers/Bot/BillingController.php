@@ -17,6 +17,7 @@ use App\Http\Requests\Bot\MultipleAddCoinsRequest;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\Api\NotFoundException;
 use App\Helpers\OAuthProviders;
+use App\Rules\OAuthProvider;
 
 class BillingController extends Controller
 {
@@ -30,7 +31,7 @@ class BillingController extends Controller
     {
     	$data = $req->validate([
     		'account_id' => ['required'],
-    		'platform' => ['required', 'integer', 'min:1', 'max:5'],
+    		'platform' => ['required', new OAuthProvider],
 
     	]);
     	
@@ -145,9 +146,9 @@ class BillingController extends Controller
 
         $accs = $acc_service->getOrCreateMany($data['accounts'], $data['platform']);
 
-        $billing = DB::transaction(function () use ($billing_service, $t_service, $data, $action) {
+        $billing = DB::transaction(function () use ($billing_service, $t_service, $data, $action, $accs) {
 
-            $unreg_accs = $accs->where('user_id', null);
+            $unreg_accs = $billing_service->addDustCoinsToMany($accs);
         });
     }
 

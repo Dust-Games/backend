@@ -26,7 +26,7 @@ class OAuthProvider implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (in_array(OAuthProviders::ids(), $value)) {
+        if (in_array($value, OAuthProviders::ids())) {
            return true;
         }
 

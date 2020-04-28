@@ -151,10 +151,19 @@
 				this.history.push(resp2.data);
 			},
 
+			async getInfo(account_id) {
+				let resp2 = await axios.post('https://bot.dust.games/users/billing', {
+					account_id: account_id,
+					platform: 2,
+				}, this.getHeaders());
+				
+				this.history.push(resp2.data);				
+			},
+
 			getHeaders() {
 				return {
 					headers: {
-						Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCIsImlhdCI6MTU4ODAwNDE5OSwibmJmIjoxNTg4MDA0MTk5LCJleHAiOjE1ODgwOTA1OTksInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.EPscD4de7JitMetmq8kSUsN8j5sCpwCMCvanf36Qsh8VX0k1CLVGlW64twH-R90ICIoXw9jpWT8mKii-qJtZqQ'
+						Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImQ1YjhhODgyLWI4ZmEtNDdmOC05NGI5LTdiYjA4Yzg4N2M4YSJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWUiLCJhdWQiOiJodHRwOlwvXC9kdXN0LmdhbWUiLCJqdGkiOiJkNWI4YTg4Mi1iOGZhLTQ3ZjgtOTRiOS03YmIwOGM4ODdjOGEiLCJpYXQiOjE1ODgwODc1NTksIm5iZiI6MTU4ODA4NzU1OSwiZXhwIjoxNTg4MTczOTU5LCJzdWIiOiJmOTExNjY4OS1lZGI1LTQzNTMtYmUzNC1iZGQyNDgxNmViYWIifQ.blRuPkiy3CYsKmjUvj_w1LPyuF6OI3snS-99r-aqtQWTLiMAaVCJY8QuQx-DUJZVsXikRLKcDmU1_RleQdoorg'
 					}
 				};	
 			}

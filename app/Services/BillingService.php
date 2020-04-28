@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Billing;
 use App\Models\UnregisteredBilling;
 use App\Models\OAuthAccount;
+use Illuminate\Support\Collection;
 
 class BillingService
 {
@@ -27,8 +28,14 @@ class BillingService
 		return $billing;
 	}
 
-	public function getOrCreateMany(array $accounts)
+	public function addDustCoinsToMany(Collection $accounts)
 	{
-		$unreg_accs = $accounts->where('user_id', null);
+		$unreg_acc_keys = $accounts->where('user_id', null)->pluck('id')->toArray();
+
+		$unreg_billings = UnregisteredBilling::whereIn($unreg_acc_keys)->get();
+
+		$db_acc_keys = $unreg_billings->pluck('oauth_account_id')->toArray();
+
+		$new_keys = $un;
 	}
 }
