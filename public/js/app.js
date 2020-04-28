@@ -2018,6 +2018,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2032,7 +2038,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var resp, resp2;
+        var resp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2046,19 +2052,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 resp = _context.sent;
-                _this.log = resp.data;
-                _context.next = 6;
-                return axios.post('https://bot.dust.games/users/billing', {
-                  account_id: account_id,
-                  platform: 2
-                }, _this.getHeaders());
 
-              case 6:
-                resp2 = _context.sent;
+                _this.getInfo(account_id);
 
-                _this.history.push(resp2.data);
-
-              case 8:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -2070,7 +2067,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var resp, resp2;
+        var resp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2084,19 +2081,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 resp = _context2.sent;
-                _this2.log = resp.data;
-                _context2.next = 6;
-                return axios.post('https://bot.dust.games/users/billing', {
-                  account_id: account_id,
-                  platform: 2
-                }, _this2.getHeaders());
 
-              case 6:
-                resp2 = _context2.sent;
+                _this2.getInfo(account_id);
 
-                _this2.history.push(resp2.data);
-
-              case 8:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -2108,7 +2096,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var resp, resp2;
+        var resp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2122,19 +2110,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 resp = _context3.sent;
-                _this3.log = resp.data;
-                _context3.next = 6;
-                return axios.post('https://bot.dust.games/users/billing', {
-                  account_id: account_id,
-                  platform: 2
-                }, _this3.getHeaders());
 
-              case 6:
-                resp2 = _context3.sent;
+                _this3.getInfo(account_id);
 
-                _this3.history.push(resp2.data);
-
-              case 8:
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -2142,10 +2121,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
+    getInfo: function getInfo(account_id) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var resp;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios.post('https://bot.dust.games/users/billing', {
+                  account_id: account_id,
+                  platform: 2
+                }, _this4.getHeaders());
+
+              case 2:
+                resp = _context4.sent;
+                _this4.log = resp.data;
+
+                _this4.history.push(resp.data);
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
     getHeaders: function getHeaders() {
       return {
         headers: {
-          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjVhMGUyYjY5LTg5NjktNGI1NS1hYWE2LWQwZWZjNmYzMmZhZCIsImlhdCI6MTU4ODAwNDE5OSwibmJmIjoxNTg4MDA0MTk5LCJleHAiOjE1ODgwOTA1OTksInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.EPscD4de7JitMetmq8kSUsN8j5sCpwCMCvanf36Qsh8VX0k1CLVGlW64twH-R90ICIoXw9jpWT8mKii-qJtZqQ'
+          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjYxYjUyNzU5LWMxMzctNDFhYy1hNmI0LWM2Njg0YThhOGNjNiJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjYxYjUyNzU5LWMxMzctNDFhYy1hNmI0LWM2Njg0YThhOGNjNiIsImlhdCI6MTU4ODA4OTYyOSwibmJmIjoxNTg4MDg5NjI5LCJleHAiOjE1ODgxNzYwMjksInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.DAqLas6p-Iyr5Y1cNZRRHY79tiJ9V1lI4SGWismiVpaKt2ve1xOJPxGn42CmFkHtLa0UO3Iyxd8ipQtbq5zq4w'
         }
       };
     }
@@ -38788,6 +38796,25 @@ var render = function() {
                             )
                           ]
                         )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-block",
+                            on: {
+                              click: function($event) {
+                                return _vm.getInfo(_vm.account_id)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t\t\t  \t\tGet wallet info\n\t\t\t\t\t\t\t\t  \t"
+                            )
+                          ]
+                        )
                       ])
                     ]
                   )
@@ -51381,15 +51408,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!**********************************************!*\
   !*** ./resources/js/components/AddCoins.vue ***!
   \**********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddCoins_vue_vue_type_template_id_309f9668___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddCoins.vue?vue&type=template&id=309f9668& */ "./resources/js/components/AddCoins.vue?vue&type=template&id=309f9668&");
 /* harmony import */ var _AddCoins_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddCoins.vue?vue&type=script&lang=js& */ "./resources/js/components/AddCoins.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AddCoins_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AddCoins_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -51419,7 +51445,7 @@ component.options.__file = "resources/js/components/AddCoins.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/components/AddCoins.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

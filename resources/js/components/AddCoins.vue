@@ -43,6 +43,12 @@
 									  		Reduce coins
 									  	</button>
 									</div>
+									<div class="form-group">
+									  	<button @click="getInfo(account_id)"
+									  	class="btn btn-warning btn-block">
+									  		Get wallet info
+									  	</button>
+									</div>
 								</form>					
 							</div>
 						</div>
@@ -107,14 +113,7 @@
 					dust_coins_num: dust_coins_num,
 				}, this.getHeaders());
 
-				this.log = resp.data;
-
-				let resp2 = await axios.post('https://bot.dust.games/users/billing', {
-					account_id: account_id,
-					platform: 2,
-				}, this.getHeaders());
-				
-				this.history.push(resp2.data);
+				this.getInfo(account_id);
 			},
 
 			async reduceCoins(account_id, dust_coins_num) {
@@ -124,14 +123,7 @@
 					dust_coins_num: dust_coins_num,
 				}, this.getHeaders());
 
-				this.log = resp.data;
-
-				let resp2 = await axios.post('https://bot.dust.games/users/billing', {
-					account_id: account_id,
-					platform: 2,
-				}, this.getHeaders());
-				
-				this.history.push(resp2.data);
+				this.getInfo(account_id);
 			},
 
 			async setCoins(account_id, dust_coins_num) {
@@ -141,29 +133,24 @@
 					dust_coins_num: dust_coins_num,
 				}, this.getHeaders());
 
-				this.log = resp.data;
-
-				let resp2 = await axios.post('https://bot.dust.games/users/billing', {
-					account_id: account_id,
-					platform: 2,
-				}, this.getHeaders());
-				
-				this.history.push(resp2.data);
+				this.getInfo(account_id);
 			},
 
 			async getInfo(account_id) {
-				let resp2 = await axios.post('https://bot.dust.games/users/billing', {
+				let resp = await axios.post('https://bot.dust.games/users/billing', {
 					account_id: account_id,
 					platform: 2,
 				}, this.getHeaders());
-				
-				this.history.push(resp2.data);				
+
+				this.log = resp.data;
+
+				this.history.push(resp.data);				
 			},
 
 			getHeaders() {
 				return {
 					headers: {
-						Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImQ1YjhhODgyLWI4ZmEtNDdmOC05NGI5LTdiYjA4Yzg4N2M4YSJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWUiLCJhdWQiOiJodHRwOlwvXC9kdXN0LmdhbWUiLCJqdGkiOiJkNWI4YTg4Mi1iOGZhLTQ3ZjgtOTRiOS03YmIwOGM4ODdjOGEiLCJpYXQiOjE1ODgwODc1NTksIm5iZiI6MTU4ODA4NzU1OSwiZXhwIjoxNTg4MTczOTU5LCJzdWIiOiJmOTExNjY4OS1lZGI1LTQzNTMtYmUzNC1iZGQyNDgxNmViYWIifQ.blRuPkiy3CYsKmjUvj_w1LPyuF6OI3snS-99r-aqtQWTLiMAaVCJY8QuQx-DUJZVsXikRLKcDmU1_RleQdoorg'
+						Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjYxYjUyNzU5LWMxMzctNDFhYy1hNmI0LWM2Njg0YThhOGNjNiJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjYxYjUyNzU5LWMxMzctNDFhYy1hNmI0LWM2Njg0YThhOGNjNiIsImlhdCI6MTU4ODA4OTYyOSwibmJmIjoxNTg4MDg5NjI5LCJleHAiOjE1ODgxNzYwMjksInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.DAqLas6p-Iyr5Y1cNZRRHY79tiJ9V1lI4SGWismiVpaKt2ve1xOJPxGn42CmFkHtLa0UO3Iyxd8ipQtbq5zq4w'
 					}
 				};	
 			}
