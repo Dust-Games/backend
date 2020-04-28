@@ -123,6 +123,7 @@ return [
     'diff_chars' => ':Attribute must contains :count different characters or more.',
     'refresh_token' => 'Invalid refresh token.',
     'jwt' => 'Invalid JWT token.',
+    'oauth_provider' => 'This platform does not exists.',
     
     /*
     |--------------------------------------------------------------------------

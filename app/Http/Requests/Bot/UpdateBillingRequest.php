@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Bot;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\OAuthProvider;
 
 class UpdateBillingRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class UpdateBillingRequest extends FormRequest
     {
         return [
             'account_id' => ['required'],
-            'platform' => ['required', 'numeric'],
+            'platform' => ['required', new OAuthProvider],
             'dust_coins_num' => ['required', 'numeric', 'min:0', 'max:1000000000'],
         ];
     }

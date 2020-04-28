@@ -31,6 +31,7 @@ class Authenticate extends Middleware
      */
     protected function unauthenticated($request, array $guards)
     {
+        info('unauthenticated');
         throw new AuthenticationException;
     }
 }

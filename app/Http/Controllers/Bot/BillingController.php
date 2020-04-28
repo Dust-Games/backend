@@ -30,13 +30,13 @@ class BillingController extends Controller
     {
     	$data = $req->validate([
     		'account_id' => ['required'],
-    		'platform' => ['required', 'numeric'],
+    		'platform' => ['required', 'integer', 'min:1', 'max:5'],
 
     	]);
     	
     	$acc = OAuthAccount::firstOrCreate([
     		'account_id' => $data['account_id'], 
-    		'oauth_provider_id' => 2,
+    		'oauth_provider_id' => $data['platform'],
     	]);
 
         $billing = $acc->wasRecentlyCreated ? 
@@ -135,21 +135,19 @@ class BillingController extends Controller
 
     public function multipleAddCoins(
         MultipleAddCoinsRequest $req,
-        BillingService $service,
+        OAuthAccountService $acc_service,
+        BillingService $billing_service,
         TransactionService $t_service
     )
     {
         $data = $req->validated();
-
         $action = static::ACTION_CODES['add'];
 
-        $db_accs = OAuthAccount::whereIn('account_id', $data['accounts'])->get();
+        $accs = $acc_service->getOrCreateMany($data['accounts'], $data['platform']);
 
-        $new_acc_ids = array_diff($data['accounts'], $db_accs->pluck('account_id')->toArray()); 
+        $billing = DB::transaction(function () use ($billing_service, $t_service, $data, $action) {
 
-        $billing = DB::transaction(function () use ($service, $t_service, $data, $action) {
-
-            
+            $unreg_accs = $accs->where('user_id', null);
         });
     }
 

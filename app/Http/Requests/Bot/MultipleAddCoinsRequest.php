@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Bot;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\OAuthProvider;
 
 class MultipleAddCoinsRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class MultipleAddCoinsRequest extends FormRequest
 
             'platform' => [
                 'required',
-                'integer'
+                new OAuthProvider,
             ],
             
             'dust_coins_num' => [

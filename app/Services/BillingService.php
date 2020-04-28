@@ -26,4 +26,9 @@ class BillingService
 
 		return $billing;
 	}
+
+	public function getOrCreateMany(array $accounts)
+	{
+		$unreg_accs = $accounts->where('user_id', null);
+	}
 }

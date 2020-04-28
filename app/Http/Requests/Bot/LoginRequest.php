@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Bot;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\OAuthProvider;
 
 class LoginRequest extends FormRequest
 {
@@ -24,9 +25,9 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'platform' => ['required', 'integer', 'in:1,2,3,4'],
-            'id' => 'required|string',
-            'secret' => 'required|string',
+            'platform' => ['required', new OAuthProvider],
+            'id' => ['required', 'string'],
+            'secret' => ['required', 'string'],
         ];
     }
 }

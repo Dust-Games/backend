@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Services\JWT;
 use Exception;
-use Illuminate\Auth\AuthenticationException;
+use App\Exceptions\Api\AuthenticationException;
 
 class BotAuthorization
 {

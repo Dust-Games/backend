@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 class OAuthProviders
 {
+    public const PROVIDER_IDS = [1, 2, 3, 4];
+
     public const PROVIDERS = [
     	'steam' => [
     		'id' => 1,
@@ -18,6 +20,11 @@ class OAuthProviders
             'id' => 4,
         ],
     ];
+
+    public static function ids()
+    {
+        return static::PROVIDER_IDS;    
+    }
 
     public static function __callStatic($method, $args)
     {
