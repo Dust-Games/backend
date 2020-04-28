@@ -27,6 +27,7 @@ class SetBillingRequest extends FormRequest
         return [
             'account_id' => [
                 'required',
+                'max:32',
             ],
 
             'platform' => [

@@ -25,7 +25,7 @@ class UpdateBillingRequest extends FormRequest
     public function rules()
     {
         return [
-            'account_id' => ['required'],
+            'account_id' => ['required', 'max:32'],
             'platform' => ['required', new OAuthProvider],
             'dust_coins_num' => ['required', 'numeric', 'min:0', 'max:1000000000'],
         ];

@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
                 'required', 
                 'string',
                 'min:3',
-                'max:40',
+                'max:32',
                 'unique:user,username',
             ],
             'email' =>[
