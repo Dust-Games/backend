@@ -27,11 +27,11 @@ class OldDbSeeder extends Seeder
         $db = DB::connection('backup');
 
         foreach (static::TABLES as $table) {
-            $rows = $db->table($table)->get()->toArray();
+            $rows = DB::table($table)->get()->toArray();
 
             $rows = $this->objectsToArrays($rows);
 
-            DB::table($table)->insert($rows);
+            $db::table($table)->insert($rows);
         }
     }
 
