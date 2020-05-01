@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\HasDifferentChars;
-use App\Ruels\Uuid4;
+use App\Rules\Uuid4;
 
 class RegisterRequest extends FormRequest
 {
