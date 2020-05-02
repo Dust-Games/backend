@@ -29,12 +29,14 @@ class OAuthAccountService
 
         $new_accs = [];
         $new_billings = [];
-        array_walk($new_acc_ids, function ($item) use ($new_billings, $new_accs, $platform) {
-        	$new_accs[] = ['account_id' => $item, 'oauth_provider_id' => $platform, ];
+        array_walk($new_acc_ids, function ($key) use ($new_billings, $new_accs, $platform) {
+        	$new_accs[] = ['account_id' => $key, 'oauth_provider_id' => $platform, ];
+            $new_billings[] = ['oauth_account_id' => $key];
 
         });
 
         OAuthAccount::insert($new_acc_rows);
+        UnregisteredBilling::insert()
 
         $accs = OAuthAccount::whereIn('account_id', $keys)->get();
 	
