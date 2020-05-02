@@ -2153,7 +2153,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getHeaders: function getHeaders() {
       return {
         headers: {
-          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIxYmM1OWM5LTZlNzItNGJjNy1iNDYwLThkMzI1ZDhjZmU1MyJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjIxYmM1OWM5LTZlNzItNGJjNy1iNDYwLThkMzI1ZDhjZmU1MyIsImlhdCI6MTU4ODMzNTA4NSwibmJmIjoxNTg4MzM1MDg1LCJleHAiOjE1ODg0MjE0ODUsInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.lBfC3Y8PDeBoZuAMtdjw8hrat7GIJSC2Pw9Vf5KMJrAyl4ZmfQyR8nYSSYv5z15v7hiGtL4CnncfWoDYT7Se1w'
+          Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjgyNTEyYTU4LTQyYjktNGZmZC04MmE5LTI3OGY0Y2I3NzBjZCJ9.eyJpc3MiOiJodHRwOlwvXC9kdXN0LmdhbWVzIiwiYXVkIjoiaHR0cDpcL1wvZHVzdC5nYW1lcyIsImp0aSI6IjgyNTEyYTU4LTQyYjktNGZmZC04MmE5LTI3OGY0Y2I3NzBjZCIsImlhdCI6MTU4ODQyODgzNSwibmJmIjoxNTg4NDI4ODM1LCJleHAiOjE1ODg1MTUyMzUsInN1YiI6ImY5MTE2Njg5LWVkYjUtNDM1My1iZTM0LWJkZDI0ODE2ZWJhYiJ9.iA9PJllQhYMcgambGE_pSE9GQMSEg3JbxfJblolMT_tEZx8C6I49zMto2TQR-nld9x04M7bvN5vBNxSnht02EQ'
         }
       };
     }
