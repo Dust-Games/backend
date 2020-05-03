@@ -96,7 +96,7 @@ Route::group(
 
 Route::group(
 	[
-		'domain' => 'bot.dust.game',
+		'domain' => 'bot.dust.games',
 		'as' => 'bot.',
 		'namespace' => 'Bot',
 	],
