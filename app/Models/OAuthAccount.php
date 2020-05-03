@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Concerns\HasUuidPrimaryKey;
 use App\Models\User;
+use App\Models\UnregisteredBilling;
 
 class OAuthAccount extends Model
 {
@@ -33,7 +34,19 @@ class OAuthAccount extends Model
 
     public function hasUser()
     {
-        return (bool) $this->getAttributeFromArray('user_id');
+        return (bool) $this->getUserKey();
+    }
+
+    /*|==========| Scopes |==========|*/
+
+    public function scopeUnregistered($query)
+    {
+        return $query->where('user_id', null);
+    }
+
+    public function scopeRegistered($query)
+    {
+        return $query->where('user_id', '!=', null);
     }
 
     /*|==========| Relationships |==========|*/
@@ -42,4 +55,13 @@ class OAuthAccount extends Model
     {
     	return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function billing()
+    {
+        if ($this->hasUser()) {
+            return null;
+        } else {
+            return $this->hasOne(UnregisteredBilling::class, 'oauth_account_id', 'id');
+        }
+    }   
 }

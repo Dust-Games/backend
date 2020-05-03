@@ -16,6 +16,10 @@ class BillingService
     		:
     		UnregisteredBilling::whereAccount($acc->getKey())->first();
 
+    	if (is_null($billing)) {
+    		return $this->createForAccount($acc);
+    	}
+    	
     	return $billing;		
 	}
 
@@ -28,14 +32,22 @@ class BillingService
 		return $billing;
 	}
 
-	public function addDustCoinsToMany(Collection $accounts)
+	public function addDustCoinsToMany(Collection $accounts, $sum)
 	{
 		$unreg_acc_keys = $accounts->where('user_id', null)->pluck('id')->toArray();
 
-		$unreg_billings = UnregisteredBilling::whereIn($unreg_acc_keys)->get();
+		UnregisteredBilling::whereIn('oauth_account_id', $unreg_acc_keys)->increment(
+			'dust_coins_num',
+			$sum,
+		);
 
-		$db_acc_keys = $unreg_billings->pluck('oauth_account_id')->toArray();
+		$users_leys = $accounts->filter(function ($acc) { 
+			return $acc->getUserKey() !== null;
+		})->pluck('user_id')->toArray();
 
-		$new_keys = $un;
+		Billing::whereIn('user_id', $users_leys)->increment(
+			'dust_coins_num',
+			$sum
+		);
 	}
 }

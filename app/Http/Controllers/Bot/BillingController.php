@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\Api\NotFoundException;
 use App\Helpers\OAuthProviders;
 use App\Rules\OAuthProvider;
+use App\Services\OAuthAccountService;
 
 class BillingController extends Controller
 {
@@ -144,12 +145,40 @@ class BillingController extends Controller
         $data = $req->validated();
         $action = static::ACTION_CODES['add'];
 
-        $accs = $acc_service->getOrCreateMany($data['accounts'], $data['platform']);
 
-        $billing = DB::transaction(function () use ($billing_service, $t_service, $data, $action, $accs) {
+        DB::transaction(function () use (
+                $billing_service, 
+                $t_service, 
+                $acc_service,
+                $data, 
+                $action
+            ) {
 
-            $unreg_accs = $billing_service->addDustCoinsToMany($accs);
+            $accs = $acc_service->getOrCreateMany($data['accounts'], $data['platform']);
+
+            $billing_service->addDustCoinsToMany(
+                $accs, 
+                $data['dust_coins_num']
+            );
+
+            $t_service->createManyForDustCoins(
+                $data['dust_coins_num'],
+                $accs->where('user_id', null),
+                $action,
+                false
+            );  
+
+            $t_service->createManyForDustCoins(
+                $data['dust_coins_num'],
+                $accs->filter(function ($acc) { return $acc->getUserKey() !== null; }),
+                $action,
+                true
+            );
         });
+
+        return response()->json([   
+            'message' => 'Users billings successfully updated.',
+        ]);
     }
 
     public function reduceCoins(
