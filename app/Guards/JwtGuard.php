@@ -7,7 +7,7 @@ use Illuminate\Auth\GuardHelpers;
 use Illuminate\Contracts\Auth\UserProvider;
 use App\Services\JWT;
 use Illuminate\Http\Request;
-use App\Exceptions\Api\AuthenticationException;
+use App\Exceptions\AuthenticationException;
 
 class JwtGuard implements Guard
 {
@@ -51,7 +51,7 @@ class JwtGuard implements Guard
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable
      *
-     * @throws \App\Exceptions\Api\AuthenticationException
+     * @throws \App\Exceptions\AuthenticationException
      */
     public function authenticate()
     {

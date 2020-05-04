@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
 	[
-		'domain' => 'api.dust.game',
+		'domain' => 'api.dust.games',
 		'as' => 'api.',
-		'namespace' => 'Api',
+		'namespace' => 'App\Http\Controllers'
 	],
 	function () {
 
@@ -96,61 +96,20 @@ Route::group(
 
 Route::group(
 	[
-		'domain' => 'bot.dust.game',
+		'domain' => 'bot.dust.games',
 		'as' => 'bot.',
-		'namespace' => 'Bot',
+		'namespace' => 'App\Modules\Bot\Http\Controllers',
 	],
-	function () {
-
-		/*|=====| Auth |=====|*/
-
-		Route::group(
-			[
-				'prefix' => 'auth',
-				'as' => 'auth.',
-			],
-			function () {
-
-				Route::post('login', 'AuthController@login')->name('login');
-			}
-		);
-
-		/*|=====| Users |=====|*/
-
-		Route::group(
-			[
-				'prefix' => 'users',
-				'as' => 'users.',
-				'middleware' => 'bot'
-			],
-			function () {
-
-				/*|==| Billing |==|*/
-
-				Route::group(
-					[
-						'prefix' => 'billing',
-						'as' => 'billing',
-					],
-					function () {
-
-						Route::post('', 'BillingController@show')->name('billing');
-
-						Route::put('set-coins', 'BillingController@setCoins')
-							->name('set-coins');
-						Route::put('add-coins', 'BillingController@addCoins')
-							->name('add-coins');
-						Route::put('reduce-coins', 'BillingController@reduceCoins')
-							->name('reduce-coins');
-						Route::put('multi-add-coins', 'BillingController@multipleAddCoins')
-							->name('multi-add-coins');
-					}
-				);
-			}
-		);
-	}
+	base_path('Modules/Bot/Routes/api.php')
 );
 
 /*|==========| Admin panel |==========|*/
 
-Route::group(['domain' => 'admin.dust.game'], base_path('Modules/Admin/Routes/api.php'));
+Route::group(
+	[
+		'domain' => 'api.admin.dust.games',
+		'as' => 'admin.',
+		'namespace' => 'App\Modules\Admin\Http\Controllers',
+	],
+	base_path('Modules/Admin/Routes/api.php')
+);

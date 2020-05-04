@@ -63,8 +63,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
-        'localization' => \App\Http\Middleware\Api\Localization::class,
+        'localization' => \App\Http\Middleware\Localization::class,
 
-        'bot' => \App\Http\Middleware\BotAuthorization::class,
+        'bot' => \App\Modules\Bot\Http\Middleware\Authorization::class,
     ];
 }
