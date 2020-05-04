@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
 	[
-		'domain' => 'api.dust.games',
+		'domain' => 'api.dust.game',
 		'as' => 'api.',
 		'namespace' => 'Api',
 	],
@@ -96,7 +96,7 @@ Route::group(
 
 Route::group(
 	[
-		'domain' => 'bot.dust.games',
+		'domain' => 'bot.dust.game',
 		'as' => 'bot.',
 		'namespace' => 'Bot',
 	],
@@ -151,3 +151,6 @@ Route::group(
 	}
 );
 
+/*|==========| Admin panel |==========|*/
+
+Route::group(['domain' => 'admin.dust.game'], base_path('Modules/Admin/Routes/api.php'));
