@@ -13,3 +13,27 @@ Route::group(
 		Route::post('login', 'AuthController@login')->name('login');
 	}
 );
+
+
+Route::group(
+	[
+		'middleware' => 'admin',
+	],
+	function () {	
+		
+		/*|==========| OAuth accounts |==========|*/
+
+		Route::group(
+			[
+				'prefix' => 'accounts',
+				'as' => 'accounts.',
+				'middleware' => 'admin',
+			],
+			function () {
+				Route::resource('', 'OAuthAccountController')
+					->parameters(['' => 'oAuthAccount'])
+					->only(['show', 'index']);
+			}
+		);	
+	}
+);

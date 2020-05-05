@@ -44,7 +44,7 @@ class JWT implements JwtInterface
 			
 		} catch (\Exception $e) {
 
-			throw new \App\Exceptions\Api\InvalidJwtException;
+			throw new \App\Exceptions\InvalidJwtException;
 		}
 
 		return $token;

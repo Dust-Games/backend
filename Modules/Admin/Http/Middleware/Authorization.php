@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Middleware\Admin;
+namespace App\Modules\Admin\Http\Middleware;
 
 use Closure;
+use App\Exceptions\ForbiddenException;
 
 class Authorization
 {
@@ -15,6 +16,10 @@ class Authorization
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if ($request->user() && $request->user()->isAdmin()) {
+            return $next($request);
+        }
+
+        throw new ForbiddenException;
     }
 }

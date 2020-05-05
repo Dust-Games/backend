@@ -10,10 +10,11 @@ use App\Models\OAuthAccount;
 use App\Models\Billing;
 use App\Concerns\HasUuidPrimaryKey;
 use App\Notifications\VerifyEmail;
+use App\Concerns\HasRole;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasUuidPrimaryKey;
+    use Notifiable, HasUuidPrimaryKey, HasRole;
 
     public const MAX_SESSIONS_COUNT = 4;
 
@@ -25,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'role_id',
     ];
 
     /**
@@ -45,6 +46,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasTooManySessions()
     {
         return $this->sessions()->count() >= static::MAX_SESSIONS_COUNT;
+    }
+
+    public function getRole()
+    {
+        return $this->getAttributeFromArray('role_id');
     }
 
     /*|==========| Getters |==========|*/
