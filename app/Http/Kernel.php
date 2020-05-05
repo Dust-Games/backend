@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'localization' => \App\Http\Middleware\Localization::class,
 
         'bot' => \App\Modules\Bot\Http\Middleware\Authorization::class,
+        'admin' => \App\Modules\Admin\Http\Middleware\Authorization::class,
     ];
 }

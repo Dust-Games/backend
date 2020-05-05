@@ -17,6 +17,7 @@ class CreateUserTable extends Migration
             $table->uuid('id')->primary();
             
             $table->string('username')->unique();
+            $table->bigInteger('role_id')->default(1);
             $table->string('avatar')->nullable();
             $table->string('status')->nullable();
             $table->string('email')->unique();
@@ -24,6 +25,10 @@ class CreateUserTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('role_id')
+                ->references('id')
+                ->on('role');
         });
     }
 
