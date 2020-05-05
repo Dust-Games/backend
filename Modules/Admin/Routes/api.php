@@ -11,6 +11,16 @@ Route::group(
 	],
 	function () {
 		Route::post('login', 'AuthController@login')->name('login');
+		Route::post('refresh-token', 'AuthController@refreshToken')->name('refresh');
+
+		Route::group(
+			[
+				'middleware' => 'admin',
+			],
+			function () {
+				Route::post('logout', 'AuthController@logout')->name('logout');
+			}
+		);
 	}
 );
 
