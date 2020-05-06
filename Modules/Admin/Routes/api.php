@@ -37,13 +37,26 @@ Route::group(
 			[
 				'prefix' => 'accounts',
 				'as' => 'accounts.',
-				'middleware' => 'admin',
 			],
 			function () {
 				Route::resource('', 'OAuthAccountController')
 					->parameters(['' => 'oAuthAccount'])
 					->only(['show', 'index']);
 			}
-		);	
+		);
+
+		/*|==========| Unregistered billings |==========|*/
+
+		Route::group(
+			[
+				'prefix' => 'unreg-billings',
+				'as' => 'unreg-billings.',
+			],
+			function () {
+				Route::resource('', 'UnregisteredBillingController')
+					->parameters(['' => 'unregisteredBilling'])
+					->only(['show', 'index', 'update']);
+			}
+		);
 	}
 );
