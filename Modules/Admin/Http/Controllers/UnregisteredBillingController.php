@@ -67,6 +67,26 @@ class UnregisteredBillingController extends Controller
         return new UnregisteredBillingResource($billing);
     }
 
+    public function add(UpdateUnregBillingRequest $req, $key)
+    {
+        $data = $req->validated();
+        $billing = UnregisteredBilling::find($key);
+
+        $billing->increment('dust_coins_num', $data['dust_coins_num']);
+
+        return new UnregisteredBillingResource($billing);
+    }
+
+    public function reduce(UpdateUnregBillingRequest $req, $key)
+    {
+        $data = $req->validated();
+        $billing = UnregisteredBilling::find($key);
+
+        $billing->decrement('dust_coins_num', $data['dust_coins_num']);
+
+        return new UnregisteredBillingResource($billing);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

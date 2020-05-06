@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
 	[
-		'domain' => 'api.dust.game',
+		'domain' => 'api.dust.games',
 		'as' => 'api.',
 		'namespace' => 'App\Http\Controllers'
 	],
@@ -96,7 +96,7 @@ Route::group(
 
 Route::group(
 	[
-		'domain' => 'bot.dust.game',
+		'domain' => 'bot.dust.games',
 		'as' => 'bot.',
 		'namespace' => 'App\Modules\Bot\Http\Controllers',
 	],
@@ -107,7 +107,7 @@ Route::group(
 
 Route::group(
 	[
-		'domain' => 'api.admin.dust.game',
+		'domain' => 'api.admin.dust.games',
 		'as' => 'admin.',
 		'namespace' => 'App\Modules\Admin\Http\Controllers',
 	],

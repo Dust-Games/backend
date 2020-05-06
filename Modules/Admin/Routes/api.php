@@ -56,6 +56,25 @@ Route::group(
 				Route::resource('', 'UnregisteredBillingController')
 					->parameters(['' => 'unregisteredBilling'])
 					->only(['show', 'index', 'update']);
+
+				Route::put('{unregisteredBilling}/add', 'UnregisteredBillingController@add')
+					->name('add');
+
+				Route::put('{unregisteredBilling}/reduce', 'UnregisteredBillingController@reduce')->name('reduce');
+			}
+		);
+
+		/*|==========| Transactions |==========|*/
+
+		Route::group(
+			[
+				'prefix' => 'transactions',
+				'as' => 'transactions.',
+			],
+			function () {
+				Route::resource('', 'TransactionController')
+					->parameters(['' => 'transaction'])
+					->only(['show', 'index']);
 			}
 		);
 	}
