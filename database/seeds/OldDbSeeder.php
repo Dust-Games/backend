@@ -31,7 +31,7 @@ class OldDbSeeder extends Seeder
 
             $rows = $this->objectsToArrays($rows);
 
-            $db::table($table)->insert($rows);
+            $db->table($table)->insert($rows);
         }
     }
 

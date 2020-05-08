@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
 	[
-		'domain' => 'api.dust.games',
+		'domain' => 'api.dust.game',
 		'as' => 'api.',
 		'namespace' => 'Api',
 	],
