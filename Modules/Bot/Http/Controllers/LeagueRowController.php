@@ -9,6 +9,7 @@ use App\Http\Resources\LeagueRowResource;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreLeagueRowRequest;
 use App\Http\Requests\UpdateLeagueRowRequest;
+use App\Http\Requests\AddScoreToLeagueRowRequest;
 use App\Exceptions\ValidationException;
 use App\Exceptions\NotFoundException;
 
@@ -70,13 +71,36 @@ class LeagueRowController extends Controller
      * @param  \App\Models\LeagueRow  $leagueRow
      * @return \Illuminate\Http\Response
      */
-    public function show(int $week, $row_key)
+    public function show(int $week, $acc_id)
     {
-        $row = LeagueRow::where('account_id', '=', $row_key)->first();
+        $row = LeagueRow::
+            where([
+                ['week', '=', $week],
+                ['account_id', '=', $acc_id],
+            ])->first();
 
         if (is_null($row)) {
             throw new NotFoundException;
         }
+
+        return new LeagueRowResource($row);
+    }
+
+    public function addScore(AddScoreToLeagueRowRequest $req, int $week, $acc_id)
+    {
+        $score = $req->validated()['score'];
+
+        $row = LeagueRow::
+            where([
+                ['week', '=', $week],
+                ['account_id', '=', $acc_id],
+            ])->first();
+
+        if (is_null($row)) {
+            throw new NotFoundException;
+        }
+
+        $row->increment('score', $score);
 
         return new LeagueRowResource($row);
     }
