@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 
-/*|=====| Auth |=====|*/
+/*|==========| Auth |==========|*/
 
 Route::group(
 	[
@@ -15,51 +15,60 @@ Route::group(
 	}
 );
 
-/*|=====| Users |=====|*/
-
 Route::group(
 	[
-		'prefix' => 'users',
-		'as' => 'users.',
 		'middleware' => 'bot'
 	],
 	function () {
 
-		/*|==| Billing |==|*/
+		/*|==========| Users |==========|*/
 
 		Route::group(
 			[
-				'prefix' => 'billing',
-				'as' => 'billing',
+				'prefix' => 'users',
+				'as' => 'users.',
 			],
 			function () {
 
-				Route::post('', 'BillingController@show')
-					->name('billing');
-				Route::put('set-coins', 'BillingController@setCoins')
-					->name('set-coins');
-				Route::put('add-coins', 'BillingController@addCoins')
-					->name('add-coins');
-				Route::put('reduce-coins', 'BillingController@reduceCoins')
-					->name('reduce-coins');
-				Route::put('multi-add-coins', 'BillingController@multipleAddCoins')
-					->name('multi-add-coins');
+				/*|=====| Billings |=====|*/
+
+				Route::group(
+					[
+						'prefix' => 'billing',
+						'as' => 'billing',
+					],
+					function () {
+
+						Route::post('', 'BillingController@show')
+							->name('billing');
+						Route::put('set-coins', 'BillingController@setCoins')
+							->name('set-coins');
+						Route::put('add-coins', 'BillingController@addCoins')
+							->name('add-coins');
+						Route::put('reduce-coins', 'BillingController@reduceCoins')
+							->name('reduce-coins');
+						Route::put('multi-add-coins', 'BillingController@multipleAddCoins')
+							->name('multi-add-coins');
+					}
+				);
 			}
 		);
 
+		/*|==========| League |==========|*/
+
+		Route::group(
+			[
+				'prefix' => 'league',
+				'as' => 'league.',
+			],
+			function () {
+
+				Route::get('week/{week}/members', 'LeagueRowController@weekList')
+					->name('week-list');
+
+				Route::post('week/{week}/members', 'LeagueRowController@store');
+			}
+		);
 	}
 );
 
-/*|==========| League |==========|*/
-
-Route::group(
-	[
-		'prefix' => 'league',
-		'as' => 'league.',
-	],
-	function () {
-
-		Route::get('week/{week}', 'LeagueRowController@weekList')
-			->name('week-list');
-	}
-);

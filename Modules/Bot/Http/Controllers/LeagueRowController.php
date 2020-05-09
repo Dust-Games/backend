@@ -7,6 +7,9 @@ use App\Models\LeagueRow;
 use Illuminate\Http\Request;
 use App\Http\Resources\LeagueRowResource;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreLeagueRowRequest;
+use App\Http\Requests\UpdateLeagueRowRequest;
+use App\Exceptions\ValidationException;
 
 class LeagueRowController extends Controller
 {
@@ -40,9 +43,24 @@ class LeagueRowController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(int $week, StoreLeagueRowRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['score'] = $data['score'] ?? 0;
+
+        if (LeagueRow::where('account_id', $data['id'])->where('week', $week)->exists()) {
+            throw new ValidationException('League member with this id and week already exists');
+        }
+
+        $row = LeagueRow::create([
+            'account_id' => $data['id'],
+            'username' => $data['username'],
+            'week' => $week,
+            'class' => $data['class'],
+            'score' => $data['score'],
+        ]);
+
+        return $row;
     }
 
     /**
