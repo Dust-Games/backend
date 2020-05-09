@@ -46,5 +46,19 @@ Route::group(
 					->name('multi-add-coins');
 			}
 		);
+
+		/*|==========| League |==========|*/
+
+		Route::group(
+			[
+				'pregix' => 'league',
+				'as' => 'league.',
+			],
+			function () {
+
+				Route::get('week/{week}', 'LeagueRowController@weekList')
+					->name('week-list');
+			}
+		);
 	}
 );
