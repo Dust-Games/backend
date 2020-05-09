@@ -66,7 +66,9 @@ Route::group(
 				Route::get('week/{week}/members', 'LeagueRowController@weekList')
 					->name('week-list');
 
-				Route::post('week/{week}/members', 'LeagueRowController@store');
+				Route::resource('week/{week}/members', 'LeagueRowController')
+					->parameters(['members' => 'leagueRow'])
+					->only(['store', 'show']);
 			}
 		);
 	}

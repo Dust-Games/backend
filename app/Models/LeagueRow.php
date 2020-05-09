@@ -8,4 +8,9 @@ class LeagueRow extends Model
 {
     protected $table = 'league';
     protected $guarded = [];
+
+    public function getRouteKeyName()
+    {
+    	return 'account_id';
+    }
 }

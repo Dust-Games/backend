@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreLeagueRowRequest;
 use App\Http\Requests\UpdateLeagueRowRequest;
 use App\Exceptions\ValidationException;
+use App\Exceptions\NotFoundException;
 
 class LeagueRowController extends Controller
 {
@@ -49,7 +50,7 @@ class LeagueRowController extends Controller
         $data['score'] = $data['score'] ?? 0;
 
         if (LeagueRow::where('account_id', $data['id'])->where('week', $week)->exists()) {
-            throw new ValidationException('League member with this id and week already exists');
+            throw new ValidationException('League member with this ID and week already exists');
         }
 
         $row = LeagueRow::create([
@@ -69,9 +70,15 @@ class LeagueRowController extends Controller
      * @param  \App\Models\LeagueRow  $leagueRow
      * @return \Illuminate\Http\Response
      */
-    public function show(LeagueRow $leagueRow)
+    public function show(int $week, $row_key)
     {
-        //
+        $row = LeagueRow::where('account_id', '=', $row_key)->first();
+
+        if (is_null($row)) {
+            throw new NotFoundException;
+        }
+
+        return new LeagueRowResource($row);
     }
 
     /**
