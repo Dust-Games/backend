@@ -18,6 +18,7 @@ class LeagueRowResource extends JsonResource
             'id' => $this->resource->getKey(),
             'week' => $this->resource->week,
             'position' => $this->resource->position,
+            'account_id' => $this->resource->account_id,
             'username' => $this->resource->username,
             'class' => $this->resource->class,
             'score' => $this->resource->score,

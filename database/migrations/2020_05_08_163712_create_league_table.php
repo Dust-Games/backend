@@ -16,10 +16,13 @@ class CreateLeagueTable extends Migration
         Schema::create('league', function (Blueprint $table) {
             $table->id();
 
+            $table->string('account_id');
             $table->string('username', 100);
             $table->smallInteger('week');
             $table->smallInteger('class');
             $table->bigInteger('score')->default(0);
+
+            $table->unique(['account_id', 'week']);
 
             $table->timestamps();
         });

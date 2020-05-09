@@ -5,11 +5,13 @@ namespace App\Modules\Bot\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\LeagueRow;
 use Illuminate\Http\Request;
-use App\Htpp\Resources\LeagueRowResource;
+use App\Http\Resources\LeagueRowResource;
 use Illuminate\Support\Facades\DB;
 
 class LeagueRowController extends Controller
 {
+    private const PER_PAGE = 20;
+
     /**
      * Display a listing of the resource.
      *
@@ -24,9 +26,9 @@ class LeagueRowController extends Controller
     {
         $rows = LeagueRow::
             where('week', $week)
-            ->orderByDesc('score')->get([
+            ->orderByDesc('score')->paginate(static::PER_PAGE, [
                 'league.*', 
-                DB::raw('row_number() over(order by account_id) as position')
+                DB::raw('row_number() over(order by score desc) as position')
         ]);
 
         return LeagueRowResource::collection($rows);

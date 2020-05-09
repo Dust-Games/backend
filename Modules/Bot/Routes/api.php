@@ -47,18 +47,19 @@ Route::group(
 			}
 		);
 
-		/*|==========| League |==========|*/
+	}
+);
 
-		Route::group(
-			[
-				'pregix' => 'league',
-				'as' => 'league.',
-			],
-			function () {
+/*|==========| League |==========|*/
 
-				Route::get('week/{week}', 'LeagueRowController@weekList')
-					->name('week-list');
-			}
-		);
+Route::group(
+	[
+		'prefix' => 'league',
+		'as' => 'league.',
+	],
+	function () {
+
+		Route::get('week/{week}', 'LeagueRowController@weekList')
+			->name('week-list');
 	}
 );
