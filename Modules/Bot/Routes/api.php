@@ -58,20 +58,17 @@ Route::group(
 
 		Route::group(
 			[
-				'prefix' => 'league/week',
+				'prefix' => 'league/members',
 				'as' => 'league.members.',
 			],
 			function () {
 
-				Route::get('{week}/members', 'LeagueRowController@weekList')
-					->name('week-list');
-
-				Route::resource('{week}/members', 'LeagueRowController')
-					->parameters(['members' => 'leagueRow'])
-					->only(['store', 'show']);
+				Route::resource('', 'LeagueRowController')
+					->parameters(['' => 'leagueRow'])
+					->only(['store', 'show', 'index']);
 
 				Route::put(
-					'{week}/members/{leagueRow}/add-score',
+					'{leagueRow}/add-score',
 					'LeagueRowController@addScore'
 				)->name('add-score');
 			}

@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('settings')->insert([['key' => 'league_week', 'value' => 1]]);
+
         $this->call(OldDbSeeder::class);
         $this->call(RoleSystemSeeder::class);
         $this->call(LeagueRowSeeder::class);

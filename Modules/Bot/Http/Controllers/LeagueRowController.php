@@ -12,6 +12,7 @@ use App\Http\Requests\UpdateLeagueRowRequest;
 use App\Http\Requests\AddScoreToLeagueRowRequest;
 use App\Exceptions\ValidationException;
 use App\Exceptions\NotFoundException;
+use App\Models\Settings;
 
 class LeagueRowController extends Controller
 {
@@ -24,13 +25,8 @@ class LeagueRowController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    public function weekList($week)
-    {
         $rows = LeagueRow::
-            where('week', $week)
+            where('week', Settings::leagueWeek()->first()->value)
             ->orderByDesc('score')->paginate(static::PER_PAGE, [
                 'league.*', 
                 DB::raw('row_number() over(order by score desc) as position')
@@ -45,13 +41,16 @@ class LeagueRowController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(int $week, StoreLeagueRowRequest $request)
+    public function store(StoreLeagueRowRequest $request)
     {
         $data = $request->validated();
         $data['score'] = $data['score'] ?? 0;
+        $week = Settings::leagueWeek()->first()->value;
 
-        if (LeagueRow::where('account_id', $data['id'])->where('week', $week)->exists()) {
-            throw new ValidationException('League member with this ID and week already exists');
+        if (LeagueRow::where([['account_id', '=', $data['id']]])->exists()) {
+            throw new ValidationException(
+                'League member with this ID already exists'
+            );
         }
 
         $row = LeagueRow::create([
@@ -71,11 +70,11 @@ class LeagueRowController extends Controller
      * @param  \App\Models\LeagueRow  $leagueRow
      * @return \Illuminate\Http\Response
      */
-    public function show(int $week, $acc_id)
+    public function show($acc_id)
     {
         $row = LeagueRow::
             where([
-                ['week', '=', $week],
+                ['week', '=', Settings::leagueWeek()->first()->value],
                 ['account_id', '=', $acc_id],
             ])->first();
 
@@ -86,13 +85,13 @@ class LeagueRowController extends Controller
         return new LeagueRowResource($row);
     }
 
-    public function addScore(AddScoreToLeagueRowRequest $req, int $week, $acc_id)
+    public function addScore(AddScoreToLeagueRowRequest $req, $acc_id)
     {
         $score = $req->validated()['score'];
 
         $row = LeagueRow::
             where([
-                ['week', '=', $week],
+                ['week', '=', Settings::leagueWeek()->first()->value],
                 ['account_id', '=', $acc_id],
             ])->first();
 

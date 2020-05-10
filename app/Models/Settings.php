@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Settings extends Model
+{
+    protected $table = 'settings';
+
+    protected $guarded = [];
+
+    /*|==========| Scopes |==========|*/
+
+    public function scopeLeagueWeek($query)
+    {
+    	return $query->where('key', 'league_week');	
+    }
+}
