@@ -13,8 +13,8 @@ class SettingsSeeder extends Seeder
     {
         DB::table('settings')->insert([
         	[
-        		'key' => 'course',
-        		'value' => null,
+        		'key' => 'league_week',
+        		'value' => 1,
         	]
     	]);
     }

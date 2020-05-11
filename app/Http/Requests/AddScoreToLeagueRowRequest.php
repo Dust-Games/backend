@@ -24,7 +24,8 @@ class AddScoreToLeagueRowRequest extends FormRequest
     public function rules()
     {
         return [
-            'score' => ['required', 'integer', 'min:0'],
+            'username' => ['required', 'string', 'max:255'],
+            'score' => ['required', 'integer', 'min:0', 'max:1000000000'],
         ];
     }
 }

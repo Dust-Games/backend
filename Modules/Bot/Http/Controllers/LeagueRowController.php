@@ -13,6 +13,7 @@ use App\Http\Requests\AddScoreToLeagueRowRequest;
 use App\Exceptions\ValidationException;
 use App\Exceptions\NotFoundException;
 use App\Models\Settings;
+use App\Helpers\LeagueClasses;
 
 class LeagueRowController extends Controller
 {
@@ -87,20 +88,24 @@ class LeagueRowController extends Controller
 
     public function addScore(AddScoreToLeagueRowRequest $req, $acc_id)
     {
-        $score = $req->validated()['score'];
+        $data = $req->validated();
 
-        $row = LeagueRow::
-            where([
-                ['week', '=', Settings::leagueWeek()->first()->value],
-                ['account_id', '=', $acc_id],
-            ])->first();
+        $row = LeagueRow::firstOrCreate(
+            [
+                'account_id' => $acc_id,
+            ],
+            [
+                'username' => $data['username'],
+                'score' => $data['score'],
+                'week' => Settings::leagueWeek()->first()->value,
+                'class' => LeagueClasses::DEFAULT,
+            ]
+        );
 
-        if (is_null($row)) {
-            throw new NotFoundException;
+        if (!$row->wasRecentlyCreated) {
+            $row->increment('score', $data['score']);
         }
-
-        $row->increment('score', $score);
-
+        
         return new LeagueRowResource($row);
     }
 
