@@ -71,6 +71,9 @@ Route::group(
 					'{leagueRow}/add-score',
 					'LeagueRowController@addScore'
 				)->name('add-score');
+
+				Route::post('get-many', 'LeagueRowController@getMany')
+					->name('get-many');
 			}
 		);
 	}

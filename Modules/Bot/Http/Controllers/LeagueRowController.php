@@ -14,6 +14,7 @@ use App\Exceptions\ValidationException;
 use App\Exceptions\NotFoundException;
 use App\Models\Settings;
 use App\Helpers\LeagueClasses;
+use App\Http\Requests\LeagueRowsListRequest;
 
 class LeagueRowController extends Controller
 {
@@ -24,14 +25,14 @@ class LeagueRowController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getMany(LeagueRowsListRequest $req)
     {
+        $accounts = $req->validated()['accounts'];
+
         $rows = LeagueRow::
-            where('week', Settings::leagueWeek()->first()->value)
-            ->orderByDesc('score')->paginate(static::PER_PAGE, [
-                'league.*', 
-                DB::raw('row_number() over(order by score desc) as position')
-        ]);
+            whereIn('account_id', $accounts)
+            ->where('week', Settings::leagueWeek()->first()->value)
+            ->get();
 
         return LeagueRowResource::collection($rows);
     }
