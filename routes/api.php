@@ -89,6 +89,22 @@ Route::group(
 		}
 	);
 
+		/*|=====| League |=====|*/
+
+		Route::group(
+			[
+				'prefix' => 'league',
+				'as' => 'league.',
+			],
+			function () {
+
+				Route::get('week/{week}/members', 'LeagueRowController@getByWeek')
+					->name('members.by-week');
+
+				Route::get('current-week', 'LeagueRowController@getCurrentWeek')
+					->name('current-week');
+			}
+		);
 	}
 );
 
