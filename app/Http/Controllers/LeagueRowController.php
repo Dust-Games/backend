@@ -7,24 +7,21 @@ use App\Models\LeagueRow;
 use App\Models\Settings;
 use App\Http\Resources\LeagueClassCollection;
 use \DB;
+use App\Services\LeagueRowService;
 
 class LeagueRowController extends Controller
 {
-    private const PER_PAGE = 20;
-
+    private const PER_PAGE = 40;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getByWeek($week)
+    public function getByWeek($week, LeagueRowService $service)
     {
-        $rows = LeagueRow::
-            where('week', $week)
-            ->orderByDesc('score')->paginate(static::PER_PAGE, [
-                'league.*', 
-                DB::raw('row_number() over(order by score desc) as position')
-        ])->groupBy(['class']);
+        $rows = $service->getRowsByWeek($week, static::PER_PAGE);
+
+        $rows = $rows->groupBy(['class']);
 
         return new LeagueClassCollection($rows);
     }

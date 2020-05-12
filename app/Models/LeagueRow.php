@@ -13,4 +13,11 @@ class LeagueRow extends Model
     {
     	return 'account_id';
     }
+
+    /*|==========| Getters |==========|*/
+
+    public function getAccountKey()
+    {
+    	return $this->getAttributeFromArray('account_id');
+    }
 }

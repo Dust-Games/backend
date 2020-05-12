@@ -23,15 +23,23 @@ class LeagueRowSeeder extends Seeder
             $rows[] = $this->makeRow();
         }
 
+        $rows = array_merge(
+            $rows, 
+            [
+                $this->makeRow('testest', 1),
+                $this->makeRow('testest', 2),
+            ]
+        );
+
         LeagueRow::insert($rows);
     }
 
-    private function makeRow()
+    private function makeRow($account_id = null, $week = null)
     {
     	return [
-            'account_id' => random_int(1000000000, 9999999999),
+            'account_id' => $account_id ?? random_int(1, 100000),
             'username' => $this->faker->name,
-            'week' => random_int(1, 16),
+            'week' => $week ?? random_int(1, 16),
             'class' => random_int(1, 5),
             'score' => random_int(0, 1000),
         ];
