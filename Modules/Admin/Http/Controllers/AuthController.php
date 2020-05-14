@@ -26,7 +26,6 @@ class AuthController extends Controller
     public function login(LoginRequest $req, UserService $service)
     {
         $data = $req->validated();
-
         $user = User::where($this->username(), $data[$this->username()])->first();
 
         if (!$user || !$user->isAdmin()) {
@@ -34,7 +33,7 @@ class AuthController extends Controller
         }
 
         if ($this->checkPassword($data['password'], $user->getPassword())) {
-            
+
             if ($user->hasTooManySessions()) {
                 RemoveOldSessions::dispatch($user->getKey(), (string) now());
             }
@@ -64,7 +63,7 @@ class AuthController extends Controller
 
             throw new AuthenticationException(
                 trans('auth.refresh_token.expired')
-            );           
+            );
         }
 
         $tokens = $service->createTokens($session->user_id);

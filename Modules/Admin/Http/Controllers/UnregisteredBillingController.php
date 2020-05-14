@@ -5,6 +5,8 @@ namespace App\Modules\Admin\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Billing;
 use App\Models\UnregisteredBilling;
+use App\Modules\Admin\Http\Requests\IndexUnregBillingRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\UnregisteredBillingCollection;
 use App\Http\Resources\UnregisteredBillingResource;
@@ -15,14 +17,45 @@ class UnregisteredBillingController extends Controller
     private const PER_PAGE = 20;
 
     /**
+     * Callbacks for filtering UnregBills
+     *
+     * @return \Closure[]
+     */
+    private function filterQueryCallbacks()
+    {
+        return [
+            'q' => function(Builder $query, $value) {
+                $query->when(!$query->isJoined('oauth_account as account'), function ($q) {
+                    $q->join('oauth_account as account','account.id', '=', 'oauth_account_id');
+                })
+                    ->where('account.username', 'LIKE', '%' . $value . '%')
+                    ->orWhere('account_id', $value);
+            },
+            'order_by' => function(Builder $query, $value) {
+                $query->when(!$query->isJoined('oauth_account as account'), function ($q) {
+                    $q->join('oauth_account as account', 'account.id', '=', 'oauth_account_id');
+                })
+                    ->orderBy($value);
+            },
+            'order_desc' => function(Builder $query, $value) {
+                $query->when(!$query->isJoined('oauth_account as account'), function ($q) {
+                    $q->join('oauth_account as account', 'account.id', '=', 'oauth_account_id');
+                })
+                    ->orderByDesc($value);
+            },
+        ];
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexUnregBillingRequest $request)
     {
-        $bills = UnregisteredBilling::with('account')->paginate(static::PER_PAGE);
-
+        $bills = UnregisteredBilling::with('account')
+            ->filterQuery($request, $this->filterQueryCallbacks())
+            ->paginate(static::PER_PAGE);
         return new UnregisteredBillingCollection($bills);
     }
 
