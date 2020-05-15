@@ -14,6 +14,7 @@ class LeagueRowResource extends JsonResource
      */
     public function toArray($request)
     {
+        return parent::toArray($request);
         return [
             'id' => $this->resource->getKey(),
             'week' => $this->resource->week,

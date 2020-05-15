@@ -19,9 +19,13 @@ class UnregisteredBillingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bills = UnregisteredBilling::with('account')->paginate(static::PER_PAGE);
+        $query = UnregisteredBilling::with('account');
+
+        $this->filterQuery($query, $request);
+
+        $bills->paginate(static::PER_PAGE);
 
         return new UnregisteredBillingCollection($bills);
     }
@@ -96,5 +100,26 @@ class UnregisteredBillingController extends Controller
     public function destroy(Billing $billing)
     {
         //
+    }
+
+    private function filterQuery($query, $request)
+    {
+        $input = $request->input();
+        $callbacks = $this->getFilterCallbacks();
+
+        foreach ($input as $key => $value) {
+            if (array_key_exists($key, $callbacks)) {
+                $callbacks[$key]($query, $value);
+            }
+        }
+    }
+
+    private function getFilterCallbacks()
+    {
+        return [
+            'order_by' => function ($query, $value) {
+                $query->orderBy($value);
+            }
+        ];
     }
 }
