@@ -29,8 +29,8 @@ Route::group(
 	[
 		'middleware' => 'admin',
 	],
-	function () {	
-		
+	function () {
+
 		/*|==========| OAuth accounts |==========|*/
 
 		Route::group(

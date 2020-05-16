@@ -24,7 +24,7 @@ class IndexUnregBillingRequest extends FormRequest
     public function rules()
     {
         return [
-/*            'q' => 'string|max:32',
+            'q' => 'string|max:32',
             'order_by' => 'string|in:username,account_id,dust_coins_num',
             'order_desc' =>[
                 'string',
@@ -34,7 +34,7 @@ class IndexUnregBillingRequest extends FormRequest
                         $fail('validtion.invalid');
                     }
                 }
-            ], */
+            ],
         ];
     }
 }
