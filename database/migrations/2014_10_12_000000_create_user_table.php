@@ -15,9 +15,9 @@ class CreateUserTable extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            
+
             $table->string('username')->unique();
-            $table->bigInteger('role_id')->default(1);
+            // $table->bigInteger('role_id')->default(1);
             $table->string('avatar')->nullable();
             $table->string('status')->nullable();
             $table->string('email')->unique();
@@ -26,9 +26,9 @@ class CreateUserTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('role_id')
-                ->references('id')
-                ->on('role');
+            // $table->foreign('role_id')
+            //     ->references('id')
+            //    ->on('role');
         });
     }
 

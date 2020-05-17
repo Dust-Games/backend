@@ -21,7 +21,7 @@ Artisan::command('inspire', function () {
 Artisan::command('secret {length=20}', function ($length) {
 
 	$this->comment(bin2hex(random_bytes($length)));
-	
+
 })->describe('Generate cryptographically secure string');
 
 Artisan::command('bot:keys {length=20}', function ($length) {
@@ -30,3 +30,9 @@ Artisan::command('bot:keys {length=20}', function ($length) {
 	$this->comment('Secret: ' . bin2hex(random_bytes($length)));
 
 })->describe('Generate id and secret for bot');
+
+Artisan::command('make:admin', function(){
+    $user =  \App\Models\User::query()->where('email', 'spanri.dev@mail.ru')->firstOrFail();
+    $user->role_id = 2;
+    $user->save();
+})->describe('Make admin');
