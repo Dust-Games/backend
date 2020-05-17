@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
 	[
-		'domain' => 'api.dust.game',
+		'domain' => 'api.dust.' . env('APP_DOMAIN'),
 		'as' => 'api.',
 		'namespace' => 'App\Http\Controllers'
 	],
@@ -15,10 +15,10 @@ Route::group(
 	/*|=====| Auth |=====|*/
 
 	Route::get('add-coins', function () {
-		
+
 		return view('add_coins');
 	});
-	
+
 	Route::group(
 		[
 			'prefix' => 'auth',
@@ -40,7 +40,7 @@ Route::group(
 				    Route::get('email/verify', 'VerifyEmailController@verify')->name('email.verify');
 				    Route::get('email/verify/resend', 'VerifyEmailController@resend')->name('email.verify.resend');
 				}
-			);		
+			);
 		}
 	);
 
@@ -112,7 +112,7 @@ Route::group(
 
 Route::group(
 	[
-		'domain' => 'bot.dust.game',
+		'domain' => 'bot.dust.' . env('APP_DOMAIN'),
 		'as' => 'bot.',
 		'namespace' => 'App\Modules\Bot\Http\Controllers',
 	],
@@ -123,7 +123,7 @@ Route::group(
 
 Route::group(
 	[
-		'domain' => 'api.admin.dust.game',
+		'domain' => 'api.admin.dust.' . env('APP_DOMAIN'),
 		'as' => 'admin.',
 		'namespace' => 'App\Modules\Admin\Http\Controllers',
 	],

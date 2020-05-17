@@ -25,13 +25,24 @@ class LeagueRowController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index()
+    {
+        $rows = LeagueRow::where('week', Settings::leagueWeek()->firstOrFail()->value)->get();
+        return LeagueRowResource::collection($rows);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getMany(LeagueRowsListRequest $req)
     {
         $accounts = $req->validated()['accounts'];
 
         $rows = LeagueRow::
             whereIn('account_id', $accounts)
-            ->where('week', Settings::leagueWeek()->first()->value)
+            ->where('week', Settings::leagueWeek()->firstOrFail()->value)
             ->get();
 
         return LeagueRowResource::collection($rows);
@@ -106,7 +117,7 @@ class LeagueRowController extends Controller
         if (!$row->wasRecentlyCreated) {
             $row->increment('score', $data['score']);
         }
-        
+
         return new LeagueRowResource($row);
     }
 
