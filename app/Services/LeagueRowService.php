@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\LeagueRow;
 use App\Models\Settings;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class LeagueRowService
 {
@@ -20,7 +20,7 @@ class LeagueRowService
             ]);
 
         $rows = collect();
-        for ($i=1; $i < 6; $i++) { 
+        for ($i=1; $i < 6; $i++) {
             $rows->put(
                 $i,
                 (clone $query)
@@ -35,8 +35,8 @@ class LeagueRowService
             $keys = array_merge($keys, $class->pluck('account_id')->toArray());
         }
 
-        $total_scores = LeagueRow::
-        	whereIn('account_id', $keys)
+        $total_scores = LeagueRow::query()
+        	->whereIn('account_id', $keys)
         	->groupBy('account_id')
         	->get(['account_id', DB::raw('sum(score) as total_score')])
         	->keyBy('account_id');
@@ -55,7 +55,7 @@ class LeagueRowService
 
     public function getRowsByClass($class, $per_page, $week = null, $query = null)
     {
-        $week = $week ?? Settings::leagueWeek()->first()->value;
+        $week = $week ?? Settings::leagueWeek();
 
         $query = $query ?? LeagueRow::query();
 

@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LeagueRow;
 use Illuminate\Http\Request;
 use App\Http\Resources\LeagueRowResource;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreLeagueRowRequest;
-use App\Http\Requests\UpdateLeagueRowRequest;
 use App\Http\Requests\AddScoreToLeagueRowRequest;
 use App\Exceptions\ValidationException;
 use App\Exceptions\NotFoundException;
@@ -27,7 +25,7 @@ class LeagueRowController extends Controller
      */
     public function index()
     {
-        $rows = LeagueRow::where('week', Settings::leagueWeek()->firstOrFail()->value)->get();
+        $rows = LeagueRow::query()->where('week', Settings::leagueWeek())->get();
         return LeagueRowResource::collection($rows);
     }
 
@@ -40,9 +38,9 @@ class LeagueRowController extends Controller
     {
         $accounts = $req->validated()['accounts'];
 
-        $rows = LeagueRow::
-            whereIn('account_id', $accounts)
-            ->where('week', Settings::leagueWeek()->firstOrFail()->value)
+        $rows = LeagueRow::query()
+            ->whereIn('account_id', $accounts)
+            ->where('week', Settings::leagueWeek())
             ->get();
 
         return LeagueRowResource::collection($rows);
@@ -58,7 +56,7 @@ class LeagueRowController extends Controller
     {
         $data = $request->validated();
         $data['score'] = $data['score'] ?? 0;
-        $week = Settings::leagueWeek()->first()->value;
+        $week = Settings::leagueWeek();
 
         if (LeagueRow::where([['account_id', '=', $data['id']]])->exists()) {
             throw new ValidationException(
@@ -85,9 +83,9 @@ class LeagueRowController extends Controller
      */
     public function show($acc_id)
     {
-        $row = LeagueRow::
-            where([
-                ['week', '=', Settings::leagueWeek()->first()->value],
+        $row = LeagueRow::query()
+            ->where([
+                ['week', '=', Settings::leagueWeek()],
                 ['account_id', '=', $acc_id],
             ])->first();
 
@@ -109,7 +107,7 @@ class LeagueRowController extends Controller
             [
                 'username' => $data['username'],
                 'score' => $data['score'],
-                'week' => Settings::leagueWeek()->first()->value,
+                'week' => Settings::leagueWeek(),
                 'class' => LeagueClasses::DEFAULT,
             ]
         );

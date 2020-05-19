@@ -36,3 +36,7 @@ Artisan::command('make:admin', function(){
     $user->role_id = 2;
     $user->save();
 })->describe('Make admin');
+
+Artisan::command('test', function (\App\Models\Settings $s) {
+    dd($s->leagueWeek());
+})->describe('test something');
