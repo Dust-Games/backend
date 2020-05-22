@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -37,6 +38,8 @@ Artisan::command('make:admin', function(){
     $user->save();
 })->describe('Make admin');
 
-Artisan::command('test', function (\App\Models\Settings $s) {
-    dd($s->leagueWeek());
+Artisan::command('test', function (\App\Models\LeagueRow $s) {
+    $rows = $s->newQuery()->groupBy('account_id')->select('account_id',
+        \Illuminate\Support\Facades\DB::raw('max(class) as class'))->take(10)->get();
+    dd($rows->toArray());
 })->describe('test something');

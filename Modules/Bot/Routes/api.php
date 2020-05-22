@@ -74,6 +74,12 @@ Route::group(
 
 				Route::post('get-many', 'LeagueRowController@getMany')
 					->name('get-many');
+
+                Route::post('set-class', 'LeagueRowController@setClass')
+                    ->name('setClass');
+
+                Route::post('create-new-week', 'LeagueRowController@createNewWeek')
+                    ->name('create-new-week');
 			}
 		);
 	}

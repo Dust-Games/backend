@@ -17,9 +17,13 @@ class LeagueRowController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $req
+     * @param int $week
+     * @param LeagueRowService $service
+     * @return LeagueClassCollection|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getByWeek(Request $req, $week, LeagueRowService $service)
+
+    public function getByWeek(Request $req, int $week, LeagueRowService $service)
     {
         if ($req->input('by_class')) {
 
@@ -29,24 +33,24 @@ class LeagueRowController extends Controller
 
             $rows = $service->getRowsByClass(
                 $req->input('by_class'),
-                static::PER_PAGE, 
+                static::PER_PAGE,
                 $week,
                 $query
             );
 
             return LeagueRowResource::collection($rows);
 
-        } else {        
+        } else {
             $rows = $service->getRowsByWeek($week, static::PER_PAGE);
 
             return new LeagueClassCollection($rows);
-        }  
+        }
     }
 
     public function getCurrentWeek()
     {
         return response()->json([
-            'week' => Settings::leagueWeek()->first()->value,
+            'week' => Settings::leagueWeek(),
         ]);
     }
 

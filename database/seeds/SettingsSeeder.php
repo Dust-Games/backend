@@ -18,7 +18,11 @@ class SettingsSeeder extends Seeder
         ]);
         Settings::query()->firstOrCreate([
            'key' => 'tournament_start_date',
-            'value' => '2020-05-04',
+            'value' => '2020-05-04 19:30',
+        ]);
+        Settings::query()->firstOrCreate([
+            'key' => 'max_league_weeks',
+            'value' => '16',
         ]);
     }
 }

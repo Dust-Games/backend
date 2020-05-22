@@ -4,6 +4,8 @@ namespace App\Modules\Bot\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeagueRow;
+use App\Modules\Bot\Http\Requests\SetLegueClassRequest;
+use App\Services\LeagueRowService;
 use Illuminate\Http\Request;
 use App\Http\Resources\LeagueRowResource;
 use App\Http\Requests\StoreLeagueRowRequest;
@@ -58,13 +60,18 @@ class LeagueRowController extends Controller
         $data['score'] = $data['score'] ?? 0;
         $week = Settings::leagueWeek();
 
-        if (LeagueRow::where([['account_id', '=', $data['id']]])->exists()) {
+        if (
+            LeagueRow::query()->where([
+                ['account_id', '=', $data['id']],
+                ['week', '=', $week]
+            ])->exists()
+        ) {
             throw new ValidationException(
                 'League member with this ID already exists'
             );
         }
 
-        $row = LeagueRow::create([
+        $row = LeagueRow::query()->create([
             'account_id' => $data['id'],
             'username' => $data['username'],
             'week' => $week,
@@ -103,11 +110,11 @@ class LeagueRowController extends Controller
         $row = LeagueRow::firstOrCreate(
             [
                 'account_id' => $acc_id,
+                'week' => Settings::leagueWeek(),
             ],
             [
                 'username' => $data['username'],
                 'score' => $data['score'],
-                'week' => Settings::leagueWeek(),
                 'class' => LeagueClasses::DEFAULT,
             ]
         );
@@ -117,6 +124,31 @@ class LeagueRowController extends Controller
         }
 
         return new LeagueRowResource($row);
+    }
+
+    /**
+     * Set League class by account_id
+     *
+     * @param SetLegueClassRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setClass(SetLegueClassRequest $request)
+    {
+        $week = LeagueRow::query()->max('week');
+        LeagueRow::query()
+            ->whereIn('account_id', $request->input('accounts'))
+            ->where('week', $week)
+            ->update(['class' => $request->input('class')]);
+        return response()->json(['message' => 'Класс выставлен']);
+    }
+
+    /**
+     * @param LeagueRowService $service
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function createNewWeek(LeagueRowService $service)
+    {
+        return response()->json([ 'message' => $service->createNextWeek()]);
     }
 
     /**
