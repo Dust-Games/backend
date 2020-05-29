@@ -17,7 +17,7 @@ class UnregisteredBillingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return UnregisteredBillingCollection
      */
     public function index(Request $request)
     {
@@ -25,6 +25,7 @@ class UnregisteredBillingController extends Controller
 
         $this->filterQuery($query, $request);
 
+        $bills = null;
         $bills->paginate(static::PER_PAGE);
 
         return new UnregisteredBillingCollection($bills);

@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Concerns\HasUuidPrimaryKey;
 use App\Concerns\HasDustCoins;
-use App\Models\User;
 
+/**
+ * @property float usd_tokens_num
+ */
 class Billing extends Model
 {
 	use HasUuidPrimaryKey, HasDustCoins;
@@ -19,10 +21,30 @@ class Billing extends Model
 		'dust_coins_num' => 'decimal:3',
 	];
 
+	/* Setters */
+
+    public function setUsdTokensNumAttribute($value)
+    {
+        $this->attributes['usd_tokens_num'] = round($value, 2);
+    }
+
+	/* Getters */
+
 	public function getDustCoinsNumColumn()
 	{
 		return 'dust_coins_num';
 	}
+
+	/* Helpers */
+
+    /**
+     * @param array $request
+     * @return bool
+     */
+	public function isPossibleChangeUsdToken($request)
+    {
+        return !$request['debt'] || $this->usd_tokens_num - $request['amount'] >= 0;
+    }
 
 	/*|==========| Scopes |==========|*/
 

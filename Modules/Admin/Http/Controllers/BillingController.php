@@ -4,7 +4,6 @@ namespace App\Modules\Admin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Billing;
-use App\Models\UnregisteredBilling;
 use Illuminate\Http\Request;
 
 class BillingController extends Controller
@@ -16,7 +15,7 @@ class BillingController extends Controller
      */
     public function index()
     {
-            
+
     }
 
     /**

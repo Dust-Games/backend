@@ -29,8 +29,8 @@ Route::group(
 	[
 		'middleware' => 'admin',
 	],
-	function () {	
-		
+	function () {
+
 		/*|==========| OAuth accounts |==========|*/
 
 		Route::group(
@@ -77,5 +77,11 @@ Route::group(
 					->only(['show', 'index']);
 			}
 		);
+
+		/* AdminUsdTokenChange */
+
+		Route::apiResource('admin-usd-token-change', 'AdminUsdTokenChangeController')
+            ->parameters(['admin-usd-token-change' => 'change'])
+            ->only(['store', 'update', 'destroy']);
 	}
 );
