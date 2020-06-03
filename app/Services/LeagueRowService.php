@@ -4,14 +4,18 @@ namespace App\Services;
 
 use App\Models\LeagueRow;
 use App\Models\Settings;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class LeagueRowService
 {
-	public function getRowsByWeek($week, $per_page)
+	public function getRowsByWeek($week, $per_page, $req)
 	{
         $query = LeagueRow::query()
             ->where('week', $week)
+            ->when($req->username, function(Builder $query, string $username) {
+                $query->where('username', 'like', '%' . $username . '%');
+            })
             ->orderByDesc('score')
             ->limit($per_page)
             ->select([
@@ -68,7 +72,12 @@ class LeagueRowService
             $query->orderByDesc('score');
         }
 
-        $rows = $query->paginate($per_page);
+        $rows = $query
+            ->select([
+                'league.*',
+                DB::raw('row_number() over(order by score desc) as position')
+            ])
+            ->paginate($per_page);
 
         $keys = $rows->pluck('account_id')->toArray();
 

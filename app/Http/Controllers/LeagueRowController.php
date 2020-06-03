@@ -41,7 +41,7 @@ class LeagueRowController extends Controller
             return LeagueRowResource::collection($rows);
 
         } else {
-            $rows = $service->getRowsByWeek($week, static::PER_PAGE);
+            $rows = $service->getRowsByWeek($week, static::PER_PAGE, $req);
 
             return new LeagueClassCollection($rows);
         }

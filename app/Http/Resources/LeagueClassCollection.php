@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use App\Http\Resources\LeagueRowResource;
 
 class LeagueClassCollection extends ResourceCollection
 {
@@ -16,11 +15,11 @@ class LeagueClassCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            's' => $this->resource[1] ?? null,
-            'a' => $this->resource[2] ?? null,
+            's' => $this->resource[5] ?? null,
+            'a' => $this->resource[4] ?? null,
             'b' => $this->resource[3] ?? null,
-            'c' => $this->resource[4] ?? null,
-            'd' => $this->resource[5] ?? null,
+            'c' => $this->resource[2] ?? null,
+            'd' => $this->resource[1] ?? null,
         ];
     }
 }
