@@ -14,7 +14,7 @@ class LeagueRowService
         $query = LeagueRow::query()
             ->where('week', $week)
             ->when($req->username, function(Builder $query, string $username) {
-                $query->where('username', 'like', '%' . $username . '%');
+                $query->where('username', 'ILIKE', '%' . $username . '%');
             })
             ->orderByDesc('score')
             ->limit($per_page)
