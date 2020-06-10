@@ -33,15 +33,13 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [];
-
         foreach (static::ENTITIES as $entity) {
         	foreach (static::ACTIONS as $action) {
-        		$permissions[] = [ 'value' => static::makePermission($action, $entity) ];
+        		Permission::query()->firstOrCreate(
+        		    [ 'value' => static::makePermission($action, $entity) ]
+                );
         	}
         }
-
-        Permission::insert($permissions);
     }
 
     public static function makePermission(string $permission, string $entity)

@@ -8,6 +8,8 @@ class RoleSeeder extends Seeder
 	public const ROLES = [
 		'user',
 		'admin',
+        'premium user',
+        'vip user'
 	];
 
     /**
@@ -17,10 +19,8 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-    	$roles = array_map(function ($name) {
-    		return ['name' => $name];
-    	}, static::ROLES);   
-
-    	Role::insert($roles);
+        foreach (static::ROLES as $name){
+            Role::query()->firstOrCreate(['name' => $name]);
+        }
     }
 }

@@ -83,5 +83,9 @@ Route::group(
 		Route::apiResource('admin-usd-token-change', 'AdminUsdTokenChangeController')
             ->parameters(['admin-usd-token-change' => 'change'])
             ->only(['store', 'update', 'destroy']);
+
+		/* Roles */
+
+        Route::apiResource('role', 'RoleController')->only(['update', 'index', 'show']);
 	}
 );

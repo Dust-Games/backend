@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\User\Role;
 use App\Models\User\Permission;
+use Illuminate\Support\Facades\DB;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -18,6 +19,28 @@ class RolePermissionSeeder extends Seeder
 				'view'
 			],
 		],
+        'premium user' => [
+            'transaction' => [
+                'view',
+            ],
+            'oauth_account' => [
+                'view',
+            ],
+            'unregistered_billing' => [
+                'view'
+            ],
+        ],
+        'vip user' => [
+            'transaction' => [
+                'view',
+            ],
+            'oauth_account' => [
+                'view',
+            ],
+            'unregistered_billing' => [
+                'view'
+            ],
+        ],
 		'admin' => [
 			'transaction' => [
 				'view_any',
@@ -58,22 +81,19 @@ class RolePermissionSeeder extends Seeder
     {
     	$db_roles = Role::get();
     	$db_permissions = Permission::get();
-    	$role_permission = [];
 
         foreach (static::ROLE_PERMISSION as $role => $entities) {
         	foreach ($entities as $entity => $permissions) {
         		foreach ($permissions as $perm) {
-        			$role_permission[] = [
+        		    DB::table('role_permission')->updateOrInsert([
         				'role_id' => $db_roles->where('name', $role)->first()->getKey(),
         				'permission_id' => $db_permissions->where(
         					'value',
         					PermissionSeeder::makePermission($perm, $entity)
-        				)->first()->getKey(), 
-        			];
+        				)->first()->getKey(),
+        			]);
         		}
         	}
         }
-
-        DB::table('role_permission')->insert($role_permission);
     }
 }

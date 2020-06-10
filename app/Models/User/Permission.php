@@ -9,4 +9,6 @@ class Permission extends Model
     protected $table = 'permission';
 
     protected $guarded = [];
+
+    public $timestamps = false;
 }

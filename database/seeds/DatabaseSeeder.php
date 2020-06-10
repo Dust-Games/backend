@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
        // $this->call(OldDbSeeder::class);
         $this->call(SettingsSeeder::class);
         $this->call(RoleSystemSeeder::class);
-        $this->call(LeagueRowSeeder::class);
+        // $this->call(LeagueRowSeeder::class);
     }
 }
