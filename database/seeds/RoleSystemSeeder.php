@@ -14,5 +14,6 @@ class RoleSystemSeeder extends Seeder
     	$this->call(RoleSeeder::class);
     	$this->call(PermissionSeeder::class);
     	$this->call(RolePermissionSeeder::class);
+    	$this->call(SubRoleSeeder::class);
     }
 }

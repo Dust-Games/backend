@@ -87,5 +87,13 @@ Route::group(
 		/* Roles */
 
         Route::apiResource('role', 'RoleController')->only(['update', 'index', 'show']);
+
+        /* SubRoles */
+
+        Route::apiResource('sub-role', 'SubRoleController')->only(['update', 'index', 'show']);
+
+        /* Users */
+
+        Route::apiResource('user', 'UserController')->only(['update', 'index', 'show']);
 	}
 );
