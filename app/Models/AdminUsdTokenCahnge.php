@@ -8,10 +8,12 @@ class AdminUsdTokenCahnge extends Model
 {
     public $fillable = ['user_id', 'amount'];
 
+    /*
     public function resolveRouteBinding($value, $field = null)
     {
         return $this->with('usdTokenTransaction.billing')->find($value);
     }
+    */
 
     /* Setters */
     public function setAmountAttribute($value)

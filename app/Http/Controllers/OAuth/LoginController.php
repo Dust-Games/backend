@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\OAuth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\OAuthAccount;
 use App\Services\UserService;
-use App\Http\Resources\UserResource;
-use Socialite;
-use App\Exceptions\ValidationException;
 use App\Helpers\OAuthProviders;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -31,17 +28,17 @@ class LoginController extends Controller
         		->stateless()
         		->redirectUrl(config('services.'.$provider.'.login_redirect'))
         		->user();
-            
+
         #} catch (\Exception $e) {
         #
         #    report($e);
-        #    
+        #
         #    return response()->json([
         #        'error' => 'Error while fetching user.'
-        #    ], 409);   
+        #    ], 409);
         #}
 
-        $acc = OAuthAccount::firstOrCreate(
+        $acc = OAuthAccount::query()->firstOrCreate(
             [
                 'account_id' => $soc_user->getId(),
                 'oauth_provider_id' => OAuthProviders::{$provider}('id'),
@@ -54,17 +51,17 @@ class LoginController extends Controller
 
         if ($acc->wasRecentlyCreated) {
 
-            return repsonse()->json([
+            return response()->json([
                 'message' => 'OAuth account successfully created.',
                 'id' => $soc_user->getId(),
                 'username' => $soc_user->getNickname(),
                 'email' => $soc_user->getEmail(),
-            ], 203);       
+            ], 203);
         }
 
         if (is_null($user = $acc->user)) {
-            
-            return repsonse()->json([
+
+            return response()->json([
                 'message' => 'OAuth account does not binded to any user.',
                 'id' => $soc_user->getId(),
                 'username' => $soc_user->getNickname(),
@@ -74,7 +71,7 @@ class LoginController extends Controller
 
         $tokens = $service->createTokens($user->getKey());
 
-        return repsonse()->json([
+        return response()->json([
             'access_token' => $tokens['access_token'],
             'refresh_token' => $tokens['refresh_token'],
             'user' => $user,
