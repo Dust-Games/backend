@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
        // $this->call(OldDbSeeder::class);
         $this->call(SettingsSeeder::class);
         $this->call(RoleSystemSeeder::class);
+        $this->call(CurrencySeeder::class);
+        $this->call(CurrencyAccountSeeder::class);
         // $this->call(LeagueRowSeeder::class);
     }
 }

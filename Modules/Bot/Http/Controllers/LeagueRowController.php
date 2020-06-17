@@ -121,6 +121,7 @@ class LeagueRowController extends Controller
 
         if (!$row->wasRecentlyCreated) {
             $row->increment('score', $data['score']);
+            $row->save();
         }
 
         return new LeagueRowResource($row);

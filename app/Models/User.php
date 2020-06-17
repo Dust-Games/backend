@@ -95,6 +95,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(SubRole::class);
     }
 
+    public function currencyAccounts()
+    {
+        return $this->morphMany(CurrencyAccount::class, 'owner');
+    }
+
     /*|====================|*/
 
     public function sendEmailVerificationNotification()

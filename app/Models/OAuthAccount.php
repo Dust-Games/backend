@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Concerns\HasUuidPrimaryKey;
-use App\Models\User;
-use App\Models\UnregisteredBilling;
 
 class OAuthAccount extends Model
 {
@@ -63,5 +61,10 @@ class OAuthAccount extends Model
         } else {
             return $this->hasOne(UnregisteredBilling::class, 'oauth_account_id', 'id');
         }
-    }   
+    }
+
+    public function currencyAccounts()
+    {
+        return $this->morphMany(CurrencyAccount::class, 'owner');
+    }
 }

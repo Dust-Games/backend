@@ -229,4 +229,7 @@ return [
 
     ],
 
+    /** Default Currency string */
+
+    'default_currency' => 'DC',
 ];
