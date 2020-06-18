@@ -16,12 +16,12 @@ class AdminCurrencyAccountChange extends Model
     /* Helpers */
 
     /**
-     * @param CurrencyAccount $account
+     * @param Model $account
      * @param float $amount
      * @param string $way
      * @return mixed
      */
-    public static function createSetBalance(CurrencyAccount $account, float $amount, string $way = 'bot')
+    public static function createSetBalance(Model $account, float $amount, string $way = 'bot')
     {
         return DB::transaction(function () use ($account, $amount, $way) {
             $type = 'set';
@@ -30,27 +30,27 @@ class AdminCurrencyAccountChange extends Model
                 'debt_id' => $account->id,
                 'amount' => $account->balance,
                 'operation_id' => $change->id,
-                'opertion_type' => self::class
+                'operation_type' => self::class
             ]);
             CashFlow::query()->create([
                 'credit_id' => $account->id,
                 'amount' => $amount,
                 'operation_id' => $change->id,
-                'opertion_type' => self::class
+                'operation_type' => self::class
             ]);
             $account->balance = $amount;
             $account->save();
-            return $amount;
+            return Round($amount, 3);
         });
     }
 
     /**
-     * @param CurrencyAccount $account
+     * @param Model $account
      * @param float $amount
      * @param string $way
      * @return mixed
      */
-    public static function createIncBalance(CurrencyAccount $account, float $amount, string $way = 'bot')
+    public static function createIncBalance(Model $account, float $amount, string $way = 'bot')
     {
         return DB::transaction(function () use ($account, $amount, $way) {
             $type = 'add';
@@ -59,11 +59,11 @@ class AdminCurrencyAccountChange extends Model
                 'credit_id' => $account->id,
                 'amount' => $account->balance + $amount,
                 'operation_id' => $change->id,
-                'opertion_type' => self::class
+                'operation_type' => self::class
             ]);
             $account->balance += $amount;
             $account->save();
-            return $account->balance;
+            return Round($account->balance, 3);
         });
     }
 
@@ -84,11 +84,38 @@ class AdminCurrencyAccountChange extends Model
                 'debt_id' => $account->id,
                 'amount' => $account->balance - $amount,
                 'operation_id' => $change->id,
-                'opertion_type' => self::class
+                'operation_type' => self::class
             ]);
             $account->balance -= $amount;
             $account->save();
-            return $account->balance;
+            return Round($account->balance, 3);
+        });
+    }
+
+    /**
+     * @param array $currencyAccounts
+     * @param float $amount
+     * @param string $way
+     * @return mixed
+     */
+    public static function createIncBalanceToSeveral(array $currencyAccounts, float $amount, $way = 'bot')
+    {
+        return DB::transaction(function () use ($currencyAccounts, $amount, $way) {
+            $type = 'add';
+            $change = self::query()->create(compact('type', 'way'));
+            $ret = collect();
+            foreach ($currencyAccounts as $account) {
+                CashFlow::query()->create([
+                    'credit_id' => $account->id,
+                    'amount' => $account->balance + $amount,
+                    'operation_id' => $change->id,
+                    'operation_type' => self::class
+                ]);
+                $account->balance += $amount;
+                $account->save();
+                $ret->push($account);
+            }
+            return $ret;
         });
     }
 

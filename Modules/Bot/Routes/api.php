@@ -39,15 +39,15 @@ Route::group(
 					],
 					function () {
 
-						Route::post('', 'BillingController@show')
+						Route::post('', 'AdminCurrencyAccountChangeController@show')
 							->name('billing');
-						Route::put('set-coins', 'BillingController@setCoins')
+						Route::put('set-coins', 'AdminCurrencyAccountChangeController@setCoins')
 							->name('set-coins');
-						Route::put('add-coins', 'BillingController@addCoins')
+						Route::put('add-coins', 'AdminCurrencyAccountChangeController@addCoins')
 							->name('add-coins');
-						Route::put('reduce-coins', 'BillingController@reduceCoins')
+						Route::put('reduce-coins', 'AdminCurrencyAccountChangeController@reduceCoins')
 							->name('reduce-coins');
-						Route::put('multi-add-coins', 'BillingController@multipleAddCoins')
+						Route::put('multi-add-coins', 'AdminCurrencyAccountChangeController@multipleAddCoins')
 							->name('multi-add-coins');
 					}
 				);

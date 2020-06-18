@@ -8,7 +8,8 @@ use App\Models\Currency;
 use App\Models\CurrencyAccount;
 use App\Models\OAuthAccount;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class CurrencyAccountService
 {
@@ -35,23 +36,37 @@ class CurrencyAccountService
     private function oauthAccount(OAuthAccount $acc, int $currencyId)
     {
         return CurrencyAccount::query()
-            ->firstOrCreate([
-                'currency_id' => $currencyId,
-                'owner_id' => $acc->id,
-                'owner_type' => OAuthAccount::class,
-            ]);
+            ->firstOrCreate(
+                [
+                    'currency_id' => $currencyId,
+                    'owner_id' => $acc->id,
+                    'owner_type' => OAuthAccount::class,
+                ],
+                [
+                    'id'  => Uuid::uuid4(),
+                    'balance' => 0,
+                    'closed' => false,
+                ]
+            );
     }
 
     /**
-     * @param OAuthAccount $acc
+     * @param Model $acc
      * @param int|null $currencyId
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Builder|Model
      */
     public function getByOauthAccount(OAuthAccount $acc, int $currencyId = null)
     {
+        $currency = Currency::query()
+            ->where('id', $currencyId)
+            ->firstOr(function() {
+                return Currency::query()
+                    ->where('alias', config('app.default_currency', 'DC'))
+                    ->first();
+            });
         return $acc->hasUser()
-            ? $this->userAccount($acc->user, $currencyId)
-            : $this->oauthAccount($acc, $currencyId);
+            ? $this->userAccount($acc->user, $currency->id)
+            : $this->oauthAccount($acc, $currency->id);
     }
 
     public function getByOauthAccounts(array $accountIds, int $currencyId = null)
@@ -66,27 +81,30 @@ class CurrencyAccountService
             });
         $accountsWithoutUser = OAuthAccount::query()
             ->with('currencyAccounts')
-            ->wheredoesntHave('user', function (Builder $query) use ($accountIds) {
-                $query->whereIn('account_id', $accountIds);
-            })
+            ->whereIn('account_id', $accountIds)
+            ->wheredoesntHave('user')
             ->get();
         foreach ($accountsWithoutUser as $account) {
             $currencyAccount =
                 $account->currencyAccounts->where('currency_id', $currency->id)->first()
                 ??
                 CurrencyAccount::query()
-                    ->create([
-                        'currency_id' => $currency->id,
-                        'owner_id' => $account->id,
-                        'owner_type' => OAuthAccount::class,
-                    ]);
+                    ->create(
+                        [
+                            'currency_id' => $currency->id,
+                            'owner_id' => $account->id,
+                            'owner_type' => OAuthAccount::class,
+                            'id'  => Uuid::uuid4(),
+                            'balance' => 0,
+                            'closed' => false,
+                        ]
+                    );
             $ret->push($currencyAccount);
         }
         $accountsWithUser = OAuthAccount::query()
             ->with('user.currencyAccounts')
-            ->whereHas('user', function (Builder $query) use ($accountIds) {
-                $query->whereIn('account_id', $accountIds);
-            })
+            ->whereHas('user')
+            ->whereIn('account_id', $accountIds)
             ->get();
         foreach ($accountsWithUser as $account) {
             $currencyAccount =

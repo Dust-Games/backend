@@ -9,7 +9,7 @@ class CurrencyAccount extends Model
 {
     use HasUuidPrimaryKey;
 
-    public $fillable = ['owner_id', 'owner_type', 'currency_id', 'balance'];
+    public $fillable = ['owner_id', 'owner_type', 'currency_id', 'balance', 'id', 'closed'];
 
     public $casts = ['closed' => 'boolean'];
 
