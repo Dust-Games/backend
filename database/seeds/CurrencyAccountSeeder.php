@@ -7,6 +7,7 @@ use App\Models\CurrencyAccount;
 use App\Models\User;
 use App\Models\UnregisteredBilling;
 use App\Models\OAuthAccount;
+use Ramsey\Uuid\Uuid;
 
 class CurrencyAccountSeeder extends Seeder
 {
@@ -29,6 +30,8 @@ class CurrencyAccountSeeder extends Seeder
                  ],
                  [
                      'balance' => $billing->usd_tokens_num,
+                     'id'  => Uuid::uuid4(),
+                     'closed' => false,
                  ]
              );
             CurrencyAccount::query()
@@ -40,6 +43,8 @@ class CurrencyAccountSeeder extends Seeder
                     ],
                     [
                         'balance' => $billing->dust_coins_num,
+                        'id'  => Uuid::uuid4(),
+                        'closed' => false,
                     ]
                 );
         });
@@ -55,6 +60,8 @@ class CurrencyAccountSeeder extends Seeder
                             ],
                             [
                                 'balance' =>  $unregisredBilling->dust_coins_num,
+                                'id'  => Uuid::uuid4(),
+                                'closed' => false,
                             ]
                         );
                 }
