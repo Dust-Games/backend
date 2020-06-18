@@ -60,7 +60,7 @@ class AdminCurrencyAccountChangeController extends Controller
 
         return response()->json([
             "message" => $operation['message'],
-            'dust_coins_num' => $billing,
+            'billing' => $billing,
         ]);
     }
 
@@ -119,10 +119,11 @@ class AdminCurrencyAccountChangeController extends Controller
             ->pluck('account_id')
             ->all();
         $currencyAccounts = $service->getByOauthAccounts($oauthAccountIds)->all();;
-        AdminCurrencyAccountChange::createIncBalanceToSeveral($currencyAccounts, $data['dust_coins_num']);
 
         return response()->json([
             'message' => 'Users billings successfully updated.',
+            'billings' =>
+                AdminCurrencyAccountChange::createIncBalanceToSeveral($currencyAccounts, $data['dust_coins_num'])
         ]);
     }
 }

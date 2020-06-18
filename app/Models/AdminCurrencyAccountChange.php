@@ -38,9 +38,9 @@ class AdminCurrencyAccountChange extends Model
                 'operation_id' => $change->id,
                 'operation_type' => self::class
             ]);
-            $account->balance = $amount;
+            $account->balance = Round($amount, 3);
             $account->save();
-            return Round($amount, 3);
+            return $account;
         });
     }
 
@@ -57,13 +57,13 @@ class AdminCurrencyAccountChange extends Model
             $change = self::query()->create(compact('type', 'way'));
             CashFlow::query()->create([
                 'credit_id' => $account->id,
-                'amount' => $account->balance + $amount,
+                'amount' => $amount,
                 'operation_id' => $change->id,
                 'operation_type' => self::class
             ]);
-            $account->balance += $amount;
+            $account->balance = Round($account->balance + $amount, 3);
             $account->save();
-            return Round($account->balance, 3);
+            return $account;
         });
     }
 
@@ -82,13 +82,13 @@ class AdminCurrencyAccountChange extends Model
             $change = self::query()->create(compact('type', 'way'));
             CashFlow::query()->create([
                 'debt_id' => $account->id,
-                'amount' => $account->balance - $amount,
+                'amount' => $amount,
                 'operation_id' => $change->id,
                 'operation_type' => self::class
             ]);
-            $account->balance -= $amount;
+            $account->balance = Round($account->balance - $amount, 3);
             $account->save();
-            return Round($account->balance, 3);
+            return $account;
         });
     }
 
@@ -107,11 +107,11 @@ class AdminCurrencyAccountChange extends Model
             foreach ($currencyAccounts as $account) {
                 CashFlow::query()->create([
                     'credit_id' => $account->id,
-                    'amount' => $account->balance + $amount,
+                    'amount' => $amount,
                     'operation_id' => $change->id,
                     'operation_type' => self::class
                 ]);
-                $account->balance += $amount;
+                $account->balance = Round($account->balance + $amount, 3);
                 $account->save();
                 $ret->push($account);
             }
