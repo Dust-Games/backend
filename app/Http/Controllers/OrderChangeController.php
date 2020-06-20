@@ -9,6 +9,7 @@ use App\Models\CurrencyAccount;
 use App\Models\Order;
 use App\Models\OrderChange;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class OrderChangeController extends Controller
 {
@@ -17,11 +18,22 @@ class OrderChangeController extends Controller
      */
     protected $currency;
 
+    private function filters()
+    {
+        return [
+            'closed' => 1,
+        ];
+    }
+
     public function __construct()
     {
         $this->currency = Currency::query()->firstWhere('alias', config('app.default_currency'));
     }
 
+    public function index(Request $request)
+    {
+        return Order::query()->filterRequest($request, [])->paginate();
+    }
     /**
      * @return mixed
      */
