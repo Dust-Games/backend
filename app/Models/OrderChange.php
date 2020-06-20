@@ -154,6 +154,87 @@ class OrderChange extends Model
         });
     }
 
+    public static function exchange(Order $order, User $user, $parameters)
+    {
+        throw_if(
+            $order->currencyAccount->balance < $parameters['amount'],
+            new TooFewCurrencyException($order->currencyAccount)
+        );
+        $usdt = Currency::query()->where('alias', 'USDT')->first();
+        $debtUsdt = $user
+            ->currencyAccounts()
+            ->firstOrCreate(
+                [
+                    'closed' => 'false',
+                    'currency_id' => $usdt->id
+                ],
+                [
+                    'id' => Uuid::uuid4(),
+                    'balance' => 0,
+                ]
+            );
+        $amountUsdt = Round($parameters['amount'] * $order->exchange_rate, 3);
+        throw_if($debtUsdt->balance < $amountUsdt, new TooFewCurrencyException($debtUsdt));
+        $creditUsdt = $order
+            ->parentalCurrencyAccount
+            ->owner
+            ->currencyAccounts()
+            ->firstOrCreate(
+                [
+                    'closed' => 'false',
+                    'currency_id' => $usdt->id
+                ],
+                [
+                    'id' => Uuid::uuid4(),
+                    'balance' => 0,
+                ]
+            );
+        $creditDc = $user
+            ->currencyAccounts()
+            ->firstOrCreate(
+                [
+                    'closed' => 'false',
+                    'currency_id' => $order->currencyAccount->currency_id
+                ],
+                [
+                    'id' => Uuid::uuid4(),
+                    'balance' => 0,
+                ]
+            );
+        return DB::transaction(function () use ($order, $creditUsdt, $creditDc, $debtUsdt, $amountUsdt, $parameters) {
+            $change = self::query()->create(['type' => 'exchange']);
+            $order->currencyAccount->decrement('balance', $parameters['amount']);
+            $creditDc->increment('balance', $parameters['amount']);
+            CashFlow::query()->create([
+                'credit_id' => $creditDc->id,
+                'debt_id' => $order->currencyAccount->id,
+                'amount' => $parameters['amount'],
+                'operation_id' => $change->id,
+                'operation_type' => self::class,
+            ]);
+            $commission = $order->parentalCurrencyAccount->owner->role()->first()->commission;
+            $comissionAmount = Round($amountUsdt * $commission / 100, 3);
+            $mainAmount = Round($amountUsdt - $comissionAmount, 3);
+            $debtUsdt->decrement('balance', $mainAmount);
+            $creditUsdt->increment('balance', $mainAmount);
+            CashFlow::query()->create([
+                'credit_id' => $creditUsdt->id,
+                'debt_id' => $debtUsdt->id,
+                'amount' => $mainAmount,
+                'operation_id' => $change->id,
+                'operation_type' => self::class,
+            ]);
+            $debtUsdt->decrement('balance', $comissionAmount);
+            CashFlow::query()->create([
+                'debt_id' => $debtUsdt->id,
+                'amount' => $comissionAmount,
+                'operation_id' => $change->id,
+                'operation_type' => self::class,
+            ]);
+            return $order;
+        });
+    }
+
     /* Relations */
 
     public function cashFlows()

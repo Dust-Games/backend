@@ -123,6 +123,9 @@ Route::group(
                      Route::put('close/{order}', 'OrderChangeController@close')->name('close-order');
                      Route::put('credit/{order}', 'OrderChangeController@credit')->name('credit-order');
                      Route::put('debit/{order}', 'OrderChangeController@debit')->name('debit-order');
+
+                     Route::put('exchange/{order}', 'OrderChangeController@exchange')
+                         ->name('exchange-order');
                  }
              );
 

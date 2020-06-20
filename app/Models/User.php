@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User\Role;
 use App\Models\User\SubRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -88,6 +89,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function billing()
     {
         return $this->hasOne(Billing::class, 'user_id', 'id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function subRoles()

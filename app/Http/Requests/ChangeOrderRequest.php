@@ -13,7 +13,10 @@ class ChangeOrderRequest extends FormRequest
         ],
         'api.order.debit-order' => [
             'amount' => 'required|numeric|min:0.01'
-        ]
+        ],
+        'api.order.exchange-order' => [
+            'amount' => 'required|numeric|min:0.01'
+        ],
     ];
 
     /**
@@ -23,7 +26,7 @@ class ChangeOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return
+        return $this->route()->getName() === 'api.order.exchange-order' ||
             $this->route()->parameter('order')->parentalCurrencyAccount->owner_id
             ===
             $this->user()->id;

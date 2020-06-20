@@ -119,4 +119,14 @@ class OrderChangeController extends Controller
     {
         return OrderChange::closeOrder($order);
     }
+
+    /**
+     * @param Order $order
+     * @param ChangeOrderRequest $request
+     * @return mixed
+     */
+    public function exchange(Order $order, ChangeOrderRequest $request)
+    {
+        return OrderChange::exchange($order, $request->user(), $request->validated());
+    }
 }
