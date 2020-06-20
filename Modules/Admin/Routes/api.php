@@ -46,7 +46,7 @@ Route::group(
 		);
 
 		/*|==========| Unregistered billings |==========|*/
-
+        /*
 		Route::group(
 			[
 				'prefix' => 'unreg-billings',
@@ -63,9 +63,9 @@ Route::group(
 				Route::put('{unregisteredBilling}/reduce', 'UnregisteredBillingController@reduce')->name('reduce');
 			}
 		);
-
+        */
 		/*|==========| Transactions |==========|*/
-
+        /*
 		Route::group(
 			[
 				'prefix' => 'transactions',
@@ -77,9 +77,9 @@ Route::group(
 					->only(['show', 'index']);
 			}
 		);
-
+        */
 		/* AdminUsdTokenChange */
-
+        /*
 		Route::apiResource('admin-usd-token-change', 'AdminUsdTokenChangeController')
             ->parameters(['admin-usd-token-change' => 'change'])
             ->only(['store', 'update', 'destroy']);

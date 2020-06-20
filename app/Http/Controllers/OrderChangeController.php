@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\ChangeOrderCreateRequest;
+use App\Http\Requests\ChangeOrderRequest;
+use App\Models\Currency;
+use App\Models\CurrencyAccount;
+use App\Models\Order;
+use App\Models\OrderChange;
+use App\Models\User;
+
+class OrderChangeController extends Controller
+{
+    /**
+     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
+    protected $currency;
+
+    public function __construct()
+    {
+        $this->currency = Currency::query()->firstWhere('alias', config('app.default_currency'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function meShow()
+    {
+        return request()->user()->orders()->where('orders.closed', false)->get();
+    }
+
+    /**
+     * @param ChangeOrderCreateRequest $request
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function create(ChangeOrderCreateRequest $request)
+    {
+        $account = $request
+            ->user()
+            ->currencyAccounts()
+            ->where('currency_id', $this->currency->id)
+            ->firstOr(function() use ($request) {
+                return CurrencyAccount::query()->create([
+                    'currency_id' => $this->currency->id,
+                    'balance' => 0,
+                    'closed' => false,
+                    'owner_id' => $request->user()->id,
+                    'owner_type' => User::class,
+                ]);
+            });
+
+        return OrderChange::createOrder($account, $request->validated());
+    }
+
+    /**
+     * @param Order $order
+     * @param ChangeOrderRequest $request
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function credit(Order $order, ChangeOrderRequest $request)
+    {
+        return OrderChange::credit($order, $request->validated());
+    }
+
+    /**
+     * @param Order $order
+     * @param ChangeOrderRequest $request
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function debit(Order $order, ChangeOrderRequest $request)
+    {
+        return OrderChange::debit($order, $request->validated());
+    }
+
+    /**
+     * @param Order $order
+     * @return mixed
+     */
+    public function close(Order $order, ChangeOrderRequest $request)
+    {
+        return OrderChange::closeOrder($order);
+    }
+}

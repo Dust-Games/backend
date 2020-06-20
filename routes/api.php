@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Order;
 
 /*|==========| Frontend <-> Backend API |==========|*/
 
@@ -88,6 +89,40 @@ Route::group(
 			);
 		}
 	);
+
+	/* Order */
+
+     Route::group(
+         [
+             'prefix' => 'order',
+             'as' => 'order.',
+         ],
+         function () {
+
+             Route::get('', 'OrderChangeController@index')->name('orders');
+             Route::group(
+                 [
+                     'middleware' => 'auth:api',
+                 ],
+                 function() {
+                     Route::bind('order', function ($value) {
+                         return Order::query()
+                             ->where([
+                                 'id' => $value,
+                                 'closed' => false,
+                             ])
+                             ->first();
+                     });
+
+                     Route::get('me', 'OrderChangeController@meShow')->name('user-orders');
+                     Route::post('create', 'OrderChangeController@create')->name('create-order');
+                     Route::put('close/{order}', 'OrderChangeController@close')->name('close-order');
+                     Route::put('credit/{order}', 'OrderChangeController@credit')->name('credit-order');
+                     Route::put('debit/{order}', 'OrderChangeController@debit')->name('debit-order');
+                 }
+             );
+         }
+     );
 
 		/*|=====| League |=====|*/
 

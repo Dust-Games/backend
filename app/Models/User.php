@@ -100,6 +100,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->morphMany(CurrencyAccount::class, 'owner');
     }
 
+    public function orders()
+    {
+        return $this->hasManyThrough(
+            Order::class, CurrencyAccount::class, 'owner_id', 'currency_account_id',
+        );
+    }
     /*|====================|*/
 
     public function sendEmailVerificationNotification()

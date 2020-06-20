@@ -22,6 +22,12 @@ class CurrencyAccount extends Model
         });
     }
 
+    /* Setters */
+    public function setBalanceAttribute($value)
+    {
+        $this->attributes['balance'] = Round($value, 3);
+    }
+
     /* Relations */
     public function owner()
     {

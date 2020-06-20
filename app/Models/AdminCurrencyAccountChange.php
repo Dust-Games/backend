@@ -123,6 +123,6 @@ class AdminCurrencyAccountChange extends Model
 
     public function cashFlows()
     {
-        return $this->morphMany(CashFlow::class, 'owner');
+        return $this->morphMany(CashFlow::class, 'operation');
     }
 }
