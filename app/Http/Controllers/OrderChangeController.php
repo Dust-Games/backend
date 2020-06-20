@@ -9,6 +9,7 @@ use App\Models\CurrencyAccount;
 use App\Models\Order;
 use App\Models\OrderChange;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class OrderChangeController extends Controller
@@ -18,22 +19,44 @@ class OrderChangeController extends Controller
      */
     protected $currency;
 
+    /**
+     * @return \Closure[]
+     */
     private function filters()
     {
         return [
-            'closed' => 1,
+            'closed' => function(Builder $query, $value) {
+                $query->where('closed', $value === 'true');
+            },
         ];
     }
 
+    /**
+     * OrderChangeController constructor.
+     */
     public function __construct()
     {
         $this->currency = Currency::query()->firstWhere('alias', config('app.default_currency'));
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
-        return Order::query()->filterRequest($request, [])->paginate();
+        return Order::query()->filterRequest($request, $this->filters())->paginate();
     }
+
+    /**
+     * @param Order $order
+     * @return Order
+     */
+    public function show(Order $freeOrder)
+    {
+        return $freeOrder;
+    }
+
     /**
      * @return mixed
      */

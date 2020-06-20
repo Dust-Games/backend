@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Order;
+use App\Exceptions\NotFoundException;
 
 /*|==========| Frontend <-> Backend API |==========|*/
 
@@ -99,19 +100,22 @@ Route::group(
          ],
          function () {
 
-             Route::get('', 'OrderChangeController@index')->name('orders');
              Route::group(
                  [
                      'middleware' => 'auth:api',
                  ],
                  function() {
                      Route::bind('order', function ($value) {
-                         return Order::query()
-                             ->where([
-                                 'id' => $value,
-                                 'closed' => false,
-                             ])
-                             ->first();
+                         try {
+                             return Order::query()
+                                 ->where([
+                                     'id' => $value,
+                                     'closed' => false,
+                                 ])
+                                 ->firstOrFail();
+                         } catch (Exception $e) {
+                             throw new NotFoundException();
+                         }
                      });
 
                      Route::get('me', 'OrderChangeController@meShow')->name('user-orders');
@@ -121,6 +125,10 @@ Route::group(
                      Route::put('debit/{order}', 'OrderChangeController@debit')->name('debit-order');
                  }
              );
+
+             Route::get('', 'OrderChangeController@index')->name('orders');
+             Route::get('/{freeOrder}', 'OrderChangeController@show')->name('order');
+
          }
      );
 
