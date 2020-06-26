@@ -109,8 +109,8 @@ class LeagueRowService
         if ($nextWeek > $currentWeek) return 'Вы уже создали следующуюю неделю';
         $nextWeek = $currentWeek + 1;
         $leagues = LeagueRow::query()
-            ->select('account_id', DB::raw('max(class) as class, max(username) as username'))
-            ->groupBy('account_id')
+            ->select('account_id','class', 'username')
+            ->where('week', $nextWeek - 1)
             ->get();
         foreach ($leagues as $league)
             LeagueRow::query()
