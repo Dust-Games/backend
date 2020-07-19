@@ -29,21 +29,21 @@ class RegisterController extends Controller
         		->stateless()
         		->redirectUrl(config('services.'.$provider.'.register_redirect'))
         		->user();
-            
+
         #} catch (\Exception $e) {
         #
         #    report($e);
-        #    
+        #
         #    return response()->json([
         #        'error' => 'Error while fetching user.'
-        #    ], 409);   
+        #    ], 409);
         #}
-
+        dd($soc_user);
         $db_ac = OAuthAccount::where('account_id', $soc_user->getId())->first();
 
         # Create new oauth account if it does not exists
         if (is_null($db_ac)) {
-            
+
             $new_ac = OAuthAccount::create([
                 'account_id' => $soc_user->getId(),
                 'username' => $soc_user->getNickname(),
@@ -67,7 +67,7 @@ class RegisterController extends Controller
                 'email' => $soc_user->getEmail(),
             ], 200);
         }
-            
+
         # If account exists and has user, just send tokens and user like in login
         $tokens = (new UserService)->createTokens($user->getKey());
 

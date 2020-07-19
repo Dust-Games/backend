@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Concerns\HasUuidPrimaryKey;
 
+
 class OAuthAccount extends Model
 {
 	use HasUuidPrimaryKey;

@@ -82,6 +82,28 @@ Route::group(
                     ->name('create-new-week');
 			}
 		);
+
+		/* Oauth */
+        Route::group(
+            [
+                'prefix' => 'oauth',
+                'as' => 'oauth',
+            ],
+            function() {
+                Route::get('', 'OauthController@findOne')->name('find-one');
+            }
+        );
+
+        /* Duel */
+        Route::group(
+            [
+                'prefix' => 'duel',
+                'as' => 'duel',
+            ],
+            function() {
+                Route::put('{account}', 'DuelController@update')->name('update');
+            }
+        );
 	}
 );
 
